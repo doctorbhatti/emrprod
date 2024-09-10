@@ -29,6 +29,7 @@ class Admin extends Authenticatable
     protected $dates = [
         'created_at',
         'updated_at',
+        'issued_at',
     ];
 
     // You can add relationships here if needed, for example:

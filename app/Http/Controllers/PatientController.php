@@ -78,10 +78,10 @@ class PatientController extends Controller
             $buttons = '';
             if (\Gate::allows('delete', $patient)) {
                 $buttons = "
-                    <button class=\"btn btn-sm btn-danger\" data-toggle=\"modal\"
-                        data-target=\"#confirmDeletePatientModal\"
+                    <button class=\"btn btn-sm btn-danger\" data-bs-toggle=\"modal\"
+                        data-bs-target=\"#confirmDeletePatientModal\"
                         onclick=\"showConfirmDelete($patient->id,'$patient->first_name $patient->last_name')\">
-                        <i class=\"fa fa-recycle fa-lg\" data-toggle=\"tooltip\"
+                        <i class=\"fa fa-recycle fa-lg\" data-bs-toggle=\"tooltip\"
                         data-placement=\"bottom\" title=\"Delete this patient?\"
                         data-original-title=\"Delete this patient? You won't be able to delete this patient if the patient has any records associated to him/her in the system.\"></i>
                     </button>";

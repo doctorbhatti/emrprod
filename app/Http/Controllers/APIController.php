@@ -16,6 +16,7 @@ use App\Models\Queue; // Ensure using correct model namespace
 use App\Models\User; // Ensure using correct model namespace
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -60,7 +61,7 @@ class APIController extends Controller
      */
     public function savePrescription(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validator = \Validator::make($request->all(), [
             'id' => 'required|exists:patients,id',
             'complaints' => 'required_without:diagnosis|max:150',
             'diagnosis' => 'required_without:complaints|max:150',
@@ -71,58 +72,101 @@ class APIController extends Controller
             'prescribedDrugs.*.dose' => 'required_with:prescribedDrugs',
             'pharmacyDrugs' => 'array',
             'pharmacyDrugs.*.name' => 'required_with:pharmacyDrugs',
-            'pharmacyDrugs.*.remarks' => 'max:200',
+            'pharmacyDrugs.*.remarks' => 'max:200'
         ]);
 
         $patient = Patient::find($request->id);
         if (Gate::denies('prescribeMedicine', $patient)) {
-            return response()->json(['status' => 0, 'message' => 'Unauthorized action'], 403);
+            return response()->json(['status' => 0, 'message' => 'Unauthorized action'], 404);
         }
 
-        // At least one of the complaints or diagnosis has to be present
         if ($validator->fails()) {
             return response()->json(['status' => 0, 'errors' => $validator->errors()], 422);
         }
 
-        $prescription = new Prescription();
-
         DB::beginTransaction();
         try {
-            $prescription->complaints = $request->complaints;
-            $prescription->investigations = $request->investigations;
-            $prescription->diagnosis = $request->diagnosis;
-            $prescription->remarks = $request->remarks ?: "";
+            $prescription = new Prescription();
+            $prescription->complaints = $request->input('complaints', '');
+            $prescription->investigations = $request->input('investigations', '');
+            $prescription->diagnosis = $request->input('diagnosis', '');
+            $prescription->remarks = $request->input('remarks', '');
+            $prescription->issued_at = now(); // Set issued_at to current timestamp
             $prescription->creator()->associate(User::getCurrentUser());
             $prescription->patient()->associate($patient);
             $prescription->save();
-
             // Save the prescribed drugs
-            foreach ($request->prescribedDrugs as $prescribedDrug) {
-                $drug = new PrescriptionDrug();
-                $drug->dosage()->associate(Dosage::find($prescribedDrug['dose']['id']));
-                $drug->frequency()->associate(DosageFrequency::find($prescribedDrug['frequency']['id']));
-                $drug->period()->associate(DosagePeriod::find($prescribedDrug['period']['id']));
-                $drug->drug()->associate(Drug::find($prescribedDrug['drug']['id']));
-                $prescription->prescriptionDrugs()->save($drug);
+            if (is_array($request->prescribedDrugs)) {
+                foreach ($request->prescribedDrugs as $prescribedDrug) {
+                    // Log the $prescribedDrug to see its structure
+                    Log::info('Processing prescribed drug: ', $prescribedDrug);
+
+                    // Check if the required fields are present
+                    if (isset($prescribedDrug['dose']['id'], $prescribedDrug['drug']['id'])) {
+                        // Find the required related models
+                        $dosage = Dosage::find($prescribedDrug['dose']['id']);
+                        $drug = Drug::find($prescribedDrug['drug']['id']);
+
+                        // Optional related models
+                        $frequency = isset($prescribedDrug['frequency']['id']) ? DosageFrequency::find($prescribedDrug['frequency']['id']) : null;
+                        $period = isset($prescribedDrug['period']['id']) ? DosagePeriod::find($prescribedDrug['period']['id']) : null;
+
+                        // Check if the required related models are found
+                        if (!$dosage || !$drug) {
+                            Log::error('Invalid dosage or drug ID', [
+                                'dosage' => $dosage,
+                                'drug' => $drug,
+                            ]);
+                            continue; // Skip this prescribed drug and continue with the next
+                        }
+
+                        // Create a new PrescriptionDrug and associate the models
+                        $prescriptionDrug = new PrescriptionDrug();
+                        $prescriptionDrug->dosage()->associate($dosage);
+                        $prescriptionDrug->drug()->associate($drug);
+
+                        // Associate optional models if they exist
+                        if ($frequency) {
+                            $prescriptionDrug->frequency()->associate($frequency);
+                        }
+                        if ($period) {
+                            $prescriptionDrug->period()->associate($period);
+                        }
+
+                        // Save the prescription drug
+                        $prescription->prescriptionDrugs()->save($prescriptionDrug);
+                        Log::info('Prescribed drug saved successfully.');
+                    } else {
+                        Log::warning('Missing required keys in prescribed drug data', $prescribedDrug);
+                    }
+                }
+            } else {
+                Log::warning('No prescribed drugs to process or incorrect data format.');
             }
+
 
             // Save the pharmacy drugs
-            foreach ($request->pharmacyDrugs as $pharmacyDrug) {
-                $drug = new PrescriptionPharmacyDrug();
-                $drug->drug = $pharmacyDrug['name'];
-                $drug->remarks = $pharmacyDrug['remarks'] ?? "";
-                $prescription->prescriptionPharmacyDrugs()->save($drug);
+            if (is_array($request->pharmacyDrugs)) {
+                foreach ($request->pharmacyDrugs as $pharmacyDrug) {
+                    if (isset($pharmacyDrug['name'])) {
+                        $drug = new PrescriptionPharmacyDrug();
+                        $drug->drug = $pharmacyDrug['name'];
+                        $drug->remarks = $pharmacyDrug['remarks'] ?? '';
+                        $prescription->prescriptionPharmacyDrugs()->save($drug);
+                    }
+                }
             }
+
+            DB::commit();
+            return response()->json(['status' => 1, 'prescriptionId' => $prescription->id], 200);
+
         } catch (Exception $e) {
             Log::error($e->getMessage());
             DB::rollback();
-
-            return response()->json(['status' => 0, 'message' => $e->getMessage()], 500);
+            return response()->json(['status' => 0, 'message' => 'Error saving prescription'], 500);
         }
-        DB::commit();
-
-        return response()->json(['status' => 1, 'prescriptionId' => $prescription->id], 200);
     }
+
 
     /**
      * Get the prescriptions of a given patient
@@ -200,113 +244,210 @@ class APIController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function issuePrescription(Request $request)
-    {
+    public function issuePrescription(Request $request) {
         $prescription = Prescription::find($request->prescription['id']);
         if (empty($prescription) || Gate::denies('issuePrescription', $prescription)) {
-            return response()->json(['status' => 0, 'message' => 'Unauthorized action'], 403);
+            return response()->json(['status' => 0], 404);
         }
 
         $validator = Validator::make($request->all(), [
-            'prescription' => 'required|array',
-            'prescription.id' => 'required|exists:prescriptions,id',
-            'prescription.payment' => 'required|numeric',
-            'prescription.prescription_drugs' => 'array',
-            'prescription.prescription_drugs.*.issuedQuantity' => 'numeric',
+            'prescription'                                     => 'required',
+            'prescription.id'                                  => 'required',
+            'prescription.payment'                             => 'required|numeric',
+            'prescription.prescription_drugs'                  => 'array',
+            'prescription.prescription_drugs.*.issuedQuantity' => 'numeric'
         ]);
 
         if ($validator->fails()) {
             $errors = $validator->errors()->all();
 
-            return response()->json(['status' => 0, 'message' => $errors[0]], 422);
+            return response()->json(['status' => 0, 'message' => $errors[0]], 404);
         }
-
         if ($prescription->issued) {
-            return response()->json(['status' => -1, 'message' => 'Prescription is already issued'], 200);
+            return response()->json(['status' => -1, 'message' => "Prescription is already issued"], 200);
         }
-
         if ($prescription->prescriptionDrugs()->count() != count($request->prescription['prescription_drugs'])) {
-            return response()->json(['status' => 0, 'message' => 'Drugs data are incomplete'], 422);
+            return response()->json(['status' => -1, 'message' => "Invalid prescription"], 403);
         }
 
         DB::beginTransaction();
         try {
-            $prescription->issued = true;
-            $prescription->issued_by()->associate(User::getCurrentUser());
-            $prescription->issued_at = Carbon::now();
-            $prescription->save();
+            //mark prescription as updated
+            $prescription->issued    = true;
+            $prescription->issued_at = new Carbon();
+            $prescription->update();
 
-            foreach ($request->prescription['prescription_drugs'] as $item) {
-                $drug = PrescriptionDrug::find($item['id']);
-                $drug->issuedQuantity = $item['issuedQuantity'];
-                $drug->save();
-
-                $inventory = $drug->drug;
-                $inventory->quantity -= $drug->issuedQuantity;
-                $inventory->save();
-            }
-
-            // Create a payment
+            //save payment details
             $payment = new Payment();
-            $payment->clinic()->associate(Clinic::getCurrentClinic());
-            $payment->patient()->associate($prescription->patient);
-            $payment->amount = $request->prescription['payment'];
-            $payment->payment_date = Carbon::now();
-            $payment->created_by()->associate(User::getCurrentUser());
+            $payment->prescription()->associate($prescription);
+            $payment->amount  = $request->prescription['payment'];
+            $payment->remarks = $request->prescription['paymentRemarks'] ?? null;
             $payment->save();
+
+            //save prescription drug quantities and decrease stocks
+            foreach ($request->prescription['prescription_drugs'] as $prescription_drug) {
+                //setting issued quantity of each drug in the prescription
+                $prescriptionDrug           = $prescription->prescriptionDrugs()
+                    ->where('id', $prescription_drug['id'])->first();
+                $prescriptionDrug->quantity = $prescription_drug['issuedQuantity'];
+                $prescriptionDrug->update();
+
+                //decreasing stocks
+                $drug           = $prescriptionDrug->drug;
+                $quantityLeft   = $drug->quantity - $prescription_drug['issuedQuantity'];
+                $drug->quantity = $quantityLeft >= 0 ? $quantityLeft : 0;
+                $drug->update();
+            }
         } catch (Exception $e) {
-            Log::error($e->getMessage());
             DB::rollback();
 
-            return response()->json(['status' => 0, 'message' => 'Error occurred'], 500);
+            return response()->json(['status' => 0, 'message' => $e->getMessage()], 500);
         }
-
         DB::commit();
 
         return response()->json(['status' => 1]);
     }
 
+
     /**
-     * Get the queue of patients for today.
+     * Deletes a prescription.
+     * Authorizes before deleting whether the user has permissions to delete the prescription.
      *
+     * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getPatientsQueue()
-    {
-        $clinic = Clinic::getCurrentClinic();
-        $patients = Queue::where('clinic_id', $clinic->id)
-            ->whereDate('created_at', Carbon::today())
-            ->with(['patient'])
-            ->orderBy('created_at', 'asc')
-            ->get()
-            ->pluck('patient');
 
-        return response()->json(['patients' => $patients, 'status' => 1]);
+    public function deletePrescription(int $id): JsonResponse
+    {
+        $prescription = Prescription::find($id);
+
+        if (empty($prescription) || Gate::denies('deletePrescription', $prescription)) {
+            return response()->json([
+                'status' => 0,
+                'message' => 'You are not authorized to delete prescriptions'
+            ], 404);
+        }
+
+        if ($prescription->issued) {
+            return response()->json([
+                'status' => 0,
+                'message' => 'The prescription is already issued. Therefore, it cannot be deleted'
+            ], 500);
+        }
+
+        DB::beginTransaction();
+        try {
+            // Delete related prescription drugs and pharmacy drugs
+            $prescription->prescriptionDrugs()->delete();
+            $prescription->prescriptionPharmacyDrugs()->delete();
+
+            $prescription->delete();
+
+            DB::commit();
+
+            return response()->json(['status' => 1]);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            DB::rollBack();
+
+            return response()->json(['status' => 0, 'message' => $e->getMessage()], 500);
+        }
     }
 
     /**
-     * Get the patient's prescriptions' histories
+     * Get the medical records of a patient.
      *
-     * @param int $id
+     * @param int $patientId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getPrescriptionsHistory($id)
+    public function getMedicalRecords($patientId)
     {
-        $patient = Patient::find($id);
-        if (Gate::denies('viewPrescriptionsHistory', $patient)) {
+        // Fetch the patient or return a 404 if not found
+        $patient = Patient::find($patientId);
+        if (!$patient) {
+            return response()->json(['status' => 0, 'message' => 'Patient not found'], 404);
+        }
+
+        // Authorization check
+        if (Gate::denies('viewMedicalRecords', $patient)) {
             return response()->json(['status' => 0, 'message' => 'Unauthorized action'], 403);
         }
 
-        $prescriptions = $patient->prescriptions()->where('issued', true)
-            ->orderBy('id', 'desc')
+        // Fetch issued prescriptions with necessary relationships using eager loading
+        $prescriptions = $patient->prescriptions()
+            ->where('issued', true)
+            ->orderBy('issued_at', 'asc')
             ->with([
                 'prescriptionDrugs.dosage',
                 'prescriptionDrugs.frequency',
-                'prescriptionPharmacyDrugs',
                 'prescriptionDrugs.period',
-                'prescriptionDrugs.drug.quantityType'
-            ])->get();
+                'prescriptionDrugs.drug.quantityType',
+                'prescriptionPharmacyDrugs',
+                'payment'
+            ])
+            ->get();
 
+        // Return the prescriptions and a success status
         return response()->json(['prescriptions' => $prescriptions, 'status' => 1]);
+    }
+
+    /**
+     * Get the patients in the current queue
+     *
+     * @return JsonResponse
+     */
+    public function getQueue(): JsonResponse
+    {
+        $queue = Queue::getCurrentQueue();
+
+        if (is_null($queue)) {
+            return response()->json(['status' => 1, 'patients' => []]);
+        }
+
+        $patients = $queue->patients()
+            ->withPivot(['id', 'inProgress'])
+            ->wherePivot('completed', false)
+            ->orderBy('pivot_inProgress', 'desc')
+            ->orderBy('pivot_id')
+            ->get();
+
+        return response()->json(['status' => 1, 'patients' => $patients]);
+    }
+
+    /**
+     * Update the current queue
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function updateQueue(Request $request): JsonResponse
+    {
+        // Validate incoming request
+        $request->validate([
+            'patient.id' => 'required|integer|exists:patients,id',
+            'patient.pivot.inProgress' => 'required|integer|in:0,1,2',
+        ]);
+
+        $queue = Queue::getCurrentQueue();
+        $patientId = $request->input('patient.id');
+        $patient = Patient::findOrFail($patientId);
+
+        $this->authorize('update', [$queue, $patient]);
+
+        $patientPivot = $queue->patients()->wherePivot('completed', false)->find($patientId);
+
+        if (is_null($patientPivot)) {
+            return response()->json(['status' => 0, 'message' => "Patient not in the queue"]);
+        }
+
+        $inProgress = $request->input('patient.pivot.inProgress') === 1;
+        $completed = $request->input('patient.pivot.inProgress') === 2;
+
+        $patientPivot->pivot->update([
+            'inProgress' => $inProgress,
+            'completed' => $completed,
+        ]);
+
+        return response()->json(['status' => 1]);
     }
 }

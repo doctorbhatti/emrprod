@@ -48,8 +48,8 @@
                 <div class="navbar-header">
                     <div class="row">
                         <a href="{{url('/')}}" class="navbar-brand">
-                            <b>CHR 24x7 - Cloud Health Records</b>
-                            <small>Beta</small>
+                            <b>Healthy Life Clinic | EMR</b>
+                            <small>Prod</small>
                         </a>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
 <!-- FastClick -->
 <script src="{{asset('plugins/fastclick/fastclick.min.js')}}"></script>
 <!-- AdminLTE App -->
-<script src="{{asset('dist/js/app.min.js')}}"></script>
+<script src="{{asset('dist/js/adminlte.min.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('dist/js/demo.js')}}"></script>
 <script src="{{asset('plugins/wowjs/wow.min.js')}}"></script>

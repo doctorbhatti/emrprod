@@ -229,9 +229,9 @@
                                     <div class="checkbox icheck">
                                         <label>
                                             <input type="checkbox" name="terms"> I hereby agree on Healthy Life Clinic EMR's
-                                            <a href="#" data-toggle="modal" data-target="#privacyPolicyModal">Privacy
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#privacyPolicyModal">Privacy
                                                 Policy</a> and
-                                            <a href="#" data-toggle="modal" data-target="#termsModal">Terms &
+                                            <a href="#" data-bs-toggle="modal" data-target="#termsModal">Terms &
                                                 Conditions</a>
                                         </label>
                                     </div>

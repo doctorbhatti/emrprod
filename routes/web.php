@@ -38,12 +38,12 @@ Route::middleware('web')->group(function () {
     Route::prefix('Admin')->group(function () {
         Route::get('login', [AdminAuthController::class, 'getLogin']);
         Route::post('login', [AdminAuthController::class, 'postLogin']);
-        
+
         Route::middleware('admin')->group(function () {
             Route::get('admin', [AdminController::class, 'index']);
             Route::get('acceptClinic/{id}', [AdminController::class, 'acceptClinic'])->name('acceptClinic');
             Route::get('deleteClinic/{id}', [AdminController::class, 'deleteClinic'])->name('deleteClinic');
-            Route::get('logout', [AdminAuthController::class, 'getLogout'])->name('adminLogout');
+            Route::post('logout', [AdminAuthController::class, 'getLogout'])->name('adminLogout');
         });
     });
 
@@ -84,26 +84,29 @@ Route::middleware('web')->group(function () {
             Route::get('drug/{id}', [DrugController::class, 'getDrug'])->name('drug');
             Route::post('addDrug', [DrugController::class, 'addDrug'])->name('addDrug');
             Route::post('editDrug/{id}', [DrugController::class, 'editDrug'])->name('editDrug');
-            Route::get('deleteDrug/{id}', [DrugController::class, 'deleteDrug'])->name('deleteDrug');
-        
+            Route::post('deleteDrug/{id}', [DrugController::class, 'deleteDrug'])->name('deleteDrug');
+
             Route::post('addStock/{drugId}', [StockController::class, 'addStock'])->name('addStock');
             Route::get('stocks/runningLow', [StockController::class, 'getStocksRunningLow'])->name('stocksRunningLow');
-        
-            Route::get('drugTypes', [DrugTypeController::class, 'getDrugTypes'])->name('drugTypes');
+
+            Route::get('drugTypes', [DrugTypeController::class, 'getDrugTypeList'])->name('drugTypes');
             Route::post('addDrugType', [DrugTypeController::class, 'addDrugType'])->name('addDrugType');
             Route::get('deleteDrugType/{id}', [DrugTypeController::class, 'deleteDrugType'])->name('deleteDrugType');
-        
-            Route::get('dosages', [DosageController::class, 'getDosages'])->name('dosages');
+
+            Route::get('dosages', [DosageController::class, 'getDosageList'])->name('dosages');
             Route::post('addDosage', [DosageController::class, 'addDosage'])->name('addDosage');
             Route::get('deleteDosage/{id}', [DosageController::class, 'deleteDosage'])->name('deleteDosage');
-        
+            Route::post('edit-dosage/{id}', [DosageController::class, 'editDosage'])->name('editDosage');
+            Route::post('edit-frequency/{id}', [DosageController::class, 'editFrequency'])->name('editFrequency');
+            Route::post('edit-period/{id}', [DosageController::class, 'editPeriod'])->name('editPeriod');
+
             Route::post('addFrequency', [DosageController::class, 'addFrequency'])->name('addFrequency');
             Route::get('deleteFrequency/{id}', [DosageController::class, 'deleteFrequency'])->name('deleteFrequency');
-        
+
             Route::post('addPeriod', [DosageController::class, 'addPeriod'])->name('addPeriod');
             Route::get('deletePeriod/{id}', [DosageController::class, 'deletePeriod'])->name('deletePeriod');
         });
-        
+
         Route::prefix('feedback')->group(function () {
             Route::get('feedbacks', [FeedbackController::class, 'getFeedbacks'])->name('feedbacks');
             Route::get('feedbackForm', [FeedbackController::class, 'viewFeedbackForm'])->name('feedbackForm');
@@ -112,32 +115,30 @@ Route::middleware('web')->group(function () {
     });
 
     Route::prefix('API')->group(function () {
-        Route::get('searchDrug/{query}', [APIController::class, 'searchDrug']);
-        Route::get('getDosage/{id}', [APIController::class, 'getDosage']);
-        Route::get('getPrescription/{prescriptionId}', [APIController::class, 'getPrescription']);
-        Route::get('getPrescriptions/{patientId}', [APIController::class, 'getPrescriptions']);
-        Route::post('updatePrescription', [APIController::class, 'updatePrescription']);
-        Route::post('completePrescription', [APIController::class, 'completePrescription']);
-        Route::post('removeFromQueue', [APIController::class, 'removeFromQueue']);
-        Route::post('addToQueue', [APIController::class, 'addToQueue']);
-        Route::get('queue', [APIController::class, 'queue']);
-        Route::get('getPatient/{patientId}', [APIController::class, 'getPatient']);
-        Route::get('getTimezones', [APIController::class, 'getTimezones']);
-    });
+        Route::post('drugs', [APIController::class, 'getDrugs']);
+        Route::post('dosages', [APIController::class, 'getDosages']);
+        Route::post('savePrescription', [APIController::class, 'savePrescription']);
 
-    Route::prefix('API/drug')->group(function () {
-        Route::get('getDrugs', [DrugAPIController::class, 'getDrugs']);
-        Route::get('getDrugs/{type}', [DrugAPIController::class, 'getDrugs']);
-        Route::get('getDrug/{id}', [DrugAPIController::class, 'getDrug']);
-        Route::get('getDrugTypes', [DrugAPIController::class, 'getDrugTypes']);
-        Route::get('getDosages', [DrugAPIController::class, 'getDosages']);
-    });
+        // Getting prescriptions
+        Route::post('getPrescriptions/{id}', [APIController::class, 'getPrescriptions']);
+        Route::post('getAllPrescriptions', [APIController::class, 'getAllRemainingPrescriptions']);
 
-    Route::prefix('API/support')->group(function () {
-        Route::get('getTimezones', [SupportController::class, 'getTimezones']);
-        Route::get('predictDrug/{query}', [SupportController::class, 'predictDrug']);
-        Route::get('predictIngredient/{query}', [SupportController::class, 'predictIngredient']);
-        Route::get('predictManufacturer/{query}', [SupportController::class, 'predictManufacturer']);
-        Route::get('predictDisease/{query}', [SupportController::class, 'predictDisease']);
+        Route::post('checkStocksAvailability', [APIController::class, 'checkStocksAvailability']);
+        Route::post('issuePrescription', [APIController::class, 'issuePrescription']);
+        Route::post('deletePrescription/{id}', [APIController::class, 'deletePrescription']);
+        Route::post('getMedicalRecords/{patientId}', [APIController::class, 'getMedicalRecords']);
+
+        // Queue
+        Route::post('getQueue', [APIController::class, 'getQueue']);
+        Route::post('updateQueue', [APIController::class, 'updateQueue']);
+
+        // Drug API
+        Route::post('getDosages', [DrugAPIController::class, 'getDosages']);
+        Route::post('getFrequencies', [DrugAPIController::class, 'getFrequencies']);
+        Route::post('getPeriods', [DrugAPIController::class, 'getPeriods']);
+
+        Route::post('getQuantityTypes', [DrugAPIController::class, 'getQuantityTypes']);
+
+        Route::post('saveDrugWithDosages', [DrugAPIController::class, 'saveDrugWithDosages']);
     });
 });

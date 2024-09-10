@@ -1,11 +1,10 @@
-@extends(Auth::check()?'layouts.master':'layouts.app')
-
+@extends(Auth::check() ? 'layouts.master' : 'layouts.app')
 
 @section('content')
-    <div class="container-fluid">
-        <div class="alert alert-danger container-fluid">
-            Oops! Requested resource not available.
-            <a class="btn btn-primary pull-right" href="{{url('/')}}">
+    <div class="container-fluid mt-4">
+        <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert">
+            <span>Oops! Requested resource not available.</span>
+            <a class="btn btn-primary" href="{{ url('/') }}">
                 Home <i class="fa fa-arrow-right"></i>
             </a>
         </div>

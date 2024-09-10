@@ -6,210 +6,161 @@
 
 @section('content')
 
-    {{--Success Message--}}
+    {{-- Success Message --}}
     @if(session()->has('success'))
-        <div class="alert alert-success alert-dismissable">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <h4><i class="icon fa fa-check"></i> Success!</h4>
-            {{session('success')}}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong><i class="fa fa-check"></i> Success!</strong> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
 
-    {{--Error Message--}}
+    {{-- Error Message --}}
     @if(session()->has('error'))
-        <div class="alert alert-danger alert-dismissable">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <h4><i class="icon fa fa-check"></i> Success!</h4>
-            {{session('success')}}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong><i class="fa fa-ban"></i> Error!</strong> {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
 
-
-    {{--Change Password--}}
-    <div class="box box-primary">
-        <div class="box-header with-border">
-            <h4 class="box-title">Change Password</h4>
+    {{-- Change Password --}}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4 class="card-title">Change Password</h4>
         </div>
-        <div class="box-body">
-            <form class="form-horizontal" method="post" action="{{route('changePassword')}}">
-                {!! csrf_field() !!}
+        <div class="card-body">
+            <form method="post" action="{{ route('changePassword') }}">
+                @csrf
 
-                <div class="form-group{{ $errors->has('current_password') ? ' has-error' : '' }}">
-                    <label class="col-md-4 control-label">Current Password</label>
-                    <div class="col-md-6">
-                        <input type="password" class="form-control" name="current_password">
-                        @if ($errors->has('current_password'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('current_password') }}</strong>
-                            </span>
-                        @endif
-                    </div>
+                <div class="mb-3">
+                    <label for="current_password" class="form-label">Current Password</label>
+                    <input type="password" class="form-control" id="current_password" name="current_password">
+                    @error('current_password')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
 
-                <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                    <label class="col-md-4 control-label">New Password</label>
-                    <div class="col-md-6">
-                        <input type="password" class="form-control" name="password">
-                        @if ($errors->has('password'))
-                            <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                        @endif
-                    </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">New Password</label>
+                    <input type="password" class="form-control" id="password" name="password">
+                    @error('password')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
 
-                <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                    <label class="col-md-4 control-label">New Password Confirmation</label>
-                    <div class="col-md-6">
-                        <input type="password" class="form-control" name="password_confirmation">
-                        @if ($errors->has('password'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('password') }}</strong>
-                            </span>
-                        @endif
-                    </div>
+                <div class="mb-3">
+                    <label for="password_confirmation" class="form-label">New Password Confirmation</label>
+                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
+                    @error('password_confirmation')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
 
-                <div class="form-group">
-                    <div class="col-md-6 col-md-offset-4">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-btn fa-edit"></i> Change Password
-                        </button>
-                    </div>
-                </div>
-
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-edit"></i> Change Password
+                </button>
             </form>
         </div>
     </div>
-    {{--/Change Password--}}
+    {{-- /Change Password --}}
 
-
-    @can('register','App\Models\User')
-    {{--Create new User--}}
-    <div class="box box-primary">
-        <div class="box-header with-border">
-            <h4 class="box-title">Create New User</h4>
+    @can('register', 'App\Models\User')
+    {{-- Create New User --}}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4 class="card-title">Create New User</h4>
         </div>
-        <div class="box-body">
-            <form class="form-horizontal" method="post" action="{{route('createAccount')}}">
-                {!! csrf_field() !!}
+        <div class="card-body">
+            <form method="post" action="{{ route('createAccount') }}">
+                @csrf
 
-                <div class="form-group{{ $errors->has('user_name') ? ' has-error' : '' }}">
-                    <label class="col-md-4 control-label">Name</label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" name="user_name" value="{{old('user_name')}}">
-                        @if ($errors->has('user_name'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('user_name') }}</strong>
-                            </span>
-                        @endif
-                    </div>
+                <div class="mb-3">
+                    <label for="user_name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="user_name" name="user_name" value="{{ old('user_name') }}">
+                    @error('user_name')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
 
-                <div class="form-group{{ $errors->has('user_username') ? ' has-error' : '' }}">
-                    <label class="col-md-4 control-label">Username</label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" name="user_username"
-                               value="{{old('user_username')}}">
-                        @if ($errors->has('user_username'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('user_username') }}</strong>
-                            </span>
-                        @endif
-                    </div>
+                <div class="mb-3">
+                    <label for="user_username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="user_username" name="user_username" value="{{ old('user_username') }}">
+                    @error('user_username')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
 
-                <div class="form-group{{ $errors->has('user_role') ? ' has-error' : '' }}">
-                    <label class="col-md-4 control-label">Role</label>
-                    <div class="col-md-6">
-                        <select name="user_role" class="form-control">
-                            <option value="">N/A</option>
-                            @foreach(\App\Models\Role::where('role','<>','Admin')->get() as $role)
-                                <option value="{{$role->id}}" @if(old('user_role')===$role->id) selected @endif>
-                                    {{$role->role}}
-                                </option>
-                            @endforeach
-                        </select>
-                        @if ($errors->has('user_role'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('user_role') }}</strong>
-                            </span>
-                        @endif
-                    </div>
+                <div class="mb-3">
+                    <label for="user_role" class="form-label">Role</label>
+                    <select id="user_role" name="user_role" class="form-select">
+                        <option value="">N/A</option>
+                        @foreach(\App\Models\Role::where('role', '<>', 'Admin')->get() as $role)
+                            <option value="{{ $role->id }}" {{ old('user_role') == $role->id ? 'selected' : '' }}>
+                                {{ $role->role }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('user_role')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
 
-                <div class="form-group{{ $errors->has('user_password') ? ' has-error' : '' }}">
-                    <label class="col-md-4 control-label">Password</label>
-                    <div class="col-md-6">
-                        <input type="password" class="form-control" name="user_password">
-                        @if ($errors->has('user_password'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('user_password') }}</strong>
-                            </span>
-                        @endif
-                    </div>
+                <div class="mb-3">
+                    <label for="user_password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="user_password" name="user_password">
+                    @error('user_password')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
 
-
-                <div class="form-group{{ $errors->has('user_password_confirmation') ? ' has-error' : '' }}">
-                    <label class="col-md-4 control-label">Password Confirmation</label>
-                    <div class="col-md-6">
-                        <input type="password" class="form-control" name="user_password_confirmation">
-                        @if ($errors->has('user_password_confirmation'))
-                            <span class="help-block">
-                                        <strong>{{ $errors->first('user_password_confirmation') }}</strong>
-                                    </span>
-                        @endif
-                    </div>
+                <div class="mb-3">
+                    <label for="user_password_confirmation" class="form-label">Password Confirmation</label>
+                    <input type="password" class="form-control" id="user_password_confirmation" name="user_password_confirmation">
+                    @error('user_password_confirmation')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
 
-                <div class="form-group">
-                    <div class="col-md-6 col-md-offset-4">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-btn fa-plus"></i> Create User
-                        </button>
-                    </div>
-                </div>
-
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-plus"></i> Create User
+                </button>
             </form>
         </div>
     </div>
-    {{--/Create new User--}}
+    {{-- /Create New User --}}
     @endcan
 
-
-    <div class="box box-primary">
-        <div class="box-header with-border">
-            <h4 class="box-title">Clinic's Users</h4>
+    {{-- Clinic's Users --}}
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Clinic's Users</h4>
         </div>
-        <div class="box-body table-responsive">
+        <div class="card-body table-responsive">
             <table class="table table-condensed table-striped table-hover text-center">
                 <thead>
-                <tr>
-                    <th class="col-md-4">Name</th>
-                    <th class="col-md-3">Username</th>
-                    <th class="col-md-3">Role</th>
-                    <th class="col-md-2"></th>
-                </tr>
+                    <tr>
+                        <th class="col-md-4">Name</th>
+                        <th class="col-md-3">Username</th>
+                        <th class="col-md-3">Role</th>
+                        <th class="col-md-2"></th>
+                    </tr>
                 </thead>
                 <tbody>
-                @foreach(\App\Models\Clinic::getCurrentClinic()->users as $user)
-                    <tr @if(\App\Models\User::getCurrentUser()->id===$user->id) class="success"
-                        @elseif($user->deactivated()) class="danger"
-                            @endif>
-                        <td>{{$user->name}}</td>
-                        <td>{{$user->username}}</td>
-                        <td>{{$user->role->role}}</td>
-                        <td>
-                            @can('delete',$user)
-                            <a class="btn @if($user->deactivated()) btn-success @else btn-danger @endif
-                                    btn-sm" href="{{route('deleteAccount',['id'=>$user->id])}}">
-                                <i class="fa @if($user->deactivated()) fa-check @else fa-recycle @endif"></i>
-                            </a>
-                            @endcan
-                        </td>
-                    </tr>
-                @endforeach
+                    @foreach(\App\Models\Clinic::getCurrentClinic()->users as $user)
+                        <tr class="@if(\App\Models\User::getCurrentUser()->id === $user->id) table-success
+                            @elseif($user->deactivated()) table-danger @endif">
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->username }}</td>
+                            <td>{{ $user->role->role }}</td>
+                            <td>
+                                @can('delete', $user)
+                                    <a class="btn btn-sm @if($user->deactivated()) btn-success @else btn-danger @endif"
+                                       href="{{ route('deleteAccount', ['id' => $user->id]) }}">
+                                        <i class="fa @if($user->deactivated()) fa-check @else fa-recycle @endif"></i>
+                                    </a>
+                                @endcan
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

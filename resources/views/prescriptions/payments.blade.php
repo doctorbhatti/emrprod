@@ -1,25 +1,26 @@
 @extends('layouts.master')
 
-
 @section('page_header')
     Payments
 @endsection
 
 @section('breadcrumb')
-    <ol class="breadcrumb">
-        <li><a href="{{route('root')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active" href="#">Payments</li>
-    </ol>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('root') }}"><i class="fa fa-home"></i> Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Payments</li>
+        </ol>
+    </nav>
 @endsection
 
 @section('content')
 
-    <div class="box box-primary">
-        <div class="box-header">
-            <h4 class="box-title">Payments</h4>
+    <div class="card card-primary">
+        <div class="card-header">
+            <h4 class="card-title">Payments</h4>
         </div>
-        <!--    Box Body  -->
-        <div class="box-body">
+        <!-- Card Body -->
+        <div class="card-body">
 
             <style>
                 .tableRow {
@@ -31,7 +32,7 @@
                 }
             </style>
 
-            <table class="table table-responsive table-condensed table-hover text-center" id="paymentsTable">
+            <table class="table table-responsive table-hover text-center" id="paymentsTable">
                 <thead>
                 <tr>
                     <th>Patient Name</th>
@@ -44,28 +45,33 @@
                 @forelse($prescriptions as $prescription)
                     @if($prescription->hasIssued())
                         <tr class="tableRow"
-                            onclick="window.location='{{route("patient",['id'=>$prescription->patient->id])}}'">
-                            <td>{{$prescription->patient->first_name}} {{$prescription->patient->last_name}}</td>
-                            <td>{{ !empty ($prescription->payment->amount) ? $prescription->payment->amount:'' }}</td>
-                            <td>{{ !empty ($prescription->payment->remarks) ? $prescription->payment->remarks:''}}</td>
-                            <td>{{App\Lib\Utils::getTimestamp($prescription->issued_at)}}</td>
+                            onclick="window.location='{{ route('patient', ['id' => $prescription->patient->id]) }}'">
+                            <td>{{ $prescription->patient->first_name }} {{ $prescription->patient->last_name }}</td>
+                            <td>{{ !empty($prescription->payment->amount) ? $prescription->payment->amount : '' }}</td>
+                            <td>{{ !empty($prescription->payment->remarks) ? $prescription->payment->remarks : '' }}</td>
+                            <td>{{ App\Lib\Utils::getTimestamp($prescription->issued_at) }}</td>
                         </tr>
                     @endif
                 @empty
+                    <tr>
+                        <td colspan="4">No payments available</td>
+                    </tr>
                 @endforelse
                 </tbody>
             </table>
         </div>
     </div>
 
-    {{--Data Tables Scripts--}}
+    <!-- DataTables Scripts -->
+    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('plugins/datatables/datatables.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('plugins/datatables/datatables.min.css') }}" />
     <script>
         $(document).ready(function () {
-            var tableFixed = $('#paymentsTable').dataTable({
-                'pageLength': 10,
-                //'bSort': false
+            $('#paymentsTable').DataTable({
+                pageLength: 10,
+                responsive: true
             });
         });
     </script>
-    {{--//Data Tables--}}
 @endsection

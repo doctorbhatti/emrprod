@@ -1,57 +1,49 @@
-<div class="modal fade" id="addPeriodModal">
+<div class="modal fade" id="addPeriodModal" tabindex="-1" aria-labelledby="addPeriodModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
-                <h4 class="modal-title">Add Dosage Period</h4>
+                <h5 class="modal-title" id="addPeriodModalLabel">Add Dosage Period</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form class="form-horizontal" method="post" action="{{route('addPeriod')}}">
+            <form method="post" action="{{ route('addPeriod') }}">
+                @csrf
 
-                <div class="box-body">
-
+                <div class="modal-body">
                     {{-- General error message --}}
                     @if ($errors->has('general'))
-                        <div class="alert alert-danger alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                            <h4><i class="icon fa fa-ban"></i> Oops!</h4>
-                            {{ $errors->first('general') }}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fa fa-ban"></i> {{ $errors->first('general') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
 
-                    {{csrf_field()}}
-
-                    <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                        <label class="col-md-3 control-label">Period Description</label>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" name="description" value="{{ old('description') }}"
-                                   required>
-                            @if ($errors->has('description'))
-                                <span class="help-block">
-                                        <strong>{{ $errors->first('description') }}</strong>
-                                </span>
-                            @endif
-                        </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Period Description</label>
+                        <input type="text" class="form-control @error('description') is-invalid @enderror"
+                               id="description" name="description" value="{{ old('description') }}" required>
+                        @error('description')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
+                </div>
 
-                </div><!-- /.box-body -->
-
-                <div class="box-footer">
-                    <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary pull-right">Add</button>
-                </div><!-- /.box-footer -->
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
             </form>
-
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
+        </div>
+    </div>
 </div>
 
-
-@if(session('type') && session('type')==="period" && $errors->any())
+@if(session('type') && session('type') === "period" && $errors->any())
     <script>
-        $(document).ready(function () {
-            $('#addPeriodModal').modal('show');
+        document.addEventListener('DOMContentLoaded', function () {
+            var addPeriodModal = new bootstrap.Modal(document.getElementById('addPeriodModal'));
+            addPeriodModal.show();
         });
     </script>
 @endif

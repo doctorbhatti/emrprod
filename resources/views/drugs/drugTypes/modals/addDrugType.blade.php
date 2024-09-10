@@ -1,64 +1,54 @@
-<div class="modal fade" id="addDrugTypeModal">
+<div class="modal fade" id="addDrugTypeModal" tabindex="-1" aria-labelledby="addDrugTypeModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
-                <h4 class="modal-title">Add Quantity Type</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="addDrugTypeModalLabel">Add Quantity Type</h5>
             </div>
 
-            <form class="form-horizontal" method="post" action="{{route('addDrugType')}}">
-
-                <div class="box-body">
-
+            <form class="form-horizontal" method="post" action="{{ route('addDrugType') }}">
+                <div class="modal-body">
                     {{-- General error message --}}
                     @if ($errors->has('general'))
-                        <div class="alert alert-danger alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                            <h4><i class="icon fa fa-ban"></i> Oops!</h4>
-                            {{ $errors->first('general') }}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fa fa-ban"></i> {{ $errors->first('general') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
 
-                    {{csrf_field()}}
+                    {{ csrf_field() }}
 
                     <div class="alert alert-warning">
-                        These quantity types will be used when keeping track of drug stocks.
-                        Therefore, use meaningful type names which can be used to describe quantities.
+                        These quantity types will be used when keeping track of drug stocks. Therefore, use meaningful type names which can be used to describe quantities.
                         <br>
-                        <strong>Ex: Pills, Tablets, Bottles, Litres, Mili Litres and etc...</strong>
+                        <strong>Ex: Pills, Tablets, Bottles, Litres, Millilitres, etc...</strong>
                     </div>
 
-                    <div class="form-group{{ $errors->has('drugType') ? ' has-error' : '' }}">
-                        <label class="col-md-3 control-label">Quantity Type</label>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" name="drugType"
-                                   value="{{ old('drugType') }}" required
-                                   placeholder="Ex: Pills/Tablets/Bottles">
-                            @if ($errors->has('drugType'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('drugType') }}</strong>
-                                </span>
-                            @endif
-                        </div>
+                    <div class="mb-3">
+                        <label for="drugType" class="form-label">Quantity Type</label>
+                        <input type="text" class="form-control @error('drugType') is-invalid @enderror" id="drugType" name="drugType" value="{{ old('drugType') }}" required placeholder="Ex: Pills/Tablets/Bottles">
+                        @error('drugType')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
-                </div><!-- /.box-body -->
+                </div>
 
-                <div class="box-footer">
-                    <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary pull-right">Add</button>
-                </div><!-- /.box-footer -->
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
             </form>
-
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
+        </div>
+    </div>
 </div>
 
-
-@if($errors->any())
-    <script>
-        $(document).ready(function () {
-            $('#addDrugTypeModal').modal('show');
-        });
-    </script>
-@endif
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        @if($errors->any())
+            var myModal = new bootstrap.Modal(document.getElementById('addDrugTypeModal'));
+            myModal.show();
+        @endif
+    });
+</script>

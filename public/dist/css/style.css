@@ -10,7 +10,8 @@
     font-size: 18px;
 }
 
-select, select option {
+select,
+select option {
     font-size: 15px !important;
 }
 
@@ -20,4 +21,28 @@ p {
 
 .alert {
     font-size: 15px !important;
+}
+/* Overriding Data Tables Pagination */
+/* Pagination links */
+.pagination a {
+    color: rgb(0, 38, 254);
+    float: right;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+/* Style the active/current link */
+.pagination a.active {
+    background-color: dodgerblue !important;
+    color: white !important;
+}
+
+/* Add a grey background color on mouse-over */
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
+
+.label{
+    padding-top: 6px !important;
 }

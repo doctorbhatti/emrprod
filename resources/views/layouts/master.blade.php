@@ -2,42 +2,65 @@
 $user = \App\Models\User::getCurrentUser();
 ?>
 
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>
-        @yield('title',$user->clinic->name)
+        @yield('title', $user->clinic->name)
     </title>
 
     <!-- ========== META TAGS ========== -->
+    <link rel="shortcut" href="{{asset('favicon.ico')}}" />
 
-    <link rel="shortcut" href="{{asset('favicon.ico')}}"/>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+    <!--=======Updated Meta Tags For AdminLTE5=-->
+
+    <!--begin::Fonts-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css">
+    <!--end::Fonts-->
+
+    <!--begin::Third Party Plugin(OverlayScrollbars)-->
+    <link rel="stylesheet" href="{{asset('dist/css/overlayscrollbars.min.css')}}">
+    <!--end::Third Party Plugin(OverlayScrollbars)-->
+
+    <!--begin::Third Party Plugin(Bootstrap Icons)-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.min.css" integrity="sha256-Qsx5lrStHZyR9REqhUF8iQt73X06c8LGIUPzpOhwRrI=" crossorigin="anonymous">
+    <!--end::Third Party Plugin(Bootstrap Icons)-->
+
+    <!-- apexcharts -->
+    <link rel="stylesheet" href="{{asset('dist/css/apexcharts_3.37.1.css')}}">
+
+    <!-- Bootstrap 5 CSS  -->
+    <link rel="stylesheet" href="{{asset('dist/css/bootstrap@5.3.0.min.css')}}">
+
+    <!-- Bootstrap 5 JS  -->
+    <script src="{{asset('dist/js/bootstrap@5.3.0.min.js')}}"></script>
+    <!-- Replace with Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Use a newer Ionicons version or remove if not necessary -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.5.2/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{asset('dist/css/AdminLTE.min.css')}}">
+    <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
     <!-- Custom styles -->
     <link rel="stylesheet" href="{{asset('dist/css/style.css')}}">
 
+    <!-- Tempus Dominus CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempus-dominus/6.2.7/css/tempus-dominus.min.css" />
+
     {{--Data Tables CSS--}}
-    <link href="{{asset('plugins/datatables/dataTables.bootstrap.css')}}" rel="stylesheet" type="text/css">
+    <!-- <link href="{{asset('plugins/datatables/dataTables.bootstrap.css')}}" rel="stylesheet" type="text/css"> -->
 
-    <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="{{asset('dist/css/skins/_all-skins.min.css')}}">
+    <!-- Replace with jQuery Slim 3.6.0 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    {{--Date Time Picker CSS--}}
-    <link rel="stylesheet" href="{{asset('plugins/datetimepicker/build/css/bootstrap-datetimepicker.min.css')}}">
-
-    <!-- jQuery 2.1.4 Moved to the top to load without an error-->
-    <script src="{{asset('plugins/jQuery/jQuery-2.1.4.min.js')}}"></script>
+    <!-- Data Tables -->
+    <link rel="stylesheet" href="//cdn.datatables.net/2.1.5/css/dataTables.dataTables.min.css">
+    <script src="//cdn.datatables.net/2.1.5/js/dataTables.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -48,256 +71,254 @@ $user = \App\Models\User::getCurrentUser();
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <style>
-        .select2-selection--single:focus, .select2-selection--single:hover{
-            box-shadow: 0px 0px 5px 2px #00a65a !important;
+        .select2-selection--single:focus,
+        .select2-selection--single:hover {
         }
+
         select {
             min-width: 100px;
         }
     </style>
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
-<!-- Site wrapper -->
-<div class="wrapper">
 
-    <header class="main-header">
-        <!-- Logo -->
-        <a href="{{url('/')}}" class="logo">
-            <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>HLC</b></span>
-            <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Healthy Life</b> Clinc</span>
-        </a>
-        <!-- Header Navbar: style can be found in header.less -->
-        <nav class="navbar navbar-static-top" role="navigation">
-            <!-- Sidebar toggle button-->
-            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </a>
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary"> <!--begin::App Wrapper-->
+    <div class="app-wrapper"> <!--begin::Header-->
+        <nav class="app-header navbar navbar-expand bg-body"> <!--begin::Container-->
+            <div class="container-fluid"> <!--begin::Start Navbar Links-->
+                <ul class="navbar-nav">
+                    <li class="nav-item"> <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button"> <i
+                                class="bi bi-list"></i> </a> </li>
+                </ul> <!--end::Start Navbar Links-->
 
-            <div class="navbar-custom-menu">
-                <ul class="nav navbar-nav">
+                <!--begin::End Navbar Links-->
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <ul class="navbar-nav ms-auto"> <!--begin::Navbar Search-->
+                        <!--begin::Fullscreen Toggle-->
+                        <li class="nav-item"> <a class="nav-link" href="#" data-lte-toggle="fullscreen"> <i
+                                    data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i> <i
+                                    data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none;"></i>
+                            </a> </li> <!--end::Fullscreen Toggle-->
 
-                    <!-- User Account: style can be found in dropdown.less -->
-                    <li class="dropdown user user-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="{{asset('dist/img/my_avatar.png')}}" class="user-image" alt="User Image">
-                            <span class="hidden-xs">{{$user->name}}</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <!-- User image -->
-                            <li class="user-header">
-                                <img src="{{asset('dist/img/my_avatar.png')}}" class="img-circle" alt="User Image">
+                        <!--begin::User Menu Dropdown-->
+                        <li class="nav-item dropdown user-menu"> <a href="#" class="nav-link dropdown-toggle"
+                                data-bs-toggle="dropdown"> <img src="{{asset('dist/img/my_avatar.png')}}"
+                                    class="user-image rounded-circle shadow" alt="User Image"> <span
+                                    class="d-none d-md-inline">{{$user->name}}</span> </a>
+                            <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end"> <!--begin::User Image-->
+                                <li class="user-header text-bg-primary"> <img src="{{asset('dist/img/my_avatar.png')}}"
+                                        class="rounded-circle shadow" alt="User Image">
+                                    <p>
+                                        {{$user->name}}
+                                        <small>{{$user->clinic->name}}</small>
+                                    </p>
+                                </li> <!--end::User Image--> <!--begin::Menu Body-->
+                                <!--begin::Menu Footer-->
+                                <li class="user-footer"> <a href="{{url('/settings')}}"
+                                        class="btn btn-default btn-flat">Settings</a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        style="display: none;">
+                                        @csrf
+                                    </form>
 
-                                <p>
-                                    {{$user->name}}
-                                    <small>{{$user->clinic->name}}</small>
-                                </p>
-                            </li>
-
-                            <!-- Menu Footer-->
-                            <li class="user-footer">
-                                <div class="pull-left">
-                                    <a href="{{url('/settings')}}" class="btn btn-default btn-flat">Settings</a>
-                                </div>
-                                <div class="pull-right">
-                                    <a href="{{url('logout')}}" class="btn btn-default btn-flat">Sign out</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-
-                </ul>
+                                    <a href="#" class="btn btn-default btn-flat"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        Sign out
+                                    </a>
+                                </li> <!--end::Menu Footer-->
+                            </ul>
+                        </li> <!--end::User Menu Dropdown-->
+                    </ul>
+                </nav>
             </div>
         </nav>
-    </header>
 
-    <!-- =============================================== -->
 
-    <!-- Left side column. contains the sidebar -->
-    <aside class="main-sidebar">
-        <!-- sidebar: style can be found in sidebar.less -->
-        <section class="sidebar">
-            <!-- Sidebar user panel -->
-            <div class="user-panel">
-                <div class="pull-left image">
-                    <img src="{{asset('dist/img/my_avatar.png')}}" class="img-circle" alt="User Image">
-                </div>
-                <div class="pull-left info">
-                    <p>{{$user->name}}</p>
-                </div>
+        <!-- =============================================== -->
+
+        <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark"> <!--begin::Sidebar Brand-->
+            <div class="sidebar-brand"> <!--begin::Brand Link--> <a href="{{url('/')}}" class="brand-link">
+                    <!--begin::Brand Image--> <img src="{{asset('FrontTheme/images/logo.png')}}" alt="HLC Logo"
+                        class="brand-image opacity-75 shadow"> <!--end::Brand Image--> <!--begin::Brand Text--> <span
+                        class="brand-text fw-light">Healthy Life Clinic</span> <!--end::Brand Text--> </a>
+                <!--end::Brand Link-->
+            </div> <!--end::Sidebar Brand--> <!--begin::Sidebar Wrapper-->
+            <div class="sidebar-wrapper">
+                <nav class="mt-2"> <!--begin::Sidebar Menu-->
+                    <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu"
+                        data-accordion="false">
+                        <!-- search form -->
+                        <form action="{{route('search')}}" method="get" class="sidebar-form">
+                            {{csrf_field()}}
+                            <div class="input-group">
+                                <input type="text" name="q" class="form-control" placeholder="Search..." required>
+                                <span class="input-group-btn">
+                                    <button type="submit" id="search-btn" class="btn btn-flat">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+                        <!-- /.search form -->
+                        <!--Home Nav Item-->
+                        <li @if(url('/') === Request::url()) class="nav-item active" @endif>
+                            <a href="{{url('/')}}" class="nav-link active"> <i class="nav-icon bi bi-house"></i>
+                                <p>Home</p>
+
+                            </a>
+                        </li>
+                        <!--Patients Nav Item-->
+                        <li @if(strpos(Request::url(), 'patients') != false) class="nav-item active" @endif> <a
+                                href="{{url('patients')}}" class="nav-link active"> <i
+                                    class="nav-icon bi bi-person-wheelchair"></i>
+                                <p>Patients</p>
+                            </a>
+                        </li>
+                        <!--Drugs Nav Item-->
+                        <li @if(strpos(Request::url(), 'drugs') != false) class="nav-item active" @endif> <a
+                                href="{{url('drugs')}}" class="nav-link active"> <i
+                                    class="nav-icon bi bi-prescription"></i>
+                                <p>Drugs</p>
+                            </a>
+                        </li>
+                        <!--Issue Presciption Nav Item-->
+                        @can('issueMedicine', 'App\Models\Patient')
+                            <li @if(strpos(Request::url(), 'issueMedicine') != false) class="nav-item active" @endif> <a
+                                    href="{{url('issueMedicine')}}" class="nav-link active"> <i
+                                        class="nav-icon bi bi-file-earmark-medical"></i>
+                                    <p>Issue Medicine</p>
+                                </a>
+                            </li>
+                        @endcan
+                        <!-- Queue Nav Item -->
+                        <li @if(strpos(Request::url(), 'queue') != false) class="nav-item " @endif> <a
+                                href="{{url('queue')}}" class="nav-link"> <i
+                                    class="nav-icon bi bi-person-raised-hand"></i>
+                                <p>Queue</p>
+                            </a>
+                        </li>
+                        <!-- Show Total Payments Nav Item -->
+                        @if(auth()->user()->isAdmin())
+                        <li class="nav-item" @endif> <a href="#" onclick="showTotalPayments()" class="nav-link"> <i
+                                    class="nav-icon bi bi-credit-card-2-back"></i>
+                                <p>Show Total Payments</p>
+                            </a>
+                        </li>
+                        <!-- Show Today Payments -->
+                        @if(auth()->user()->isAdmin())
+                        <li class="nav-item" @endif> <a href="#" onclick="showTodayPayments()" class="nav-link"> <i
+                                    class="nav-icon bi bi-credit-card-2-front"></i>
+                                <p>Show Today's Payments</p>
+                            </a>
+                        </li>
+                        <!-- Show Hide/Stats -->
+                        @if(auth()->user()->isAdmin())
+                        <li class="nav-item" @endif> <a href="#" onclick="clinicStatsNew()" class="nav-link"> <i
+                                    class="nav-icon bi bi-bar-chart-line"></i>
+                                <p>Show/Hide Stats</p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
+        </aside>
 
-            <!-- search form -->
-            <form action="{{route('search')}}" method="get" class="sidebar-form">
-                {{csrf_field()}}
-                <div class="input-group">
-                    <input type="text" name="q" class="form-control" placeholder="Search..." required>
-                    <span class="input-group-btn">
-                        <button type="submit" id="search-btn" class="btn btn-flat">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
-                </div>
-            </form>
-            <!-- /.search form -->
-
-            <!-- sidebar menu: : style can be found in sidebar.less -->
-            <ul class="sidebar-menu">
-                <li @if(url('/')===Request::url()) class="active" @endif>
-                    <a href="{{url('/')}}">
-                        <i class="fa fa-h-square"></i> <span>Home</span>
-                        <i class="fa fa-question-circle-o fa-lg pull-right" data-toggle="tooltip"
-                           data-placement="bottom" title="" data-original-title="Get an overview of your
-                           clinic including number of patients and patient visits"></i>
-                    </a>
-                </li>
-
-                <li @if(strpos(Request::url(),'patients')!=false) class="active" @endif>
-                    <a href="{{url('patients')}}">
-                        <i class="fa fa-wheelchair"></i> <span>Patients</span>
-                        <i class="fa fa-question-circle-o fa-lg pull-right" data-toggle="tooltip"
-                           data-placement="bottom" title="" data-original-title="View all the patients and
-                           patient profiles, prescribe medicine and view medical records of each patient"></i>
-                    </a>
-                </li>
-
-                <li @if(strpos(Request::url(),'drugs')!=false) class="active" @endif>
-                    <a href="{{url('drugs')}}">
-                        <i class="fa fa-stethoscope"></i> <span>Drugs</span>
-                        <i class="fa fa-question-circle-o fa-lg pull-right" data-toggle="tooltip"
-                           data-placement="bottom" title="" data-original-title="Manage your drug inventory.
-                           The drugs in your drug inventory will be available under drugs
-                       when 'prescribing medicine'. Also, you can manage each drug's stocks in this section."></i>
-                    </a>
-                </li>
-
-                @can('issueMedicine','App\Models\Patient')
-                    <li @if(strpos(Request::url(),'issueMedicine')!=false) class="active" @endif>
-                        <a href="{{url('issueMedicine')}}">
-                            <i class="fa fa-medkit"></i> <span>Issue Medicine</span>
-                            <i class="fa fa-question-circle-o fa-lg pull-right" data-toggle="tooltip"
-                               data-placement="bottom" title=""
-                               data-original-title="An interface focused on the 'Nurse' type users.
-                               All the prescriptions to be issued once the doctor has prescribed medicine to a patient
-                               are visible here"></i>
-                        </a>
-                    </li>
-                @endcan
-
-                <li @if(strpos(Request::url(),'queue')!=false) class="active" @endif>
-                    <a href="{{url('queue')}}">
-                        <i class="fa fa-ambulance"></i> <span>Queue</span>
-                        <i class="fa fa-question-circle-o fa-lg pull-right" data-toggle="tooltip"
-                           data-placement="bottom" title=""
-                           data-original-title="Interface to manage the session's patient queue.
-                           You can add patients to the queue from each patient's profile.
-                           Then use this interface to update the queue as patients visit the doctor"></i>
-                    </a>
-                </li>
-                @if(auth()->user()->isAdmin())
-                <li @if(strpos(Request::url(),'queue')!=false) class="active" @endif>
-                    <a href="#" onclick="showTotalPayments()">
-                        <i class="fa fa-gg-circle"></i> <span>Show Total Payments</span>
-                        <i class="fa fa-question-circle-o fa-lg pull-right" data-toggle="tooltip"
-                           data-placement="bottom" title=""
-                           data-original-title="Show/Hide total payments on dashboard."></i>
-                    </a>
-                </li>
-                @endif
-                @if(auth()->user()->isAdmin())
-                <li @if(strpos(Request::url(),'queue')!=false) class="active" @endif>
-                    <a href="#" onclick="showTodayPayments()">
-                        <i class="fa fa-gg-circle"></i> <span>Show Today's Payments</span>
-                        <i class="fa fa-question-circle-o fa-lg pull-right" data-toggle="tooltip"
-                           data-placement="bottom" title=""
-                           data-original-title="Show/Hide today's payments on dashboard."></i>
-                    </a>
-                </li>
-                @endif
-                 @if(auth()->user()->isAdmin())
-                <li @if(strpos(Request::url(),'queue')!=false) class="active" @endif>
-                    <a href="#" onclick="clinicStatsNew()">
-                        <i class="fa fa-gg-circle"></i> <span>Show/Hide Stats</span>
-                        <i class="fa fa-question-circle-o fa-lg pull-right" data-toggle="tooltip"
-                           data-placement="bottom" title=""
-                           data-original-title="Show/Hide visit stats for last 5 months on dashboard."></i>
-                    </a>
-                </li>
-                @endif
-                <!-- <li @if(strpos(Request::url(),'feedback')!=false) class="active" @endif>
-                    <a href="{{url('feedback')}}">
-                        <i class="fa fa-thumbs-o-up"></i> <span>Feedback</span>
-                        <i class="fa fa-question-circle-o fa-lg pull-right" data-toggle="tooltip"
-                           data-placement="bottom" title=""
-                           data-original-title="We need your feedback (complaints, suggestions) to improve this system.
-                           Please be kind enough to provide us with your feedback"></i>
-                    </a>
-                </li> -->
-            </ul>
-        </section>
-        <!-- /.sidebar -->
-    </aside>
-
-    <!-- =============================================== -->
-
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                @yield('page_header')
-                <small>@yield('sub_header','Healthy Life Clinic - EMR Systems')</small>
-            </h1>
-            @yield('breadcrumb','')
-        </section>
-        <!-- Main content -->
-        <section class="content">
-            {{--Time is shown using a script--}}
-            <h4 id="timer"></h4>
-            @yield('content')
-        </section><!-- /.content -->
-    </div><!-- /.content-wrapper -->
-
-    <!--  ============================================== -->
-
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 1.0.0
-        </div>
-        <strong>Copyright &copy; <a href="#">Healthy Life Clinic</a>.</strong> All rights
-        reserved.
-    </footer>
-</div><!-- ./wrapper -->
+        <!-- =============================================== -->
+        <main class="app-main"> <!--begin::App Content Header-->
+            <div class="app-content-header"> <!--begin::Container-->
+                <div class="container-fluid">
+                    <!-- Content Header (Page header) -->
+                    <section class="content-header">
+                        <h1>
+                            @yield('page_header')
+                            | <sub>@yield('sub_header', 'Healthy Life Clinic - EMR Systems')</sub>
+                        </h1>
+                        @yield('breadcrumb', '')
+                    </section>
+                    <!-- Main content -->
+                    <section class="content">
+                        {{--Time is shown using a script--}}
+                        <h4 id="timer"></h4>
+                        @yield('content')
+                    </section><!-- /.content -->
+                </div><!-- /.content-wrapper -->
+            </div>
+        </main>
+        <!--  ============================================== -->
+        <footer class="app-footer">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 1.0.0
+            </div>
+            <strong>Copyright &copy; <a href="#">Healthy Life Clinic</a>.</strong> All rights
+            reserved.
+        </footer>
+        </nav><!-- ./wrapper -->
 
 </body>
-
+<!--begin::Script--> <!--begin::Third Party Plugin(OverlayScrollbars)-->
+<script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.3.0/browser/overlayscrollbars.browser.es6.min.js"
+    integrity="sha256-H2VM7BKda+v2Z4+DRy69uknwxjyDRhszjXFhsL4gD3w=" crossorigin="anonymous"></script>
+<!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Required Plugin(popperjs for Bootstrap 5)-->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha256-whL0tQWoY1Ku1iskqPFvmZ+CHsvmRWx/PIoEvIeWh4I=" crossorigin="anonymous"></script>
+<!--end::Required Plugin(popperjs for Bootstrap 5)--><!--begin::Required Plugin(Bootstrap 5)-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha256-YMa+wAM6QkVyz999odX7lPRxkoYAan8suedu4k2Zur8=" crossorigin="anonymous"></script>
+<!--end::Required Plugin(Bootstrap 5)-->
+<!--begin::OverlayScrollbars Configure-->
+<script>
+    const SELECTOR_SIDEBAR_WRAPPER = ".sidebar-wrapper";
+    const Default = {
+        scrollbarTheme: "os-theme-light",
+        scrollbarAutoHide: "leave",
+        scrollbarClickScroll: true,
+    };
+    document.addEventListener("DOMContentLoaded", function () {
+        const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
+        if (
+            sidebarWrapper &&
+            typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== "undefined"
+        ) {
+            OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+                scrollbars: {
+                    theme: Default.scrollbarTheme,
+                    autoHide: Default.scrollbarAutoHide,
+                    clickScroll: Default.scrollbarClickScroll,
+                },
+            });
+        }
+    });
+</script> <!--end::OverlayScrollbars Configure--> 
+<!-- apexcharts -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"
+    integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8=" crossorigin="anonymous"></script>
 <!-- Bootstrap 3.3.5 -->
-<script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
 <!-- SlimScroll -->
 <script src="{{asset('plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
 <!-- FastClick -->
 <script src="{{asset('plugins/fastclick/fastclick.min.js')}}"></script>
 <!-- AdminLTE App -->
-<script src="{{asset('dist/js/app.min.js')}}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{asset('dist/js/demo.js')}}"></script>
+<script src="{{'dist/js/adminlte.min.js'}}"></script>
 <!-- DataTables -->
-<script src="{{asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
+<!-- <script src="{{asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
+
+<script src="{{asset('plugins/datatables/dataTables.bootstrap.min.js')}}"></script> -->
 {{--Date Range Picker--}}
-<script src="{{asset('plugins/datetimepicker/build/js/moment.min.js')}}"></script>
-<script src="{{asset('plugins/datetimepicker/build/js/bootstrap-datetimepicker.min.js')}}"></script>
+<!-- <script src="{{asset('plugins/datetimepicker/build/js/moment.min.js')}}"></script> -->
+<!-- <script src="{{asset('plugins/datetimepicker/build/js/bootstrap-datetimepicker.min.js')}}"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     $(document).ready(function () {
         $('.birthdaypicker').datetimepicker({
             viewMode: 'years',
             format: 'YYYY/MM/DD',
             maxDate: '{{date('Y-m-d')}}',
-            minDate: '{{date('Y-m-d',strtotime(date('Y-m-d').' -150 year'))}}'
+            minDate: '{{date('Y-m-d', strtotime(date('Y-m-d') . ' -150 year'))}}'
         });
 
         $('.datepicker').datetimepicker({
@@ -305,15 +326,70 @@ $user = \App\Models\User::getCurrentUser();
             format: 'YYYY/MM/DD'
         });
     });
-</script>
+</script> -->
 
+<!-- Tempus Dominus JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempus-dominus/6.2.7/js/tempus-dominus.min.js"></script>
+
+<!-- Moment.js (dependency) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 <script>
-   $(document).ready(function () {
-    //change selectboxes to selectize mode to be searchable
-        $("select").select2();
-        
+    document.addEventListener('DOMContentLoaded', function () {
+        const dobPicker = new tempusDominus.TempusDominus(document.getElementById('dob-picker'), {
+            display: {
+                components: {
+                    calendar: true,
+                    date: true,
+                    month: true,
+                    year: true,
+                    decades: true,
+                    clock: false,
+                    hours: false,
+                    minutes: false,
+                    seconds: false,
+                    useTwentyfourHour: undefined
+                }
+            },
+            restrictions: {
+                maxDate: new Date(), // Restrict date to today or earlier (no future dates)
+            },
+        });
+        dobPicker.dates.formatInput = date => moment(date).format('YYYY/MM/DD')
+
     });
-    $(document).on('keydown', '.select2', function(e) {
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const datepicker = new tempusDominus.TempusDominus(document.getElementById('dob-picker'), {
+            display: {
+                components: {
+                    calendar: true,
+                    date: true,
+                    month: true,
+                    year: true,
+                    decades: true,
+                    clock: false,
+                    hours: false,
+                    minutes: false,
+                    seconds: false,
+                    useTwentyfourHour: undefined
+                }
+            },
+            restrictions: {
+                maxDate: new Date(), // Restrict date to today or earlier (no future dates)
+            },
+        });
+        datepicker.dates.formatInput = date => moment(date).format('YYYY/MM/DD')
+
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        //change selectboxes to selectize mode to be searchable
+        $("select").select2();
+
+    });
+    $(document).on('keydown', '.select2', function (e) {
         if (e.originalEvent && e.which == 40) {
             e.preventDefault();
             $(this).siblings('select').select2('open');
@@ -322,7 +398,7 @@ $user = \App\Models\User::getCurrentUser();
 
     $('select').select2({
         selectOnClose: true
-        
+
     });
 </script>
 
@@ -351,6 +427,8 @@ $user = \App\Models\User::getCurrentUser();
         }, 1000);
     });
 </script>
+
+<!-- The script to hide/show the total & daily payments, also for clinic stats -->
 <script>
     function showTotalPayments() {
         var x = document.getElementById("totalPayments");
@@ -369,7 +447,7 @@ $user = \App\Models\User::getCurrentUser();
             x.style.visibility = "hidden";
         }
     }
-    
+
     function clinicStatsNew() {
         var x = document.getElementById("clinicStatsnew");
         if (x.style.visibility === "hidden") {
@@ -378,7 +456,10 @@ $user = \App\Models\User::getCurrentUser();
             x.style.visibility = "hidden";
         }
     }
+
 </script>
+
 {{-- Google Analytics --}}
-@include('analytics.googleAnalytics')
+<!-- @include('analytics.googleAnalytics') -->
+
 </html>

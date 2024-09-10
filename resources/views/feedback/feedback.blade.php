@@ -3,56 +3,49 @@
 @section('page_header','Feedback')
 
 @section('content')
-    <div class="box box-primary">
-        <div class="box-header with-border">
-            <h4 class="box-title">
-                Give Us Your Feedback !
-            </h4>
-        </div>
-        <div class="box-body">
-            <div class="callout callout-warning">
-                <h4>We will always be free !</h4>
-                <p>
-                    Our objective is to <strong>continue to provide this service for free</strong>. Your
-                    <strong>complaints, suggestions and ideas are important to us</strong>. Please spend few minutes to
-                    give us your feedback, so that we can provide you with a better service in the future.
-                    <strong>Thank you in advance !</strong>
-                </p>
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Give Us Your Feedback!</h4>
             </div>
-
-            {{--Success Message--}}
-            @if(session()->has('success'))
-                <div class="alert alert-success alert-dismissable">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-check"></i> Success!</h4>
-                    {{session('success')}}
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <h4>We will always be free!</h4>
+                    <p>
+                        Our objective is to <strong>continue to provide this service for free</strong>. Your
+                        <strong>complaints, suggestions, and ideas are important to us</strong>. Please spend a few minutes to
+                        give us your feedback, so that we can provide you with better service in the future.
+                        <strong>Thank you in advance!</strong>
+                    </p>
                 </div>
-            @endif
 
-            <form action="{{url('feedback')}}" method="POST">
-
-                {{csrf_field()}}
-
-                <div class="row form-group {{ $errors->has('feedback') ? 'has-error' : '' }}">
-                    <label class="control-label col-md-12 col-sm-12">Complaints, Suggestions and Ideas</label>
-                    <div class="col-md-12 col-sm-12">
-                        <textarea class="form-control" rows="8" name="feedback"
-                                  placeholder="Complaints, Suggestions and Ideas"
-                                  required>{{old('feedback')}}</textarea>
-                        @if ($errors->has('feedback'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('feedback') }}</strong>
-                            </span>
-                        @endif
+                {{-- Success Message --}}
+                @if(session()->has('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong><i class="fas fa-check"></i> Success!</strong> {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                </div>
+                @endif
 
-                <div class="row form-group">
-                    <div class="col-md-3 col-md-offset-9 col-sm-6 col-sm-offset-6">
-                        <button class="btn btn-success pull-right" type="submit">Submit</button>
+                <form action="{{ url('feedback') }}" method="POST">
+                    @csrf
+
+                    <div class="mb-3">
+                        <label for="feedback" class="form-label">Complaints, Suggestions, and Ideas</label>
+                        <textarea id="feedback" class="form-control @error('feedback') is-invalid @enderror" rows="8" name="feedback"
+                                  placeholder="Complaints, Suggestions, and Ideas" required>{{ old('feedback') }}</textarea>
+                        @error('feedback')
+                            <div class="invalid-feedback">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @enderror
                     </div>
-                </div>
-            </form>
+
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-success" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 @endsection
