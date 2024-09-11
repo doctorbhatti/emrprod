@@ -2,7 +2,7 @@
 
     {{-- Initialize the angular variables in a hidden field --}}
     <input type="hidden"
-           ng-init="baseUrl='{{ url('/') }}'; id={{ $patient->id }}; token='{{ csrf_token() }}'; loadMedicalRecords()">
+        ng-init="baseUrl='{{ url('/') }}'; id={{ $patient->id }}; token='{{ csrf_token() }}'; loadMedicalRecords()">
 
     <div class="alert alert-success d-none" ng-show="hasSuccess" ng-cloak>
         <h4><i class="icon fa fa-check"></i> Success!</h4>
@@ -60,47 +60,48 @@
 
             <br>
 
+
             <table class="table table-hover table-condensed table-bordered text-center mb-3">
                 <thead>
-                <tr class="table-success">
-                    <th class="col-sm-4">Drug</th>
-                    <th class="col-sm-5">Dose</th>
-                    <th class="col-sm-3">Quantity</th>
-                </tr>
+                    <tr class="table-success">
+                        <th class="col-sm-4">Drug</th>
+                        <th class="col-sm-5">Dose</th>
+                        <th class="col-sm-3">Quantity</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="prescribedDrug in prescription.prescription_drugs" class="table-success">
-                    <td>[[prescribedDrug.drug.name]] ([[prescribedDrug.drug.quantity_type.drug_type]])</td>
-                    <td>
-                        [[prescribedDrug.dosage.description]]<br>
-                        [[prescribedDrug.frequency.description]]<br>
-                        [[prescribedDrug.period.description]]
-                    </td>
-                    <td>
-                        [[prescribedDrug.quantity | exactNumber]]
-                    </td>
-                </tr>
+                    <tr ng-repeat="prescribedDrug in prescription.prescription_drugs" class="table-success">
+                        <td>[[prescribedDrug.drug.name]] ([[prescribedDrug.drug.quantity_type.drug_type]])</td>
+                        <td>
+                            [[prescribedDrug.dosage.description]]<br>
+                            [[prescribedDrug.frequency.description]]<br>
+                            [[prescribedDrug.period.description]]
+                        </td>
+                        <td>
+                            [[prescribedDrug.quantity | exactNumber]]
+                        </td>
+                    </tr>
                 </tbody>
             </table>
-
+            
             {{-- Table to show pharmacy drugs --}}
             <h4 ng-if="prescription.prescription_pharmacy_drugs.length > 0">Pharmacy Drugs</h4>
             <table class="table table-condensed table-bordered table-hover text-center"
-                   ng-if="prescription.prescription_pharmacy_drugs.length > 0">
+                ng-if="prescription.prescription_pharmacy_drugs.length > 0">
                 <thead>
-                <tr class="table-success">
-                    <th>Drug Name</th>
-                    <th>Remarks</th>
-                </tr>
+                    <tr class="table-success">
+                        <th>Drug Name</th>
+                        <th>Remarks</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="drug in prescription.prescription_pharmacy_drugs track by $index" class="table-success"
-                    ng-cloak>
-                    <td>[[drug.drug]]</td>
-                    <td>
-                        [[drug.remarks]]
-                    </td>
-                </tr>
+                    <tr ng-repeat="drug in prescription.prescription_pharmacy_drugs track by $index"
+                        class="table-success" ng-cloak>
+                        <td>[[drug.drug]]</td>
+                        <td>
+                            [[drug.remarks]]
+                        </td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -115,7 +116,11 @@
                 <label class="col-md-4 col-form-label">Remarks on Payment</label>
                 <div class="col-md-8">[[prescription.payment.remarks]]</div>
             </div>
-
+            <div style="padding:20px;">
+                <button class="btn btn-primary btn-lg btn-flat float-end" ng-click="copyDrugsToLocalStorage(prescription.prescription_drugs)">
+                    Select Drugs to Repeat
+                </button>
+            </div>
         </div>
     </div>
 

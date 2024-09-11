@@ -12,7 +12,8 @@
                 <h4><i class="fas fa-info-circle"></i> Print Prescriptions</h4>
                 <p>You can print the prescription as soon as you save it after adding the required
                     medicine and inspections. You can print the previous prescriptions from the
-                    <strong>Issue Medicine</strong> tab above.</p>
+                    <strong>Issue Medicine</strong> tab above.
+                </p>
             </div>
 
             <div class="alert alert-danger" ng-show="hasError" ng-cloak>
@@ -24,8 +25,8 @@
                 <h4><i class="fas fa-check"></i> Success!</h4>
                 <p>Prescription saved successfully. You can print the drugs to be taken from a pharmacy by clicking the
                     button below.</p>
-                <a href="{{url('/patients/patient/{$patient->id}/printPrescription')}}/[[printPrescriptionId]]"
-                   class="btn btn-outline-secondary" target="_blank">
+                <a href="{{url("/patients/patient/{$patient->id}/printPrescription")}}/[[printPrescriptionId]]"
+                    class="btn btn-outline-secondary" target="_blank">
                     <i class="fas fa-print"></i> Print Prescription
                 </a>
             </div>
@@ -33,13 +34,13 @@
             <div class="form-horizontal mt-4">
                 <!-- Initialize the angular variables in a hidden field -->
                 <input type="hidden"
-                       ng-init="baseUrl='{{url('/')}}';id={{$patient->id}};token='{{csrf_token()}}';init()">
+                    ng-init="baseUrl='{{url('/')}}';id={{$patient->id}};token='{{csrf_token()}}';init()">
 
                 <div class="mb-3 row">
                     <label class="col-md-3 col-form-label">Presenting Complaints</label>
                     <div class="col-md-9">
                         <textarea id="presentingComplaints" placeholder="Presenting Complaints" ng-model="complaints"
-                                  class="form-control"></textarea>
+                            class="form-control"></textarea>
                     </div>
                 </div>
 
@@ -47,7 +48,7 @@
                     <label class="col-md-3 col-form-label">Investigations</label>
                     <div class="col-md-9">
                         <textarea id="prescriptionInvestigations" placeholder="Investigations" ng-model="investigations"
-                                  class="form-control"></textarea>
+                            class="form-control"></textarea>
                     </div>
                 </div>
 
@@ -55,12 +56,12 @@
                     <label class="col-md-3 col-form-label">
                         Diagnosis
                         <i class="fas fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                           title="Start typing to get suggestions for the diagnosis"></i>
+                            title="Start typing to get suggestions for the diagnosis"></i>
                     </label>
                     <div class="col-md-9">
                         <input id="prescriptionDiagnosis" placeholder="Start typing to get suggestions..."
-                               ng-model="diagnosis" class="form-control" type="text" ng-change="predictDisease()"
-                               list="diseaseList">
+                            ng-model="diagnosis" class="form-control" type="text" ng-change="predictDisease()"
+                            list="diseaseList">
                         <datalist id="diseaseList">
                             <option ng-repeat="disease in diseasePredictions">[[disease.disease]]</option>
                         </datalist>
@@ -71,9 +72,15 @@
                     <label class="col-md-3 col-form-label">Other Remarks</label>
                     <div class="col-md-9">
                         <textarea id="prescriptionRemarks" ng-model="remarks" placeholder="Remarks"
-                                  class="form-control"></textarea>
+                            class="form-control"></textarea>
+
+                        <button style="margin-top: 20px;" class="btn btn-primary btn-lg btn-flat float-end" ng-click="loadPrescribedDrugsFromLocalStorage()">
+                            Repeat Prescription
+                        </button>
                     </div>
+
                 </div>
+
 
                 <!-- Area to add drugs -->
                 <div class="card card-success card-solid">
@@ -91,8 +98,9 @@
                             <div class="col-md-8">
                                 <label class="form-label">
                                     Drug
-                                    <i class="fas fa-question-circle"  data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                       title="Select the drug to be added to the prescription."></i>
+                                    <i class="fas fa-question-circle" data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom"
+                                        title="Select the drug to be added to the prescription."></i>
                                 </label>
                                 <select id="prescriptionDrug" class="form-select" ng-model="drug" size="6">
                                     <option value="">None</option>
@@ -104,11 +112,12 @@
                             <div class="col-md-4">
                                 <label class="form-label">
                                     Can't find the drug?
-                                    <i class="fas fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                       title="Add a new drug, dosage, frequency and period which is not present in the lists."></i>
+                                    <i class="fas fa-question-circle" data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom"
+                                        title="Add a new drug, dosage, frequency and period which is not present in the lists."></i>
                                 </label>
                                 <button class="btn btn-outline-secondary btn-lg btn-flat" data-bs-toggle="modal"
-                                        data-bs-target="#addDosageModal">Add
+                                    data-bs-target="#addDosageModal">Add
                                 </button>
                             </div>
                         </div>
@@ -117,13 +126,14 @@
                             <div class="col-md-4">
                                 <label class="form-label">
                                     Dose
-                                    <i class="fas fa-question-circle" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                       title="The quantity of the drug to be taken at a time."></i>
+                                    <i class="fas fa-question-circle" data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom"
+                                        title="The quantity of the drug to be taken at a time."></i>
                                 </label>
                                 <select id="prescriptionDose" class="form-select" ng-model="dosage" size="6">
                                     <option value="">None</option>
-                                    <option ng-repeat="dose in dosages track by dose.id" value="[[dose.id]]"
-                                            ng-cloak>[[dose.description]]</option>
+                                    <option ng-repeat="dose in dosages track by dose.id" value="[[dose.id]]" ng-cloak>
+                                        [[dose.description]]</option>
                                 </select>
                             </div>
 
@@ -151,7 +161,7 @@
 
                     <div class="card-footer">
                         <button class="btn btn-outline-secondary btn-lg btn-flat" data-bs-toggle="modal"
-                                data-bs-target="#addPharmacyDrugsModal">
+                            data-bs-target="#addPharmacyDrugsModal">
                             Pharmacy Drugs
                         </button>
                         <button class="btn btn-success btn-lg btn-flat float-end" ng-click="add()">
@@ -211,7 +221,8 @@
                             </tbody>
                         </table>
 
-                        <div class="alert alert-success" ng-if="prescribedDrugs.length==0 && pharmacyDrugs.length==0" ng-cloak>
+                        <div class="alert alert-success" ng-if="prescribedDrugs.length==0 && pharmacyDrugs.length==0"
+                            ng-cloak>
                             No Drugs Prescribed!
                         </div>
                     </div>
