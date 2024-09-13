@@ -1,122 +1,111 @@
 @extends("layouts.website.layout")
 
-@section("title",'Healthy Life Clinic EMR | Privacy Policy')
+@section("title", 'Healthy Life Clinic EMR | Privacy Policy')
 
 @section("content")
 
-    <!-- ========== PAGE TITLE ========== -->
-    <header class="header page-title">
-        <div class="container">
-            <!-- For centering the content vertically -->
-            <div class="outer">
-                <div class="inner text-center">
-                    <h1 class="">Healthy Life Clinic EMR Privacy Policy</h1>
-                    <a href="{{route("registerClinic")}}" class="btn se-btn-black btn-rounded mt20">Register Now</a>
+<section id="home" class="s-home target-section" data-parallax="scroll"
+    data-image-src="{{asset('FrontTheme/images/hero-bg2.jpeg')}}" data-natural-width=3000 data-natural-height=2000
+    data-position-y=center>
 
-                </div> <!-- end inner -->
-            </div> <!-- end outer -->
-        </div> <!-- end container -->
-    </header>
+    <div class="overlay"></div>
+    <div class="shadow-overlay"></div>
 
+    <div class="home-content">
 
-    <!-- ========== PRIVACY POLICY SECTION ========== -->
-    <section class="se-section pp-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
-                    <p>
-                        This privacy policy governs your use of the software/web application Healthy Life Clinic EMR
-                        (“Application”). The Application is designed to manage patient records using a centralised
-                        cloud.
-                    </p>
-                    <h4>
-                        WHAT INFORMATION DOES THE APPLICATION OBTAIN AND HOW IS IT USED?
-                    </h4>
-                    <strong> User Provided Information</strong>
-                    <p>
-                        The Application obtains the information you provide when you register with the Application.
-                        Registration with us is mandatory. When you register with us and use the Application, you
-                        generally provide (a) your name, email address, age, user name, password and other
-                        registration information; (b) transaction-related information, such as when you make
-                        purchases, respond to any offers, or download or use applications from us; (c) information
-                        you provide us when you contact us for help; (d) credit card information for purchase and
-                        use of the Application, and; (e) information you enter into our system when using the
-                        Application, such as contact information and project management information; (f) patient
-                        information.
-                        We may also use the information you provided us to contact your from time to time to provide
-                        you with important information, required notices and marketing promotions.
-                    </p>
-                    <strong>
-                        Automatically Collected Information</strong>
-                    <p>
-                        In addition, the Application may collect certain information automatically, including, but
-                        not limited to, the type of mobile device you use, your mobile devices unique device ID, the
-                        IP address of your mobile device, your mobile operating system, the type of mobile Internet
-                        browsers you use, and information about the way you use the Application.
-                    </p>
-                    <h4>
-                        DO THIRD PARTIES SEE AND/OR HAVE ACCESS TO INFORMATION OBTAINED BY THE APPLICATION?
-                    </h4>
-                    <p>
-                        Yes. We will share your information with third parties only in the ways that are described
-                        in this privacy statement.
-                        We may disclose User Provided and Automatically Collected Information:
-                    <ul>
-                        <li>as required by law, such as to comply with a subpoena, or similar legal process;</li>
-                        <li>
-                            when we believe in good faith that disclosure is necessary to protect our rights,
-                            protect
-                            your safety or the safety of others, investigate fraud, or respond to a government
-                            request;
-                        </li>
-                        <li>
-                            with our trusted services providers who work on our behalf, do not have an independent
-                            use
-                            of the information we disclose to them, and have agreed to adhere to the rules set forth
-                            in
-                            this privacy statement.
-                        </li>
-                    </ul>
-                    </p>
-                    <h4>
-                        DATA RETENTION POLICY, MANAGING YOUR INFORMATION
-                    </h4>
-                    <p>
-                        We will retain User Provided data for as long as you use the Application and for a
-                        reasonable time thereafter. We will retain Automatically Collected information for up to 24
-                        months and thereafter may store it in aggregate. Please note that some or all of the User Provided Data
-                        may be required in order for the Application to function properly.
-                    </p>
-                    <p>Children : We do not use the Application to knowingly solicit data from or market to
-                        children under the age of 13. If a parent or guardian becomes aware that his or her child
-                        has provided us with information without their consent, he or she should contact us at
-                        support@consectechnologies.com. We will delete such information from our files within a
-                        reasonable time.
-                    </p>
-                    <p>Security : We are concerned about safeguarding the confidentiality of your information. We
-                        provide physical, electronic, and procedural safeguards to protect information we process
-                        and maintain. For example, we limit access to this information to authorized employees and
-                        contractors who need to know that information in order to operate, develop or improve our
-                        Application. Please be aware that, although we endeavor provide reasonable security for
-                        information we process and maintain, no security system can prevent all potential security
-                        breaches.
-                    </p>
-                    <p>Changes : This Privacy Policy may be updated from time to time for any reason. We will
-                        notify you of any changes to our Privacy Policy by posting the new Privacy Policy here and
-                        informing you via email or text message. You are advised to consult this Privacy Policy
-                        regularly for any changes, as continued use is deemed approval of all changes. You can check
-                        the history of this policy by clicking here.
-                    </p>
-                    <p>Your Consent : By using the Application, you are consenting to our processing of your
-                        information as set forth in this Privacy Policy now and as amended by us. "Processing,”
-                        means using cookies on a computer/handheld device or using or touching information in any
-                        way, including, but not limited to, collecting, storing, deleting, using, combining and
-                        disclosing information, all of which activities will take place in the United States. If you
-                        reside outside the United States your information will be transferred, processed and stored
-                        there under United States privacy standards.
-                    </p>
-                </div>
+        <div class="row home-content__main">
+
+            <h3>Healthy Life Clinic EMR Systems</h3>
+
+            <h1>
+                Privacy Policy
+            </h1>
+
+            <div class="home-content__buttons">
+                <a href="{{route('registerClinic')}}" class=" btn btn--stroke">
+                    Register now
+                </a>
             </div>
+
         </div>
-    </section>
+
+        <div class="home-content__scroll">
+            <a href="#about" class="scroll-link smoothscroll">
+                <span>Scroll Down</span>
+            </a>
+        </div>
+
+        <div class="home-content__line"></div>
+
+    </div> <!-- end home-content -->
+</section>
+<section id='services' class="s-services">
+    <div class="row">
+        <div class="col-twelve tab-full">
+            <h3>Privacy Policy</h3>
+            <p class="drop-cap">
+                This Privacy Policy governs your use of the Healthy Life Clinic EMR Systems ("Application"). Our
+                Application
+                is designed to manage patient records through a centralized cloud system.
+
+            <h2>Information Collection and Use</h2>
+            <h3>User-Provided Information</h3>
+            When you register with the Application, we collect the information you provide, which includes your name,
+            email
+            address, age, username, password, and other registration details. Additionally, we gather
+            transaction-related
+            information, such as purchase details, responses to offers, and app usage. We may also collect information
+            when
+            you contact us for support or enter data into our system, including patient information. This data may be
+            used
+            to communicate important updates, notices, and promotional offers.
+
+            <h3>Automatically Collected Information</h3>
+            We automatically collect certain details about your device and usage, including your mobile device type,
+            unique
+            device ID, IP address, operating system, and browser type.
+
+            <h3>Disclosure of Information</h3>
+            We may share your information with third parties in the following circumstances:
+
+            As required by law, such as in response to a subpoena or similar legal process.
+            When necessary to protect our rights, your safety, or the safety of others, or to respond to a government
+            request.
+            With trusted service providers who assist us in operating the Application and have agreed to follow our
+            privacy
+            guidelines.
+
+            <h3>Data Retention and Management</h3>
+            We retain user-provided data as long as you use the Application and for a reasonable period thereafter.
+            Automatically collected information is retained for up to 24 months and may be stored in aggregate form.
+            Note
+            that some user-provided data is essential for the Application’s functionality.
+
+            <h3>Children's Privacy</h3>
+            We do not knowingly collect information from children under 13. If a parent or guardian discovers that their
+            child has provided us with information without consent, please contact us at <a
+                href="mailto:dochassan12@outlook.com">dochassan12@outlook.com</a>, and we will delete the information
+            promptly.
+
+            <h3>Security</h3>
+            We are committed to protecting your information with physical, electronic, and procedural safeguards. Access
+            to
+            data is limited to authorized personnel who require it for Application operations. However, no system is
+            entirely secure, and we cannot guarantee absolute protection against all breaches.
+
+            <h3>Policy Updates</h3>
+            We may update this Privacy Policy periodically. Any changes will be posted here, and we will notify you via
+            email or text message. Your continued use of the Application signifies your acceptance of any changes.
+            Please
+            review this policy regularly.
+
+            <h3>Your Consent</h3>
+            By using the Application, you consent to our processing of your information as described in this Privacy
+            Policy.
+            "Processing" includes collecting, storing, using, and disclosing information. If you are located outside the
+            United States, your information will be processed and stored according to U.S. privacy standards.
+            </p>
+        </div>
+    </div>
+</section>
 @endsection

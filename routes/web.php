@@ -141,4 +141,16 @@ Route::middleware('web')->group(function () {
 
         Route::post('saveDrugWithDosages', [DrugAPIController::class, 'saveDrugWithDosages']);
     });
+
+    /*
+     * SUPPORT API
+     */
+    Route::group(['prefix' => 'API'], function () {
+        // Clinic registration support
+        Route::post('support/timezones/{countryCode}', [SupportController::class, 'getTimezones']);
+        Route::post('support/drugPredictions/{text}', [SupportController::class, 'getDrugPredictions']);
+        Route::post('support/ingredientPredictions/{text}', [SupportController::class, 'getIngredientPredictions']);
+        Route::post('support/manufacturerPredictions/{text}', [SupportController::class, 'getManufacturerPredictions']);
+        Route::post('support/diseasePredictions/{text}', [SupportController::class, 'getDiseasePredictions']);
+    });
 });

@@ -52,8 +52,8 @@ class AdminAuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|string|email|max:255|unique:users',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|confirmed|min:6',
         ]);
     }
@@ -67,8 +67,8 @@ class AdminAuthController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name'     => $data['name'],
-            'email'    => $data['email'],
+            'name' => $data['name'],
+            'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
     }
@@ -83,8 +83,10 @@ class AdminAuthController extends Controller
     {
         $this->validateLogin($request);
 
-        if (method_exists($this, 'hasTooManyLoginAttempts') &&
-            $this->hasTooManyLoginAttempts($request)) {
+        if (
+            method_exists($this, 'hasTooManyLoginAttempts') &&
+            $this->hasTooManyLoginAttempts($request)
+        ) {
             $this->fireLockoutEvent($request);
             return $this->sendLockoutResponse($request);
         }
@@ -125,4 +127,39 @@ class AdminAuthController extends Controller
 
         return redirect()->route('admin.login');
     }
+
+    public function postLogin(Request $request)
+    {
+        // Validate the incoming login request
+        $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        // Check the credentials and attempt login
+        $credentials = $request->only('username', 'password');
+
+        if (Auth::guard($this->guard)->attempt($credentials, $request->filled('remember'))) {
+            // Authentication passed, redirect to the 'admin.acceptClinics' route
+            return redirect()->route('admin.acceptClinics');
+        }
+
+        // Authentication failed, redirect back with an error message
+        return redirect()->back()->withErrors([
+            'login' => 'Invalid username or password',
+        ])->withInput($request->except('password'));
+    }
+
+
+
+    public function getLogin()
+    {
+        // Check if the admin is already logged in
+        if (Auth::guard($this->guard)->check()) {
+            return redirect()->intended($this->redirectTo); // Redirect if already logged in
+        }
+
+        return view('admin.adminLogin'); // Replace with the correct path to your login view
+    }
+
 }

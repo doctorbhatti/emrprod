@@ -1,114 +1,124 @@
 @extends("layouts.website.layout")
 
-@section("title",'Healthy Life Clinic EMR | Features')
+@section("title", 'Healthy Life Clinic EMR | Features')
 
 @section("content")
 
-    <!-- ========== PAGE TITLE ========== -->
-    <header class="header page-title">
-        <div class="container">
-            <!-- For centering the content vertically -->
-            <div class="outer">
-                <div class="inner text-center">
-                    <h1 class="">What does Healthy Life Clinic EMR offer?</h1>
-                    <h5 class="">Healthy Life Clinic EMR provides simple and easy to use interfaces to handle all the day-to-day
-                        tasks of small scale clinics including patient management and inventory management.</h5>
-                    <a href="{{route("registerClinic")}}" class="btn se-btn-black btn-rounded mt20">Register Now</a>
 
-                </div> <!-- end inner -->
-            </div> <!-- end outer -->
-        </div> <!-- end container -->
-    </header>
+<section id="home" class="s-home target-section" data-parallax="scroll"
+    data-image-src="{{asset('FrontTheme/images/hero-bg2.jpeg')}}" data-natural-width=3000 data-natural-height=2000
+    data-position-y=center>
 
-    <!-- ========== FEATURE INTRO ========== 
-    <section class="se-section">
-        <div class="container">
-            <div class="row">
-                <div class="container-fluid col-md-12">
-                    <h2 class="underline mtn">All about chr247.com in 5 minutes ...</h2>
-                     16:9 aspect ratio 
-                    <div class="col-md-8 col-md-offset-2 col-xs-12 col-sm-12">
-                        <div class="embed-responsive embed-responsive-16by9">
-                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/02_pjKzW0cY"
-                                    allowfullscreen></iframe>
-                        </div>
+    <div class="overlay"></div>
+    <div class="shadow-overlay"></div>
 
-                        <div class="text-center">
-                            <a href="{{route("registerClinic")}}" class="btn se-btn-black btn-rounded"
-                               style="margin-top: 10px">
-                                Join our Service
-                            </a>
-                        </div>
-                    </div>
-                </div>  end col-md-8 
-            </div> end row --
-        </div> end container 
-    </section> -->
-    
-    <!-- ========== LIST OF FEATURES ========== -->
-    <section class="se-section" id="detailedFeatures">
-        <div class="container">
-            <div class="row">
-                <h2 class="underline mtn">Features in detail ...</h2>
+    <div class="home-content">
+
+        <div class="row home-content__main">
+
+            <h1>What does Healthy Life Clinic EMR Systems offer?</h1>
+
+            <h3>
+            Healthy Life Clinic EMR provides simple and easy to use interfaces to handle all the
+                    day-to-day
+                    tasks of small scale clinics including patient management and inventory management.
+            </h3>
+
+            <div class="home-content__buttons">
+                <a href="{{route('registerClinic')}}" class=" btn btn--stroke">
+                    Register now
+                </a>
             </div>
-            <div class="row">
-                <div class="col-md-4 col-sm-6 col-xs-12 se-feature-style-3">
-                    <div class="feature-wrap">
-                        <i class="icon ion-happy-outline"></i>
-                        <h5>Patient Record Management</h5>
-                        <p>Manage all patient records including prescriptions and past medical records.
-                            Access patient information from anywhere, anytime</p>
-                    </div> <!-- end feature-wrap -->
-                </div> <!-- end se-feature-style-3 -->
 
-                <div class="col-md-4 col-sm-6 col-xs-12 se-feature-style-3">
-                    <div class="feature-wrap">
-                        <i class="icon ion-android-list"></i>
-                        <h5>Drug Inventory</h5>
-                        <p>Manage all the drugs and their stocks. Get notified on the stocks that are running low.</p>
-                    </div> <!-- end feature-wrap -->
-                </div> <!-- end se-feature-style-3 -->
+        </div>
 
-                <div class="col-md-4 col-sm-6 col-md-offset-0 col-sm-offset-3 col-xs-12 se-feature-style-3">
-                    <div class="feature-wrap">
-                        <i class="icon ion-android-person-add"></i>
-                        <h5>Queue Management</h5>
-                        <p>Manage patient queues of the clinic by issuing numbers. Update the queue as the patients go
-                            in and come out.</p>
-                    </div> <!-- end feature-wrap -->
-                </div> <!-- end se-feature-style-3 -->
+        <div class="home-content__scroll">
+            <a href="#about" class="scroll-link smoothscroll">
+                <span>Scroll Down</span>
+            </a>
+        </div>
+
+        <div class="home-content__line"></div>
+
+    </div> <!-- end home-content -->
+</section>
+<section id='services' class="s-services">
+
+    <div class="row section-header has-bottom-sep" data-aos="fade-up">
+        <div class="col-full">
+            <h3 class="subhead"></h3>
+            <h1 class="display-2">Features in detail ...
+            </h1>
+        </div>
+    </div> <!-- end section-header -->
+
+    <div class="row services-list block-1-2 block-tab-full">
+
+        <div class="col-block service-item" data-aos="fade-up">
+            <div class="service-icon">
+                <i class="icon-invoice"></i>
             </div>
-            <div class="row">
-                <div class="col-md-4 col-sm-6 col-xs-12 se-feature-style-3">
-                    <div class="feature-wrap">
-                        <i class="icon ion-alert-circled"></i>
-                        <h5>Access Levels</h5>
-                        <p>There are three levels of access. Doctor, nurse and system administrator. So, there’s need to
-                            worry about any confidential information being exposed.</p>
-                    </div> <!-- end feature-wrap -->
-                </div> <!-- end se-feature-style-3 -->
+            <div class="service-text">
+                <h3 class="h2">Patient Record Management</h3>
+                <p>Effortlessly manage all patient records, including prescriptions and medical history. Our system provides seamless access to patient information anytime and from anywhere, allowing you to update records quickly and efficiently to ensure the best care.
+                </p>
+            </div>
+        </div>
 
-                <div class="col-md-4 col-sm-6 col-xs-12 se-feature-style-3">
-                    <div class="feature-wrap">
-                        <i class="icon ion-android-checkmark-circle""></i>
-                        <h5>Security &amp; Portability</h5>
-                        <p>We are using cutting edge technologies to make sure your data is secure while providing
-                            the much-required flexibility in access to your information by allowing you to securely
-                            access your data from anywhere.</p>
-                    </div> <!-- end feature-wrap -->
-                </div> <!-- end se-feature-style-3 -->
+        <div class="col-block service-item" data-aos="fade-up">
+            <div class="service-icon">
+                <i class="icon-syringe"></i>
+            </div>
+            <div class="service-text">
+                <h3 class="h2">Drug Inventory</h3>
+                <p>Efficiently manage your entire drug inventory and track stock levels with ease. Our system ensures you stay informed with real-time notifications when stocks are running low, so you can take timely action to reorder and maintain optimal inventory levels.
+                </p>
+            </div>
+        </div>
 
-                <div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-3 col-xs-12 se-feature-style-3">
-                    <div class="feature-wrap">
-                        <i class="icon ion-android-clipboard"></i>
-                        <h5>Issue &amp; Print Prescriptions</h5>
-                        <p>Issue prescriptions to patients and also print them straight from the system with one click
-                            of a button.</p>
-                    </div> <!-- end feature-wrap -->
-                </div> <!-- end se-feature-style-3 -->
+        <div class="col-block service-item" data-aos="fade-up">
+            <div class="service-icon">
+                <i class="icon-users"></i>
+            </div>
+            <div class="service-text">
+                <h3 class="h2">Queue Management</h3>
+                <p>Efficiently manage patient queues by issuing numbers and tracking their progress. Our system allows you to update the queue in real-time as patients are seen and complete their visits, ensuring smooth and organized clinic operations.
+                </p>
+            </div>
+        </div>
 
-            </div> <!-- end row -->
-        </div> <!-- end container -->
-    </section>
+        <div class="col-block service-item" data-aos="fade-up">
+            <div class="service-icon">
+                <i class="icon-network"></i>
+            </div>
+            <div class="service-text">
+                <h3 class="h2">Hierarchy</h3>
+                <p>With three levels of access—Doctor, Nurse, and System Administrator— <strong>Healthy Life Clinic EMR Systems</strong> ensures that confidential information remains secure. Each user role has tailored permissions, so you can trust that sensitive data is protected and only accessible to authorized individuals.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-block service-item" data-aos="fade-up">
+            <div class="service-icon">
+                <i class="icon-padlock"></i>
+            </div>
+            <div class="service-text">
+                <h3 class="h2">Security &amp; Portability</h3>
+                <p>We leverage cutting-edge technologies to safeguard your data while providing the flexibility to access it securely from anywhere. Enjoy peace of mind with top-tier security and effortless access, wherever you are.
+                </p>
+            </div>
+        </div>
+        <div class="col-block service-item" data-aos="fade-up">
+            <div class="service-icon"><i class="icon-printer"></i></div>
+            <div class="service-text">
+                <h3 class="h2">Issue, Repeat &amp; Print Prescriptions</h3>
+                <p>Effortlessly issue and print prescriptions directly from the system with a single click. Additionally, our platform allows you to quickly repeat prescriptions on the fly, streamlining your workflow and ensuring a seamless, efficient process for both you and your patients.
+                </p>
+            </div>
+        </div>
+
+    </div> <!-- end services-list -->
+
+</section> <!-- end s-services -->
 
 @endsection

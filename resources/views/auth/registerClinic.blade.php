@@ -1,264 +1,203 @@
 @extends("layouts.website.layout")
 
-@section("title",'Healthy Life Clinic EMR | Register Clinic')
+@section("title", 'Healthy Life Clinic EMR | Register Clinic')
 
 @section("content")
-    <!-- ========== PAGE TITLE ========== -->
-    <header class="header page-title">
+
+<section id="home" class="s-home target-section" data-parallax="scroll"
+    data-image-src="{{asset('FrontTheme/images/hero-bg2.jpeg')}}" data-natural-width=3000 data-natural-height=2000
+    data-position-y=center>
+
+    <div class="overlay"></div>
+    <div class="shadow-overlay"></div>
+
+    <div class="home-content">
+        <!-- ========== PAGE TITLE ========== -->
         <div class="container">
-            <!-- For centering the content vertically -->
             <div class="outer">
                 <div class="inner text-center">
-                    <h1 class="">Register Clinic</h1>
-                    <h5 class="">You are one step away from experiencing the awesomeness of Healthy Life Clinic EMR</h5>
-                </div> <!-- end inner -->
-            </div> <!-- end outer -->
-        </div> <!-- end container -->
-    </header>
-
-    <div class="container-fluid" ng-app="HIS" ng-controller="ClinicRegistrationController">
-
-        <input hidden ng-init="baseUrl='{{url("/")}}';token='{{csrf_token()}}';">
-
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2 form-wrap" ng-cloak>
-                <form class="form-horizontal" role="form" method="POST" action="{{ route('registerClinic') }}"
-                      ng-controller="ClinicRegistrationController">
-                    {!! csrf_field() !!}
-
-                    {{--Error Message--}}
-                    @if(session()->has('error'))
-                        <div class="alert alert-danger alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×
-                            </button>
-                            <h4><i class="icon fa fa-ban"></i> Oops!</h4>
-                            {{session('error')}}
-                        </div>
-                    @endif
-
-                    @if($errors->has('terms'))
-                        <div class="alert alert-danger alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×
-                            </button>
-                            <h4><i class="icon fa fa-ban"></i> Oops!</h4>
-                            {{$errors->first('terms')}}
-                        </div>
-                    @endif
+                    <h1 class="display-1 text-uppercase" style="color: white;">Register Clinic</h1>
+                    <p class="lead" style="color: white; font-weight: 300;">
+                        You are one step away from experiencing the awesomeness of Healthy Life Clinic EMR
+                    </p>
+                </div>
+            </div>
+        </div>
 
 
-                    <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                        <label class="col-md-4 control-label">Clinic Name</label>
-                        <div class="col-md-6">
+        <div ng-app="HIS" ng-controller="ClinicRegistrationController" class="registration-section">
+            <input hidden ng-init="baseUrl='{{url("/")}}';token='{{csrf_token()}}';">
+            <div class="row">
+                <div ng-cloak>
+                    <form role="form" method="POST" action="{{ route('registerClinic') }}"
+                        ng-controller="ClinicRegistrationController">
+                        {!! csrf_field() !!}
+
+                        {{-- Error Message --}}
+                        @if(session()->has('error'))
+                            <div class="alert alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h4><i class="icon fa fa-ban"></i> Oops!</h4>
+                                {{ session('error') }}
+                            </div>
+                        @endif
+
+                        @if($errors->has('terms'))
+                            <div class="alert alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h4><i class="icon fa fa-ban"></i> Oops!</h4>
+                                {{ $errors->first('terms') }}
+                            </div>
+                        @endif
+
+                        <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
+                            <label class="text-white">Clinic Name</label>
                             <input type="text" class="form-control" name="name" value="{{ old('name') }}">
-
                             @if ($errors->has('name'))
-                                <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
+                                <span class="help-block text-danger">{{ $errors->first('name') }}</span>
                             @endif
                         </div>
-                    </div>
 
-                    <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                        <label class="col-md-4 control-label">E-Mail Address</label>
-
-                        <div class="col-md-6">
+                        <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
+                            <label class="text-white">E-Mail Address</label>
                             <input type="email" class="form-control" name="email" value="{{ old('email') }}">
-
                             @if ($errors->has('email'))
-                                <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
+                                <span class="help-block text-danger">{{ $errors->first('email') }}</span>
                             @endif
                         </div>
-                    </div>
 
-                    <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
-                        <label class="col-md-4 control-label">Address</label>
-
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" name="address" value="{{old('address')}}">
-
+                        <div class="form-group {{ $errors->has('address') ? 'has-error' : '' }}">
+                            <label class="text-white">Address</label>
+                            <input type="text" class="form-control" name="address" value="{{ old('address') }}">
                             @if ($errors->has('address'))
-                                <span class="help-block">
-                                        <strong>{{ $errors->first('address') }}</strong>
-                                    </span>
+                                <span class="help-block text-danger">{{ $errors->first('address') }}</span>
                             @endif
                         </div>
-                    </div>
 
-                    <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
-                        <label class="col-md-4 control-label">Phone</label>
-
-                        <div class="col-md-6">
-                            <input type="tel" class="form-control" name="phone" value="{{old('phone')}}">
-
+                        <div class="form-group {{ $errors->has('phone') ? 'has-error' : '' }}">
+                            <label class="text-white">Phone</label>
+                            <input type="tel" class="form-control" name="phone" value="{{ old('phone') }}">
                             @if ($errors->has('phone'))
-                                <span class="help-block">
-                                        <strong>{{ $errors->first('phone') }}</strong>
-                                    </span>
+                                <span class="help-block text-danger">{{ $errors->first('phone') }}</span>
                             @endif
                         </div>
-                    </div>
 
-                    {{--Include countries list--}}
-                    <div class="form-group{{ $errors->has('country') ? ' has-error' : '' }}">
-                        <label class="col-md-4 control-label">Country</label>
-
-                        <div class="col-md-6">
-                            <select name="country" class="form-control" ng-model="countryCode"
-                                    ng-change="getTimezones()"
-                                    ng-init="countryCode='{{old("country")}}';getTimezones()">
-
+                        <div class="form-group {{ $errors->has('country') ? 'has-error' : '' }}">
+                            <label class="text-white">Country</label>
+                            <select name="country" ng-model="countryCode" ng-change="getTimezones()"
+                                ng-init="countryCode='{{ old("country") }}';getTimezones()" class="form-control">
                                 <option value="">None</option>
-                                @foreach(App\Lib\Support\Country::$countries as $code=>$country)
-                                    <option value="{{$code}}" @if(old('country')===$code) selected @endif>
-                                        {{$country}}
+                                @foreach(App\Lib\Support\Country::$countries as $code => $country)
+                                    <option value="{{$code}}" @if(old('country') === $code) selected @endif>{{$country}}
                                     </option>
                                 @endforeach
                             </select>
-
                             @if ($errors->has('country'))
-                                <span class="help-block">
-                                        <strong>{{ $errors->first('country') }}</strong>
-                                    </span>
+                                <span class="help-block text-danger">{{ $errors->first('country') }}</span>
                             @endif
                         </div>
-                    </div>
 
-
-                    <div class="form-group{{ $errors->has('timezone') ? ' has-error' : '' }}">
-                        <label class="col-md-4 control-label">Timezone</label>
-
-                        <div class="col-md-6">
-                            <select name="timezone" class="form-control" ng-disabled="!countryCode">
+                        <div class="form-group {{ $errors->has('timezone') ? 'has-error' : '' }}">
+                            <label class="text-white">Timezone</label>
+                            <select name="timezone" ng-disabled="!countryCode" class="form-control">
                                 <option ng-repeat="timezone in timezones">[[timezone]]</option>
                             </select>
                             @if ($errors->has('timezone'))
-                                <span class="help-block">
-                                        <strong>{{ $errors->first('timezone') }}</strong>
-                                    </span>
+                                <span class="help-block text-danger">{{ $errors->first('timezone') }}</span>
                             @endif
                         </div>
-                    </div>
 
-                    <div class="form-group{{ $errors->has('currency') ? ' has-error' : '' }}">
-                        <label class="col-md-4 control-label">Currency</label>
-
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" name="currency" value="{{old('currency')}}">
-
+                        <div class="form-group {{ $errors->has('currency') ? 'has-error' : '' }}">
+                            <label class="text-white">Currency</label>
+                            <input type="text" class="form-control" name="currency" value="{{ old('currency') }}">
                             @if ($errors->has('currency'))
-                                <span class="help-block">
-                                        <strong>{{ $errors->first('currency') }}</strong>
-                                    </span>
+                                <span class="help-block text-danger">{{ $errors->first('currency') }}</span>
                             @endif
                         </div>
-                    </div>
 
+                        {{-- Admin account panel --}}
+                        <div class="box box-default">
+                            <div class="box-body">
+                                <div class="alert alert-info">
+                                    <h4><i class="icon fa fa-info"></i> Important!</h4>
+                                    An admin account is created when registering a clinic. Please fill in the preferred
+                                    admin account username and password.
+                                </div>
 
-                    {{--Panel to add an admin--}}
-                    <div class="box box-default">
-                        <div class="box-body">
-
-                            <div class="alert alert-info alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×
-                                </button>
-                                <h4><i class="icon fa fa-info"></i> Important!</h4>
-                                An admin account is created when registering a clinic.
-                                Please fill in the preferred admin account username and password.
-                            </div>
-
-                            <div class="form-group{{ $errors->has('adminName') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">Admin's Name</label>
-                                <div class="col-md-6">
+                                <div class="form-group {{ $errors->has('adminName') ? 'has-error' : '' }}">
+                                    <label class="text-white">Admin's Name</label>
                                     <input type="text" class="form-control" name="adminName"
-                                           value="{{old('adminName')}}">
+                                        value="{{ old('adminName') }}">
                                     @if ($errors->has('adminName'))
-                                        <span class="help-block">
-                                                    <strong>{{ $errors->first('adminName') }}</strong>
-                                                </span>
+                                        <span class="help-block text-danger">{{ $errors->first('adminName') }}</span>
                                     @endif
                                 </div>
-                            </div>
 
-                            <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">Admin Username</label>
-                                <div class="col-md-6">
+                                <div class="form-group {{ $errors->has('username') ? 'has-error' : '' }}">
+                                    <label class="text-white">Admin Username</label>
                                     <input type="text" class="form-control" name="username"
-                                           value="{{old('username')}}">
+                                        value="{{ old('username') }}">
                                     @if ($errors->has('username'))
-                                        <span class="help-block">
-                                                    <strong>{{ $errors->first('username') }}</strong>
-                                                </span>
+                                        <span class="help-block text-danger">{{ $errors->first('username') }}</span>
                                     @endif
                                 </div>
-                            </div>
 
-                            <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">Password</label>
-                                <div class="col-md-6">
+                                <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
+                                    <label class="text-white">Password</label>
                                     <input type="password" class="form-control" name="password"
-                                           value="{{old('password')}}">
+                                        value="{{ old('password') }}">
                                     @if ($errors->has('password'))
-                                        <span class="help-block">
-                                                    <strong>{{ $errors->first('password') }}</strong>
-                                                </span>
+                                        <span class="help-block text-danger">{{ $errors->first('password') }}</span>
                                     @endif
                                 </div>
-                            </div>
 
-                            <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">Password Confirmation</label>
-                                <div class="col-md-6">
+                                <div class="form-group {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
+                                    <label class="text-white">Password Confirmation</label>
                                     <input type="password" class="form-control" name="password_confirmation"
-                                           value="{{old('password_confirmation')}}">
-                                    @if ($errors->has('password'))
-                                        <span class="help-block">
-                                                    <strong>{{ $errors->first('password') }}</strong>
-                                                </span>
+                                        value="{{ old('password_confirmation') }}">
+                                    @if ($errors->has('password_confirmation'))
+                                        <span
+                                            class="help-block text-danger">{{ $errors->first('password_confirmation') }}</span>
                                     @endif
                                 </div>
                             </div>
-
                         </div>
-                    </div>
 
-                    <div class="form-group {{ $errors->has('terms') ? ' has-error' : '' }}">
-                        <div class="col-md-6 col-md-offset-4">
+                        <div class="form-group {{ $errors->has('terms') ? 'has-error' : '' }}">
                             <div class="checkbox icheck">
-                                <label>
-                                    <input type="checkbox" name="terms" id="checkbox"> I hereby agree on Healthy Life Clinic EMR's
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#privacyPolicyModal">Privacy
-                                        Policy</a> and
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms &
-                                        Conditions</a>
+                                <label class="text-white">
+                                    <input type="checkbox" name="terms" id="checkbox"> I hereby agree to Healthy Life
+                                    Clinic
+                                    EMR's
+                                    <a href="#" data-toggle="modal" data-target="#privacyPolicyModal"
+                                        class="text-white">Privacy Policy</a> and
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal"
+                                        class="text-white">Terms
+                                        & Conditions</a>
                                 </label>
                             </div>
                             @if ($errors->has('terms'))
-                                <span class="help-block">
-                                            <strong>{{ $errors->first('terms') }}</strong>
-                                        </span>
+                                <span class="help-block text-danger">{{ $errors->first('terms') }}</span>
                             @endif
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-6 col-md-offset-4">
-                            <button type="submit" class="btn btn-primary btn-flat">
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg btn-flat">
                                 <i class="fa fa-btn fa-check"></i> Register
                             </button>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+</section>
 
-    @include('auth.modals.privacyPolicy')
-    @include('auth.modals.terms')
+@include('auth.modals.privacyPolicy')
+@include('auth.modals.terms')
 
-    {{--AngularJs Scripts--}}
-    <script src="{{asset('plugins/angularjs/angular.min.js')}}"></script>
-    <script src="{{asset('js/services.js')}}"></script>
-    <script src="{{asset('js/ClinicRegistrationController.js')}}"></script>
+{{--AngularJs Scripts--}}
+<script src="{{asset('plugins/angularjs/angular.min.js')}}"></script>
+<script src="{{asset('js/services.js')}}"></script>
+<script src="{{asset('js/ClinicRegistrationController.js')}}"></script>
 @endsection

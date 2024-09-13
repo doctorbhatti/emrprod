@@ -1,66 +1,77 @@
 @extends("layouts.website.layout")
 
-@section("title",'Healthy Life Clinic EMR | About Us')
+@section("title", 'Healthy Life Clinic EMR | About Us')
 
 @section("content")
-    <!-- ========== PAGE TITLE ========== -->
-    <header class="header page-title">
-        <div class="container">
-            <!-- For centering the content vertically -->
-            <div class="outer">
-                <div class="inner text-center">
-                    <h1 class="">Who We Are?</h1>
-                    <h5 class="">We are Consec Technologies, an Australian start-up IT company in collaboration with few
-                        independent software engineers from Sri Lanka</h5>
-                    <a href="{{route("registerClinic")}}" class="btn se-btn-black btn-rounded mt20">Register Now</a>
+<section id="home" class="s-home target-section" data-parallax="scroll"
+    data-image-src="{{asset('FrontTheme/images/hero-bg2.jpeg')}}" data-natural-width=3000 data-natural-height=2000
+    data-position-y=center>
 
-                </div> <!-- end inner -->
-            </div> <!-- end outer -->
-        </div> <!-- end container -->
-    </header>
+    <div class="overlay"></div>
+    <div class="shadow-overlay"></div>
 
-    <!-- ========== FEATURE INTRO ========== -->
-    <section class="se-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-7">
-                    <h2 class="underline mtn">More About Us ...</h2>
-                    <p>Chr247 is a service provided by <a href="http://consectechnologies.com" target="_blank"> Consec
-                            Technologies</a>, an Australian start-up IT company and a few
-                        independent software engineers from Sri Lanka. Chr247 was initially developed as a stand-alone
-                        commercial software in order to be used in public and private hospitals in Sri Lanka. As the
-                        sales progressed over time, we decided to offer the service on the cloud so that we could
-                        provide our clients with updates regularly without the need to manually install them on the
-                        computers. With continuous research and development from the funds we obtained from sales in the
-                        first year, we were able to turn Chr247 into a globally accepted complete Health Informatics
-                        System running entirely on the cloud. </p>
-                    <p>As a company that greatly values equal opportunity, the partners at Consec Technologies decided
-                        that Chr247 must be a service that can be equally used by those who cannot afford a Health
-                        Informatics System for their hospital or private practice. In May 2015, Chr247 was finally
-                        relaunched as a 100% free cloud Health Informatics System that any medical practitioner from
-                        anywhere in the world can sign-up and use it to make their medical services a lot more
-                        efficient. We believe Chr247 has the potential to revolutionise the medical sector in currently
-                        developing countries. We invite you to try Chr247 today and be part of the largest free Health
-                        Informatics System on the cloud!
-                    </p>
-                    <a href="{{route("registerClinic")}}" class="btn se-btn-black btn-rounded">Join our Service</a>
-                </div> <!-- end col-md-8 -->
+    <div class="home-content">
 
-                <div class="col-md-5">
-                    <div class="owl-carousel owl-carousel-single mt10">
-                        <div class="text-center">
-                            <img src="http://consectechnologies.com/images/consec.png" style="background-color: black"
-                                 alt="Consec Technologies"/>
-                        </div>
-                        <div class="text-center">
-                            <img src="http://consectechnologies.com/images/consec.png" style="background-color: black"
-                                 alt="Consec Technologies"/>
-                        </div>
-                    </div><!-- end owl-carousel -->
-                </div> <!-- end col-md-4 -->
+        <div class="row home-content__main">
 
-            </div> <!-- end row -->
-        </div> <!-- end container -->
-    </section>
+            <h1>Who Am I?</h1>
 
+            <h3>
+                I am Dr. Muhammad Hassan Ashfaq,
+                <br>full time Medico, hobbyist developer.
+            </h3>
+
+            <div class="home-content__buttons">
+                <a href="https://doctorbhatti.github.io/" class=" btn btn--stroke">
+                    My Works
+                </a>
+            </div>
+
+        </div>
+
+        <div class="home-content__scroll">
+            <a href="#about" class="scroll-link smoothscroll">
+                <span>Scroll Down</span>
+            </a>
+        </div>
+
+        <div class="home-content__line"></div>
+
+    </div> <!-- end home-content -->
+</section>
+<!-- about
+    ================================================== -->
+<section id='about' class="s-about">
+
+    <div class="row section-header has-bottom-sep" data-aos="fade-up">
+        <div class="col-full">
+            <h3 class="subhead subhead--dark">More about me</h3>
+            <h1 class="display-1 display-1--light">Why this EMR?</h1>
+        </div>
+    </div> <!-- end section-header -->
+
+    <div class="row about-desc" data-aos="fade-up">
+        <div class="col-full">
+            <p>
+                At Healthy Life Clinic EMR Systems, our journey began with a personal challenge. As a practicing
+                physician, I found it increasingly difficult to manage patient records and clinic operations manually.
+                The complexity of tracking patient information, prescriptions, and medical history using traditional
+                methods was time-consuming and prone to errors.
+                <br>
+                Driven by the need for a more efficient solution, I set out to develop an EMR system that would address
+                these challenges. Over time, I meticulously designed and enhanced the application, incorporating
+                features that streamline clinic management and improve patient care. Each addition to the system was
+                crafted with the real-world needs of healthcare professionals in mind.
+                <br>
+                Today, Healthy Life Clinic EMR Systems is ready for commercial use, offering a comprehensive solution
+                that simplifies clinic operations, enhances data security, and provides flexible access to patient
+                information. Our goal is to empower healthcare providers with an intuitive, reliable tool that makes
+                managing patient records and clinic workflows effortless.
+            </p>
+        </div>
+    </div> <!-- end about-desc -->
+
+    <div class="about__line"></div>
+
+</section> <!-- end s-about -->
 @endsection

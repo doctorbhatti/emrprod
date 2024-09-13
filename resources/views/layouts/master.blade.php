@@ -298,35 +298,11 @@ $user = \App\Models\User::getCurrentUser();
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
 <!-- SlimScroll -->
-<script src="{{asset('plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.8/jquery.slimscroll.min.js" integrity="sha512-cJMgI2OtiquRH4L9u+WQW+mz828vmdp9ljOcm/vKTQ7+ydQUktrPVewlykMgozPP+NUBbHdeifE6iJ6UVjNw5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- FastClick -->
-<script src="{{asset('plugins/fastclick/fastclick.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/0.6.0/fastclick.min.js" integrity="sha512-oljyd1wg75alHReTpDvNIQ4Yj1wZwGxxZhJhId3vr2dKY+26/r/wmMrImwDgin03+7wxyhX+adOQB/2BTvO5tQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- AdminLTE App -->
 <script src="{{'dist/js/adminlte.min.js'}}"></script>
-<!-- DataTables -->
-<!-- <script src="{{asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
-
-<script src="{{asset('plugins/datatables/dataTables.bootstrap.min.js')}}"></script> -->
-{{--Date Range Picker--}}
-<!-- <script src="{{asset('plugins/datetimepicker/build/js/moment.min.js')}}"></script> -->
-<!-- <script src="{{asset('plugins/datetimepicker/build/js/bootstrap-datetimepicker.min.js')}}"></script> -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
-    $(document).ready(function () {
-        $('.birthdaypicker').datetimepicker({
-            viewMode: 'years',
-            format: 'YYYY/MM/DD',
-            maxDate: '{{date('Y-m-d')}}',
-            minDate: '{{date('Y-m-d', strtotime(date('Y-m-d') . ' -150 year'))}}'
-        });
-
-        $('.datepicker').datetimepicker({
-            viewMode: 'years',
-            format: 'YYYY/MM/DD'
-        });
-    });
-</script> -->
 
 <!-- Tempus Dominus JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tempus-dominus/6.2.7/js/tempus-dominus.min.js"></script>

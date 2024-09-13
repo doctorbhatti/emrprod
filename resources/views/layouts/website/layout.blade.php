@@ -1,145 +1,164 @@
-<!doctype html>
+<!DOCTYPE html>
+<!--[if lt IE 9 ]><html class="no-js oldie" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="no-js oldie ie9" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
 <html class="no-js" lang="en">
+<!--<![endif]-->
+
 <head>
 
+    <!--- basic page needs
+    ================================================== -->
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <!-- ========== VIEWPORT META ========== -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-
     <!-- ========== PAGE TITLE ========== -->
-    <title>@yield("title",'Healthy Life Clinic | EMR')</title>
-    
-    <!-- ========== FAVICON & APPLE ICONS ========== -->
-    <link rel="shortcut" href="{{asset('favicon.ico')}}"/>
-    <link rel="apple-touch-icon" href="{{asset('FrontTheme/images/apple-touch-icon.png')}}">
+    <title>@yield("title", 'Healthy Life Clinic | EMR')</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <!-- ========== MINIFIED VENDOR CSS ========== -->
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="{{asset('FrontTheme/styles/base.css')}}">
     <link rel="stylesheet" href="{{asset('FrontTheme/styles/vendor.css')}}">
     <link rel="stylesheet" href="{{asset('FrontTheme/styles/main.css')}}">
 
-    <!-- ========== MODERNIZR ========== -->
-    <script src="{{asset('FrontTheme/scripts/vendor/modernizr.js')}}"></script>
+    <!-- script
+    ================================================== -->
+    <script src="{{asset('FrontTheme/scripts/modernizr.js')}}"></script>
+    <script src="{{asset('FrontTheme/scripts/pace.min.js')}}"></script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="shortcut" href="{{asset('favicon.ico')}}" />
+    <link rel="apple-touch-icon" href="{{asset('FrontTheme/images/apple-touch-icon.png')}}">
+
+
 </head>
+
 
 <!-- ========== BODY ==========
 .light-header: for light colored header
 .dark-header: for dark colored header
 ==========  ========== -->
-<body class="@if(Request::url()===url('/')) light-header @else dark-header @endif animsition">
 
-<!-- ========== NAVIGATION ========== -->
-<nav class="navbar yamm navbar-fixed-top" role="navigation">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-bs-toggle="collapse" data-target="#navbar"
-                    aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button> <!-- end navbar-toggle -->
-            <a class="navbar-brand" href="{{url('/')}}">
-                <img src="{{asset('logo-white.png')}}" alt="Healthy Life Clinic | EMR" style="width: 100px;height: 100px;"
-                     class="light-logo img-responsive">
-                <img src="{{asset('logo.png')}}" alt="Healthy Life Clinic | EMR" style="width: 50px;height: 50px;"
-                     class="dark-logo">
-            </a> <!-- end navbar-brand -->
-        </div> <!-- end navbar-header -->
+<body id="top">
 
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav pull-right">
-                <li>
-                    <a href="{{url('/')}}">Home </a>
-                </li>
-                <li>
-                    <a href="{{url('/web/features')}}">Features</a>
-                </li>
-                <li>
-                    <a href="{{url('/web/privacyPolicy')}}">Privacy Policy</a>
-                </li>
-                <!-- <li><a href="{{url('web/aboutUs')}}">About Us</a></li> -->
-                <li><a href="{{url('web/contactUs')}}">Contact Us</a></li>
-                <li class="nav-btn-wrap">
-                    <span class="nav-btn">
-                        <a href="{{url('login')}}" class="btn se-btn-black btn-rounded">Sign In</a>
-                    </span>
-                </li>
-            </ul> <!-- end navbar-nav -->
+    <!-- header
+    ================================================== -->
+    <header class="s-header">
 
-        </div> <!--end nav-collapse -->
-    </div> <!-- end container -->
-</nav>
+        <div class="header-logo">
+            <a class="site-logo" href="{{url('/')}}">
+                <img src="{{asset('logo.png')}}" alt="Healthy Life Clinic | EMR">
+            </a>
+        </div>
 
-@yield("content")
+        <nav class="header-nav">
 
-<!-- ========== FOOTER ========== -->
-<footer class="light-footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2 col-sm-3 col-xs-6">
-                <img src="{{asset('FrontTheme/images/logo.png')}}" alt="Healthy Life Clinic EMR | Cloud Health Records 24x7"
-                     class="footer-logo img-responsive">
-            </div>
+            <a href="#0" class="header-nav__close" title="close"><span>Close</span></a>
 
-            <div class="col-md-2 col-sm-3 col-xs-6">
-                <h6 class="mtn">HOME</h6>
-                <ul>
-                    <li><a href="{{url("/")}}">Home</a></li>
+            <div class="header-nav__content">
+                <h3>Navigation</h3>
+
+                <ul class="header-nav__list">
+                    <li class="current"><a href="{{url('/')}}" title="home">Home</a></li>
+                    <li><a href="{{url('/web/aboutUs')}}" title="aboutUs">About Us</a></li>
+                    <li><a href="{{url('/web/features')}}" title="features">Features</a></li>
+                    <li><a href="{{url('/web/privacyPolicy')}}" title="privacyPolicy">Privacy
+                            Policy</a></li>
+                    <li><a href="{{url('web/contactUs')}}" title="contactUs">Contact Us</a></li>
+                    <li><a href="{{url('login')}}" title="login">Login</a></li>
                 </ul>
-            </div>
 
-            <div class="col-md-2 col-sm-3 col-xs-6">
-                <h6 class="mtn">PAGES</h6>
-                <ul>
+                <h3 style="margin-bottom: 2rem !important; margin-top: 0.5rem !important">Meet the Developer</h3>
+                <p><strong><a href="https://doctorbhatti.github.io/">Dr. Hassan Ashfaq</a></strong> created Healthy Life Clinic EMR Systems with firsthand medical insight, ensuring the platform is tailored to healthcare professionals' needs.</p>
+
+                <!-- <ul class="header-nav__social">
                     <li>
-                        <a href="{{url('/web/features')}}">Features</a>
+                        <a href="#"><i class="fa fa-facebook"></i></a>
                     </li>
-                    <!-- <li><a href="{{url('web/aboutUs')}}">About Us</a></li> -->
-                </ul>
+                    <li>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-instagram"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-behance"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-dribbble"></i></a>
+                    </li>
+                </ul> -->
+
+            </div> <!-- end header-nav__content -->
+
+        </nav> <!-- end header-nav -->
+
+        <a class="header-menu-toggle" href="#0">
+            <span class="header-menu-text">Menu</span>
+            <span class="header-menu-icon"></span>
+        </a>
+
+    </header> <!-- end s-header -->
+
+    @yield("content")
+    <!-- footer
+    ================================================== -->
+    <footer>
+
+        <div class="row footer-main">
+
+            <div class="col-six tab-full left footer-desc">
+
+                <div class="footer-logo">
+                </div>
+                <strong>Healthy Life Clinic EMR Systems</strong> is dedicated to revolutionizing healthcare management
+                with its innovative and user-friendly platform. We provide comprehensive solutions designed to
+                streamline clinic operations and enhance patient care. Our commitment to security, efficiency, and ease
+                of use ensures that healthcare professionals can focus on what matters most: delivering exceptional
+                care. For more information or support, please contact us—we’re here to help you every step of the way.
+
             </div>
 
-            <div class="col-md-2 col-sm-3 col-xs-6">
-                <h6 class="mtn">OTHER</h6>
-                <ul>
-                    <li><a href="{{route('registerClinic')}}">Register Now</a></li>
-                    <li><a href="{{url('login')}}">Login</a></li>
-                </ul>
+            <div class="col-six tab-full right footer-desc">
+
+                <h4>Workflow</h4>
+                <p><strong>Healthy Life Clinic EMR Systems</strong> simplifies clinic management through a seamless interface. The application integrates patient records, drug inventory, and appointment scheduling into a unified system. Healthcare professionals can easily access and update patient information, manage prescriptions, and track inventory in real-time. With intuitive navigation and automated features, the platform enhances efficiency and accuracy, allowing clinics to deliver superior patient care while streamlining administrative tasks.</p>
+
             </div>
 
-            <div class="col-md-4 col-sm-8 col-sm-offset-2 col-md-offset-0">
-                <h6 class="mtn">CONTACT US</h6>
-                <ul>
-                    <li><a href="mailto: dochassan12@outlook.com">dochassan12@outlook.com</a></li>
-                </ul>
-            </div>
-        </div> <!-- end row -->
+        </div> <!-- end footer-main -->
 
         <div class="row footer-bottom">
-            <div class="col-md-6">
-                <p>Copyright &copy; Healthy Life Clinic EMR 2023. All Rights Reserved.</p>
+
+            <div class="col-twelve">
+                <div class="copyright">
+                    <span>© 2024 Copyright Healthy Life Clinic EMR Systems | All rights reserved.</span>
+                    <span>Empowering healthcare professionals with intuitive, secure, and
+                        efficient solutions.</span>
+                </div>
+
+                <div class="go-top">
+                    <a class="smoothscroll" title="Back to Top" href="#top"><i class="icon-arrow-up"
+                            aria-hidden="true"></i></a>
+                </div>
             </div>
 
-            <div class="col-md-6 text-right">
-                <h6><a href="https://www.facebook.com/doctorbhatti">FACEBOOK</a></h6>
-                <h6><a href="https://twitter.com/idoctorbhatti">TWITTER</a></h6>
-                <h6><a href="#">LINKEDIN</a></h6>
-                <h6><a href="#">GOOGLE PLUS</a></h6>
-            </div>
         </div> <!-- end footer-bottom -->
-    </div> <!-- end container -->
-</footer>
+
+    </footer> <!-- end footer -->
+
+    <script src="{{asset('FrontTheme/scripts/jquery-3.2.1.min.js')}}"></script>
+    <script src="{{asset('FrontTheme/scripts/plugins.js')}}"></script>
+    <script src="{{asset('FrontTheme/scripts/main.js')}}"></script>
 
 
-<script src="{{asset('FrontTheme/scripts/vendor.js')}}"></script>
-<!-- ========== MINIFIED PLUGINS JS ========== -->
-<script src="{{asset('FrontTheme/scripts/plugins.js')}}"></script>
-<script src="{{asset('FrontTheme/scripts/main.js')}}"></script>
-<script src="{{asset('FrontTheme/scripts/init-animation.js')}}"></script>
-
-{{-- Google Analytics --}}
-@include('analytics.googleAnalytics')
+    {{-- Google Analytics --}}
+    @include('analytics.googleAnalytics')
 
 </body>
 
