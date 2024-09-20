@@ -64,3 +64,12 @@ p {
 	background-color: #343A40;
 	border: 2px solid #555555;
 }
+
+.select2-container{
+    width: 100% !important;
+    
+}
+
+.select2-dropdown{
+    z-index: 100000 !important;
+}

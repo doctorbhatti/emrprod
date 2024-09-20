@@ -3,7 +3,6 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addStockModalLabel">Add Stock</h5>
-
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -21,57 +20,61 @@
 
                     <div class="mb-3">
                         <label for="quantity" class="form-label">Quantity (in {{ $drug->getQuantityType() }})</label>
-                        <input type="number" id="quantity" name="quantity" class="form-control" min="0" step="0.01"
-                            value="{{ old('quantity') }}">
-                        @if ($errors->has('quantity'))
+                        <input type="number" id="quantity" name="quantity"
+                               class="form-control @error('quantity') is-invalid @enderror"
+                               min="0" step="0.01" value="{{ old('quantity') }}">
+                        @error('quantity')
                             <div class="invalid-feedback">
-                                {{ $errors->first('quantity') }}
+                                {{ $message }}
                             </div>
-                        @endif
+                        @enderror
                     </div>
 
                     <div class="mb-3">
                         <label for="manufacturedDate" class="form-label">Manufactured Date</label>
-                        <input type="date" id="manufacturedDate" name="manufacturedDate" class="form-control"
-                            value="{{ old('manufacturedDate') }}">
-                        @if ($errors->has('manufacturedDate'))
+                        <input type="date" id="manufacturedDate" name="manufacturedDate"
+                               class="form-control @error('manufacturedDate') is-invalid @enderror"
+                               value="{{ old('manufacturedDate') }}">
+                        @error('manufacturedDate')
                             <div class="invalid-feedback">
-                                {{ $errors->first('manufacturedDate') }}
+                                {{ $message }}
                             </div>
-                        @endif
+                        @enderror
                     </div>
 
                     <div class="mb-3">
                         <label for="receivedDate" class="form-label">Purchased Date</label>
-                        <input type="date" id="receivedDate" name="receivedDate" class="form-control"
-                            value="{{ old('receivedDate') }}">
-                        @if ($errors->has('receivedDate'))
+                        <input type="date" id="receivedDate" name="receivedDate"
+                               class="form-control @error('receivedDate') is-invalid @enderror"
+                               value="{{ old('receivedDate') }}">
+                        @error('receivedDate')
                             <div class="invalid-feedback">
-                                {{ $errors->first('receivedDate') }}
+                                {{ $message }}
                             </div>
-                        @endif
+                        @enderror
                     </div>
 
                     <div class="mb-3">
                         <label for="expiryDate" class="form-label">Expiry Date</label>
-                        <input type="date" id="expiryDate" name="expiryDate" class="form-control"
-                            value="{{ old('expiryDate') }}">
-                        @if ($errors->has('expiryDate'))
+                        <input type="date" id="expiryDate" name="expiryDate"
+                               class="form-control @error('expiryDate') is-invalid @enderror"
+                               value="{{ old('expiryDate') }}">
+                        @error('expiryDate')
                             <div class="invalid-feedback">
-                                {{ $errors->first('expiryDate') }}
+                                {{ $message }}
                             </div>
-                        @endif
+                        @enderror
                     </div>
 
                     <div class="mb-3">
                         <label for="remarks" class="form-label">Remarks</label>
-                        <textarea id="remarks" name="remarks" class="form-control"
-                            rows="2">{{ old('remarks') }}</textarea>
-                        @if ($errors->has('remarks'))
+                        <textarea id="remarks" name="remarks" class="form-control @error('remarks') is-invalid @enderror"
+                                  rows="2">{{ old('remarks') }}</textarea>
+                        @error('remarks')
                             <div class="invalid-feedback">
-                                {{ $errors->first('remarks') }}
+                                {{ $message }}
                             </div>
-                        @endif
+                        @enderror
                     </div>
                 </div>
 
@@ -80,14 +83,15 @@
                     <button type="submit" class="btn btn-primary">Add</button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>
 
+{{-- Script to show the modal if there are errors --}}
 @if(session('type') && session('type') === 'stock' && $errors->any())
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            console.log('Showing Add Stock Modal due to errors:', @json($errors->all()));
             var addStockModal = new bootstrap.Modal(document.getElementById('addStockModal'));
             addStockModal.show();
         });

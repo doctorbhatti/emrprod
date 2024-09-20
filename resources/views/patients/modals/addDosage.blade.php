@@ -48,9 +48,6 @@
                                 [[dose.description]]
                             </option>
                         </select>
-
-                        <label class="form-label mt-3">or add a new dosage</label>
-                        <input type="text" class="form-control" ng-model="dosageText" placeholder="New dosage" required>
                     </div>
 
                     <!-- Frequency Form Group -->
@@ -63,10 +60,6 @@
                                 [[f.description]]
                             </option>
                         </select>
-
-                        <label class="form-label mt-3">or add a new frequency</label>
-                        <input type="text" class="form-control" ng-model="frequencyText"
-                               placeholder="New frequency" required>
                     </div>
 
                     <!-- Period Form Group -->
@@ -79,9 +72,6 @@
                                 [[p.description]]
                             </option>
                         </select>
-
-                        <label class="form-label mt-3">or add a new period</label>
-                        <input type="text" class="form-control" ng-model="periodText" placeholder="New period" required>
                     </div>
 
                     <!-- Error & Success Messages -->

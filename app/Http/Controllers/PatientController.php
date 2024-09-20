@@ -122,7 +122,7 @@ class PatientController extends Controller
             'gender'     => 'required|in:Male,Female',
             'nic'        => 'nullable|regex:/[0-9]{9}[vV]/',
             'bloodGroup' => 'required|in:A +,A -,B +,B -,AB +,AB -,O +,O -,N/A',
-            'dob'        => 'nullable|date|date_format:Y/m/d|before:today|after:' . now()->subYears(150)->format('Y/m/d'),
+            'dob' => 'nullable|date|date_format:Y/m/d|before:today|after:' . now()->subYears(150)->format('Y/m/d'),
         ]);
 
         if ($validator->fails()) {

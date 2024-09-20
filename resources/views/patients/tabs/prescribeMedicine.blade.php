@@ -74,9 +74,17 @@
                         <textarea id="prescriptionRemarks" ng-model="remarks" placeholder="Remarks"
                             class="form-control"></textarea>
 
-                        <button style="margin-top: 20px;" class="btn btn-primary btn-lg btn-flat float-end" ng-click="loadPrescribedDrugsFromLocalStorage()">
+                        <button style="margin-top: 20px;" class="btn btn-primary btn-lg btn-flat float-end"
+                            ng-click="loadPrescribedDrugsFromLocalStorage()">
+                            <i class="fa fa-repeat"></i>
                             Repeat Prescription
                         </button>
+
+                        <!-- Print Investigations Button -->
+                        <button style="margin-top: 20px;" class="btn btn-primary btn-lg btn-flat float-start" ng-click="printInvestigations()">
+                            <i class="fa fa-print"></i> Print Investigations
+                        </button>
+
                     </div>
 
                 </div>

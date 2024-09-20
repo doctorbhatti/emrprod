@@ -103,6 +103,7 @@ Route::middleware('web')->group(function () {
             Route::post('addFrequency', [DosageController::class, 'addFrequency'])->name('addFrequency');
             Route::get('deleteFrequency/{id}', [DosageController::class, 'deleteFrequency'])->name('deleteFrequency');
 
+
             Route::post('addPeriod', [DosageController::class, 'addPeriod'])->name('addPeriod');
             Route::get('deletePeriod/{id}', [DosageController::class, 'deletePeriod'])->name('deletePeriod');
         });

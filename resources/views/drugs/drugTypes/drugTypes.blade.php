@@ -22,7 +22,7 @@
         <!-- Box Header -->
         <div class="box-header with-border">
             @can('add','App\Models\DrugType')
-                <button class="btn btn-primary margin-left" data-bs-toggle="modal" data-bs-target="#addDrugTypeModal">
+                <button style="margin: 10px;" class="btn btn-primary btn-lg btn-flat"data-bs-toggle="modal" data-bs-target="#addDrugTypeModal">
                     Add Quantity Type
                     <i class="fa fa-question-circle-o fa-lg pull-right" data-bs-toggle="tooltip"
                        data-bs-placement="bottom" title="The measurements used to measure the available quantity (stock) of a drug. e.g., Number of 'Pills', 'Bottles', 'Litres'"></i>

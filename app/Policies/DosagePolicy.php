@@ -3,64 +3,69 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Models\Dosage;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class DosagePolicy {
+class DosagePolicy
+{
     use HandlesAuthorization;
 
     /**
      * Create a new policy instance.
-     *
-     * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         //
     }
 
     /**
-     * Any user can add dosages.
+     * Determine if the given user can add a dosage.
      *
      * @param User $user
      * @return bool
      */
-    public function add(User $user) {
-        // Allow all users to add dosages
+    public function add(User $user): bool
+    {
+        // Any user can add dosages
         return true;
     }
 
     /**
-     * Only a dosage of the same clinic can be viewed by a user.
+     * Determine if the given user can view the dosage.
      *
      * @param User $user
-     * @param $dosage
+     * @param Dosage $dosage
      * @return bool
      */
-    public function view(User $user, $dosage) {
-        // Check if the dosage belongs to the same clinic as the user
+    public function view(User $user, Dosage $dosage): bool
+    {
+        // Only dosages of the same clinic can be viewed by the user
         return $user->clinic->id === $dosage->clinic->id;
     }
 
     /**
-     * Define who can edit the dosage details.
+     * Determine if the given user can edit the dosage.
      *
      * @param User $user
-     * @param $dosage
+     * @param Dosage $dosage
      * @return bool
      */
-    public function edit(User $user, $dosage) {
-        // Check if the dosage belongs to the same clinic as the user
+    public function edit(User $user, Dosage $dosage): bool
+    {
+        // Only users from the same clinic can edit the dosage
         return $user->clinic->id === $dosage->clinic->id;
     }
 
     /**
-     * Only the admin can delete a dosage.
+     * Determine if the given user can delete the dosage.
      *
      * @param User $user
-     * @param $dosage
+     * @param Dosage $dosage
      * @return bool
      */
-    public function delete(User $user, $dosage) {
-        // Check if the user is an admin and if the dosage belongs to the same clinic
+    public function delete(User $user, Dosage $dosage): bool
+    {
+        // Only the admin can delete a dosage of the same clinic
         return $user->isAdmin() && $user->clinic->id === $dosage->clinic->id;
     }
 }

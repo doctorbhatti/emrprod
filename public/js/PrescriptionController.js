@@ -232,6 +232,85 @@ angular.module("HIS").controller("PrescriptionController", [
             }
         };
 
+        // Utility function to calculate age from date of birth
+        function getAge(dob) {
+            const birthDate = new Date(dob);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        
+        /**
+         * This function allows to print a slip with details of patient and investigations that are being entered currently. The print slip can be sent along with samples to the lab when required.
+         */
+        // Function to trigger print preview of Investigations
+        $scope.printInvestigations = function () {
+            if ($scope.investigations) {
+                // Create clinic information section
+                const clinicInfo = `
+                <h3 style="text-align: center;">
+                    <img src="${
+                        clinic.logo ? clinic.logo : "/images/printlogo.png"
+                    }" style="width:60px; height: 60px;">
+                    <br>
+                    ${clinic.name || "Clinic Name"}
+                    <br>
+                    <small>
+                        ${clinic.address || "Clinic Address"}<br>
+                        ${clinic.phone || "Clinic Phone"}<br>
+                        ${clinic.email || "Clinic Email"}
+                    </small>
+                </h3>
+                 `;
+
+                // Create print preview content with patient details and investigations
+                const patientDetails = `
+                <h3>Patient Details</h3>
+                <p>Name: ${patient.first_name} ${patient.last_name || ""}</p>
+                <p>Age: ${getAge(patient.dob)}</p>
+                <p>Phone: ${patient.phone || "N/A"}</p>
+                <p>Gender: ${patient.gender || "N/A"}</p>
+                `;
+
+                // Format investigations as a numbered list
+                const investigationsList = $scope.investigations
+                    .split("\n")
+                    .map((inv) => `<li>${inv}</li>`)
+                    .join("");
+                const investigationsContent = `
+                <h4>Investigations</h4>
+                <ol>${investigationsList}</ol>
+            `;
+
+                // Open a new window and write the content
+                const printWindow = $window.open(
+                    "",
+                    "_blank",
+                    "width=800,height=600"
+                );
+                printWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Print Investigations</title>
+                    </head>
+                    <body>
+                        ${clinicInfo}
+                        ${patientDetails}
+                        ${investigationsContent}
+                    </body>
+                </html>
+            `);
+                printWindow.document.close();
+                printWindow.print();
+            } else {
+                alert("No investigations entered.");
+            }
+        };
         /**
          * Saves the prescription in the database.
          * Every prescription requires at least the diagnosis or the complaints to be present.

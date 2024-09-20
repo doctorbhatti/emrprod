@@ -2,7 +2,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editPatientLabel">{{ $patient->first_name }} {{ $patient->last_name }} - Edit Info</h5>
+                <h5 class="modal-title" id="editPatientLabel">{{ $patient->first_name }} {{ $patient->last_name }} -
+                    Edit Info</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -20,7 +21,8 @@
 
                     <div class="mb-3{{ $errors->has('firstName') ? ' is-invalid' : '' }}">
                         <label class="form-label">First Name</label>
-                        <input type="text" class="form-control" name="firstName" value="{{ old('firstName') ?: $patient->first_name }}" required>
+                        <input type="text" class="form-control" name="firstName"
+                            value="{{ old('firstName', $patient->first_name) }}" required>
                         @if ($errors->has('firstName'))
                             <div class="invalid-feedback">
                                 <strong>{{ $errors->first('firstName') }}</strong>
@@ -30,7 +32,8 @@
 
                     <div class="mb-3{{ $errors->has('lastName') ? ' is-invalid' : '' }}">
                         <label class="form-label">Last Name</label>
-                        <input type="text" class="form-control" name="lastName" value="{{ old('lastName') ?: $patient->last_name }}">
+                        <input type="text" class="form-control" name="lastName"
+                            value="{{ old('lastName', $patient->last_name) }}">
                         @if ($errors->has('lastName'))
                             <div class="invalid-feedback">
                                 <strong>{{ $errors->first('lastName') }}</strong>
@@ -42,7 +45,8 @@
                     <div class="mb-3{{ $errors->has('dob') ? ' has-error' : '' }}">
                         <label class="form-label">Date of Birth</label>
                         <div class="input-group" id="dob-picker">
-                            <input class="form-control" id="dob" name="dob" type="text" value="{{ old('dob') }}" required>
+                            <input class="form-control" id="dob" name="dob" type="text"
+                            value="{{ old('dob', $patient->dob ? \Carbon\Carbon::parse($patient->dob)->format('Y/m/d') : '') }}" required>
                             <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
                         </div>
                         @if ($errors->has('dob'))
@@ -56,11 +60,11 @@
                     <div class="mb-3{{ $errors->has('gender') ? ' is-invalid' : '' }}">
                         <label class="form-label">Gender</label>
                         <div class="form-check">
-                            <input type="radio" class="form-check-input" name="gender" value="Male" @if(App\Lib\Utils::isMale($patient)) checked @endif>
+                            <input type="radio" class="form-check-input" name="gender" value="Male" {{ old('gender', $patient->gender ?? '') == 'Male' ? 'checked' : '' }}>
                             <label class="form-check-label">Male</label>
                         </div>
                         <div class="form-check">
-                            <input type="radio" class="form-check-input" name="gender" value="Female" @if(App\Lib\Utils::isFemale($patient)) checked @endif>
+                            <input type="radio" class="form-check-input" name="gender" value="Female" {{ old('gender', $patient->gender ?? '') == 'Female' ? 'checked' : '' }}>
                             <label class="form-check-label">Female</label>
                         </div>
                         @if ($errors->has('gender'))
@@ -70,9 +74,11 @@
                         @endif
                     </div>
 
+
                     <div class="mb-3{{ $errors->has('address') ? ' is-invalid' : '' }}">
                         <label class="form-label">Address</label>
-                        <input type="text" class="form-control" name="address" value="{{ old('address') ?: $patient->address }}">
+                        <input type="text" class="form-control" name="address"
+                            value="{{ old('address', $patient->address) }}">
                         @if ($errors->has('address'))
                             <div class="invalid-feedback">
                                 <strong>{{ $errors->first('address') }}</strong>
@@ -82,7 +88,8 @@
 
                     <div class="mb-3{{ $errors->has('nic') ? ' is-invalid' : '' }}">
                         <label class="form-label">NIC</label>
-                        <input type="text" class="form-control" name="nic" value="{{ old('nic') ?: $patient->nic }}" pattern="[0-9]{9}[vV]">
+                        <input type="text" class="form-control" name="nic" value="{{ old('nic', $patient->nic) }}"
+                            pattern="[0-9]{9}[vV]">
                         @if ($errors->has('nic'))
                             <div class="invalid-feedback">
                                 <strong>{{ $errors->first('nic') }}</strong>
@@ -92,7 +99,7 @@
 
                     <div class="mb-3{{ $errors->has('phone') ? ' is-invalid' : '' }}">
                         <label class="form-label">Contact No.</label>
-                        <input type="tel" class="form-control" name="phone" value="{{ old('phone') ?: $patient->phone }}">
+                        <input type="tel" class="form-control" name="phone" value="{{ old('phone', $patient->phone) }}">
                         @if ($errors->has('phone'))
                             <div class="invalid-feedback">
                                 <strong>{{ $errors->first('phone') }}</strong>
@@ -119,7 +126,8 @@
 
                     <div class="mb-3{{ $errors->has('allergies') ? ' is-invalid' : '' }}">
                         <label class="form-label">Known Allergies</label>
-                        <textarea class="form-control" name="allergies" rows="2">{{ old('allergies') ?: $patient->allergies }}</textarea>
+                        <textarea class="form-control" name="allergies"
+                            rows="2">{{ old('allergies', $patient->allergies) }}</textarea>
                         @if ($errors->has('allergies'))
                             <div class="invalid-feedback">
                                 <strong>{{ $errors->first('allergies') }}</strong>
@@ -129,7 +137,9 @@
 
                     <div class="mb-3{{ $errors->has('familyHistory') ? ' is-invalid' : '' }}">
                         <label class="form-label">Family History</label>
-                        <textarea class="form-control" placeholder="Notable medical conditions run in the family" name="familyHistory" rows="2">{{ old('familyHistory') ?: $patient->family_history }}</textarea>
+                        <textarea class="form-control" placeholder="Notable medical conditions run in the family"
+                            name="familyHistory"
+                            rows="2">{{ old('familyHistory', $patient->family_history) }}</textarea>
                         @if ($errors->has('familyHistory'))
                             <div class="invalid-feedback">
                                 <strong>{{ $errors->first('familyHistory') }}</strong>
@@ -139,7 +149,8 @@
 
                     <div class="mb-3{{ $errors->has('medicalHistory') ? ' is-invalid' : '' }}">
                         <label class="form-label">Medical History</label>
-                        <textarea class="form-control" rows="2" name="medicalHistory">{{ old('medicalHistory') ?: $patient->medical_history }}</textarea>
+                        <textarea class="form-control" rows="2"
+                            name="medicalHistory">{{ old('medicalHistory', $patient->medical_history) }}</textarea>
                         @if ($errors->has('medicalHistory'))
                             <div class="invalid-feedback">
                                 <strong>{{ $errors->first('medicalHistory') }}</strong>
@@ -149,7 +160,8 @@
 
                     <div class="mb-3{{ $errors->has('postSurgicalHistory') ? ' is-invalid' : '' }}">
                         <label class="form-label">Post Surgical History</label>
-                        <textarea class="form-control" rows="2" name="postSurgicalHistory">{{ old('postSurgicalHistory') ?: $patient->post_surgical_history }}</textarea>
+                        <textarea class="form-control" rows="2"
+                            name="postSurgicalHistory">{{ old('postSurgicalHistory', $patient->post_surgical_history) }}</textarea>
                         @if ($errors->has('postSurgicalHistory'))
                             <div class="invalid-feedback">
                                 <strong>{{ $errors->first('postSurgicalHistory') }}</strong>
@@ -159,7 +171,8 @@
 
                     <div class="mb-3{{ $errors->has('remarks') ? ' is-invalid' : '' }}">
                         <label class="form-label">Remarks</label>
-                        <textarea class="form-control" rows="2" name="remarks">{{ old('remarks') ?: $patient->remarks }}</textarea>
+                        <textarea class="form-control" rows="2"
+                            name="remarks">{{ old('remarks', $patient->remarks) }}</textarea>
                         @if ($errors->has('remarks'))
                             <div class="invalid-feedback">
                                 <strong>{{ $errors->first('remarks') }}</strong>

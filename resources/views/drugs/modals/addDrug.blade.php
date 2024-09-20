@@ -10,14 +10,13 @@
 
                 <div class="modal-body">
 
-                    {{-- Warning when there's no quantity type pre entered --}}
+                    {{-- Warning when there's no quantity type pre-entered --}}
                     @if(\App\Models\Clinic::getCurrentClinic()->quantityTypes()->count() == 0)
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            <h4><i class="icon fa fa-warning"></i> No Quantity Types Available !</h4>
-                            In order to add drugs, quantity types are required. Quantity Types are used to manage
-                            stocks. Go to <a href="{{ route('drugTypes') }}"><strong>Quantity Types</strong></a> to add
-                            quantity types.
+                            <h4><i class="icon fa fa-warning"></i> No Quantity Types Available!</h4>
+                            In order to add drugs, quantity types are required. Quantity Types are used to manage stocks.
+                            Go to <a href="{{ route('drugTypes') }}"><strong>Quantity Types</strong></a> to add quantity types.
                         </div>
                     @endif
 
@@ -74,13 +73,17 @@
                             <i class="fa fa-question-circle-o" data-bs-toggle="tooltip" data-bs-placement="bottom"
                                title="The measurement used to measure the available quantity of a drug. ex: Number of 'Pills', number of 'Bottles', 'Litres'"></i>
                         </label>
-                        <select id="quantityType" name="quantityType" class="form-select">
-                            @foreach(\App\Models\Clinic::getCurrentClinic()->quantityTypes as $quantityType)
-                                <option value="{{ $quantityType->id }}"
-                                        @if($quantityType->id === old('quantityType')) selected @endif>
-                                    {{ $quantityType->drug_type }}
-                                </option>
-                            @endforeach
+                        <select id="quantityType" name="quantityType" class="form-select @error('quantityType') is-invalid @enderror">
+                            {{-- Debugging output to check available quantity types --}}
+                            @if(\App\Models\Clinic::getCurrentClinic()->quantityTypes()->count() > 0)
+                                @foreach(\App\Models\Clinic::getCurrentClinic()->quantityTypes as $quantityType)
+                                    <option value="{{ $quantityType->id }}" @if($quantityType->id == old('quantityType')) selected @endif>
+                                        {{ $quantityType->drug_type }}
+                                    </option>
+                                @endforeach
+                            @else
+                                <option value="">No Quantity Types Available</option>
+                            @endif
                         </select>
                         @if ($errors->has('quantityType'))
                             <div class="invalid-feedback">
@@ -104,7 +107,7 @@
                         @endif
                     </div>
 
-                    {{-- ================= Adding the initial Stock ================== --}}
+                    {{-- Add Initial Stock Section --}}
                     @can('add','App\Models\Stock')
                         <div class="mb-4">
                             <h5 class="mb-3">Add Initial Stock (Optional)</h5>
@@ -172,7 +175,6 @@
                     <button type="submit" class="btn btn-primary">Add</button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>

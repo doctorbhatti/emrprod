@@ -29,7 +29,8 @@ $user = \App\Models\User::getCurrentUser();
     <!--end::Third Party Plugin(OverlayScrollbars)-->
 
     <!--begin::Third Party Plugin(Bootstrap Icons)-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.min.css" integrity="sha256-Qsx5lrStHZyR9REqhUF8iQt73X06c8LGIUPzpOhwRrI=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.min.css"
+        integrity="sha256-Qsx5lrStHZyR9REqhUF8iQt73X06c8LGIUPzpOhwRrI=" crossorigin="anonymous">
     <!--end::Third Party Plugin(Bootstrap Icons)-->
 
     <!-- apexcharts -->
@@ -50,7 +51,8 @@ $user = \App\Models\User::getCurrentUser();
     <link rel="stylesheet" href="{{asset('dist/css/style.css')}}">
 
     <!-- Tempus Dominus CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempus-dominus/6.2.7/css/tempus-dominus.min.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tempus-dominus/6.2.7/css/tempus-dominus.min.css" />
 
     {{--Data Tables CSS--}}
     <!-- <link href="{{asset('plugins/datatables/dataTables.bootstrap.css')}}" rel="stylesheet" type="text/css"> -->
@@ -68,13 +70,11 @@ $user = \App\Models\User::getCurrentUser();
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link href="{{asset('dist/css/select2.min.css')}}" rel="stylesheet" />
     <style>
         .select2-selection--single:focus,
-        .select2-selection--single:hover {
-        }
-
+        .select2-selection--single:hover {}
+        
         select {
             min-width: 100px;
         }
@@ -248,14 +248,15 @@ $user = \App\Models\User::getCurrentUser();
         <!--  ============================================== -->
         <footer class="app-footer">
             <div class="pull-right hidden-xs">
-                <b>Version</b> 1.0.0
+                <b>Version</b> 2.0.0(Laravel 11)
             </div>
-            <strong>Copyright &copy; <a href="#">Healthy Life Clinic</a>.</strong> All rights
+            <strong>Copyright &copy; <script>document.write(new Date().getFullYear())</script><a href="#"> Healthy Life Clinic | EMR Systems</a>.</strong> All rights
             reserved.
         </footer>
         </nav><!-- ./wrapper -->
 
 </body>
+<script src="{{asset('dist/js/select2.min.js')}}"></script>
 <!--begin::Script--> <!--begin::Third Party Plugin(OverlayScrollbars)-->
 <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.3.0/browser/overlayscrollbars.browser.es6.min.js"
     integrity="sha256-H2VM7BKda+v2Z4+DRy69uknwxjyDRhszjXFhsL4gD3w=" crossorigin="anonymous"></script>
@@ -289,7 +290,7 @@ $user = \App\Models\User::getCurrentUser();
             });
         }
     });
-</script> <!--end::OverlayScrollbars Configure--> 
+</script> <!--end::OverlayScrollbars Configure-->
 <!-- apexcharts -->
 <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"
     integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8=" crossorigin="anonymous"></script>
@@ -298,11 +299,15 @@ $user = \App\Models\User::getCurrentUser();
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
 <!-- SlimScroll -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.8/jquery.slimscroll.min.js" integrity="sha512-cJMgI2OtiquRH4L9u+WQW+mz828vmdp9ljOcm/vKTQ7+ydQUktrPVewlykMgozPP+NUBbHdeifE6iJ6UVjNw5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.8/jquery.slimscroll.min.js"
+    integrity="sha512-cJMgI2OtiquRH4L9u+WQW+mz828vmdp9ljOcm/vKTQ7+ydQUktrPVewlykMgozPP+NUBbHdeifE6iJ6UVjNw5Q=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- FastClick -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/0.6.0/fastclick.min.js" integrity="sha512-oljyd1wg75alHReTpDvNIQ4Yj1wZwGxxZhJhId3vr2dKY+26/r/wmMrImwDgin03+7wxyhX+adOQB/2BTvO5tQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/0.6.0/fastclick.min.js"
+    integrity="sha512-oljyd1wg75alHReTpDvNIQ4Yj1wZwGxxZhJhId3vr2dKY+26/r/wmMrImwDgin03+7wxyhX+adOQB/2BTvO5tQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- AdminLTE App -->
-<script src="{{'dist/js/adminlte.min.js'}}"></script>
+<script src="{{'/dist/js/adminlte.min.js'}}"></script>
 
 <!-- Tempus Dominus JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tempus-dominus/6.2.7/js/tempus-dominus.min.js"></script>
@@ -312,6 +317,7 @@ $user = \App\Models\User::getCurrentUser();
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const dobPicker = new tempusDominus.TempusDominus(document.getElementById('dob-picker'), {
+            format: 'YYYY/MM/DD', // Ensure this matches the desired format
             display: {
                 components: {
                     calendar: true,
@@ -331,31 +337,6 @@ $user = \App\Models\User::getCurrentUser();
             },
         });
         dobPicker.dates.formatInput = date => moment(date).format('YYYY/MM/DD')
-
-    });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const datepicker = new tempusDominus.TempusDominus(document.getElementById('dob-picker'), {
-            display: {
-                components: {
-                    calendar: true,
-                    date: true,
-                    month: true,
-                    year: true,
-                    decades: true,
-                    clock: false,
-                    hours: false,
-                    minutes: false,
-                    seconds: false,
-                    useTwentyfourHour: undefined
-                }
-            },
-            restrictions: {
-                maxDate: new Date(), // Restrict date to today or earlier (no future dates)
-            },
-        });
-        datepicker.dates.formatInput = date => moment(date).format('YYYY/MM/DD')
 
     });
 </script>
@@ -382,26 +363,38 @@ $user = \App\Models\User::getCurrentUser();
 <script>
     $(document).ready(function () {
         setInterval(function () {
+            // Create a new Date object
             var d = new Date();
+            // Extract hours, minutes, and seconds
             var hours = d.getHours();
             var mins = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
             var seconds = d.getSeconds() < 10 ? "0" + d.getSeconds() : d.getSeconds();
             var year = d.getFullYear();
+            // Get the month and ensure it's formatted correctly
             var tempMonths = d.getMonth() + 1;
             var month = tempMonths < 10 ? "0" + tempMonths : tempMonths;
+            // Get the day of the month and ensure it's formatted correctly
             var day = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
-            var ampm = "AM";
-            if (hours > 12) {
-                hours = (hours - 12);
-                ampm = "PM";
-            }
-            var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+            // Set AM or PM based on the current hour
+            var ampm = hours >= 12 ? "PM" : "AM";
+            // Convert hours to 12-hour format
+            hours = hours % 12;
+            // Display '12' instead of '0' when hours are 0
+            hours = hours ? hours : 12;
+            // Add a leading zero to hours if necessary
             hours = hours < 10 ? "0" + hours : hours;
+
+            // Array of weekday names
+            var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            // Format the date and time strings
             var date = year + "/" + month + "/" + day;
             var time = hours + ":" + mins + ":" + seconds + " " + ampm;
+            // Display the formatted date and time inside the #timer element
             $("#timer").html(days[d.getDay()] + ", " + date + " | " + time);
-        }, 1000);
+        }, 1000); // Update every second
     });
+
 </script>
 
 <!-- The script to hide/show the total & daily payments, also for clinic stats -->

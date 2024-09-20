@@ -55,7 +55,7 @@ class DrugAPIController extends Controller {
         $validator = Validator::make($request->all(), [
             'drug' => 'required_without:drugName|numeric|nullable|exists:drugs,id,clinic_id,' . $clinic->id,
             'drugName' => 'required_without:drug|max:200|min:2',
-            'quantityType' => 'required_with:drugName|alpha|min:2|max:100',
+            'quantityType' => 'required_with:drugName|regex:/^[\pL\s]+$/u|min:2|max:100',
             'dosage' => 'required_without:dosageText|exists:dosages,id,clinic_id,' . $clinic->id,
             'dosageText' => 'required_without:dosage|min:2|max:100',
             'frequency' => 'exists:frequencies,id,clinic_id,' . $clinic->id,
