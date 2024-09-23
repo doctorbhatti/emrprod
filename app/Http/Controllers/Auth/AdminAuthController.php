@@ -2,38 +2,54 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User; // Ensure you're using the correct User model path
+use App\Models\Admin;
+use App\Models\User; // Update to your actual Admin model if different
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator; // Update Validator namespace
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Log; // Use the Log facade for debugging
 
 class AdminAuthController extends Controller
 {
     use AuthenticatesUsers, ThrottlesLogins;
 
     /**
-     * To authenticate with username
+     * To authenticate with username.
      *
      * @var string
      */
-    protected $username = "username";
+    protected $username = 'username';
 
     /**
-     * Guard for the Admin Login
+     * Login view.
      *
      * @var string
      */
-    protected $guard = "admin";
+    protected $loginView = 'admin.adminLogin';
 
     /**
-     * Where to redirect users after login / registration.
+     * Guard for the Admin Login.
+     *
+     * @var string
+     */
+    protected $guard = 'admin';
+
+    /**
+     * Where to redirect users after login/registration.
      *
      * @var string
      */
     protected $redirectTo = 'Admin/admin';
+
+    /**
+     * After Logout.
+     *
+     * @var string
+     */
+    protected $redirectAfterLogout = 'Admin/login';
 
     /**
      * AuthController constructor.
@@ -46,27 +62,27 @@ class AdminAuthController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array $data
+     * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|confirmed|min:6',
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|confirmed|min:6',
         ]);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array $data
+     * @param  array  $data
      * @return \App\Models\User
      */
     protected function create(array $data)
     {
-        return User::create([
+        return Admin::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
@@ -74,92 +90,140 @@ class AdminAuthController extends Controller
     }
 
     /**
+     * Show the admin login form.
+     *
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function getLogin()
+    {
+        // Check if the admin is already logged in
+        if (Auth::guard($this->guard)->check()) {
+            Log::info('Admin already logged in, redirecting to intended page.');
+            return redirect()->intended($this->redirectTo);
+        }
+
+        Log::info('Rendering admin login view.');
+        return view($this->loginView);
+    }
+
+    /**
      * Handle a login request to the application.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function login(Request $request)
-    {
-        $this->validateLogin($request);
-
-        if (
-            method_exists($this, 'hasTooManyLoginAttempts') &&
-            $this->hasTooManyLoginAttempts($request)
-        ) {
-            $this->fireLockoutEvent($request);
-            return $this->sendLockoutResponse($request);
-        }
-
-        $credentials = $this->credentials($request);
-
-        if (Auth::guard($this->guard)->attempt($credentials, $request->filled('remember'))) {
-            return $this->sendLoginResponse($request);
-        }
-
-        if (method_exists($this, 'incrementLoginAttempts')) {
-            $this->incrementLoginAttempts($request);
-        }
-
-        return $this->sendFailedLoginResponse($request);
-    }
-
-    /**
-     * Get the guard to be used during authentication.
-     *
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
-     */
-    protected function guard()
-    {
-        return Auth::guard($this->guard);
-    }
-
-    /**
-     * Log the user out of the application.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function logout(Request $request)
-    {
-        $this->guard()->logout();
-        $request->session()->invalidate();
-
-        return redirect()->route('admin.login');
-    }
-
     public function postLogin(Request $request)
     {
-        // Validate the incoming login request
+        // Validate the incoming request
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        // Check the credentials and attempt login
         $credentials = $request->only('username', 'password');
 
+        Log::info('Attempting admin login', ['username' => $credentials['username']]);
+
+        // Attempt to log the admin in with the specified guard
         if (Auth::guard($this->guard)->attempt($credentials, $request->filled('remember'))) {
-            // Authentication passed, redirect to the 'admin.acceptClinics' route
-            return redirect()->route('admin.acceptClinics');
+            Log::info('Admin logged in successfully, redirecting to dashboard.');
+
+            // Use Laravel's sendLoginResponse to handle redirection properly
+            return $this->sendLoginResponse($request);
         }
 
-        // Authentication failed, redirect back with an error message
-        return redirect()->back()->withErrors([
-            'login' => 'Invalid username or password',
-        ])->withInput($request->except('password'));
+        Log::warning('Admin login failed, invalid credentials.');
+
+        // Redirect back with an error message on failure
+        return redirect()->back()->withInput($request->only('username', 'remember'))
+            ->withErrors(['general' => 'Invalid credentials.']);
     }
 
-
-
-    public function getLogin()
+    /**
+     * Handle a login request using Laravel's built-in throttle and validation methods.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     */
+    public function login(Request $request)
     {
-        // Check if the admin is already logged in
-        if (Auth::guard($this->guard)->check()) {
-            return redirect()->intended($this->redirectTo); // Redirect if already logged in
+        // Validate login request
+        $this->validateLogin($request);
+
+        $throttles = method_exists($this, 'hasTooManyLoginAttempts') &&
+            $this->hasTooManyLoginAttempts($request);
+
+        if ($throttles) {
+            Log::warning('Too many login attempts detected, locking out the admin.');
+            $this->fireLockoutEvent($request);
+            return $this->sendLockoutResponse($request);
         }
 
-        return view('admin.adminLogin'); // Replace with the correct path to your login view
+        $credentials = $this->getCredentials($request);
+
+        Log::info('Attempting to log in admin with credentials.', $credentials);
+
+        // Attempt to log the admin in with the specified guard
+        if (Auth::guard($this->guard)->attempt($credentials, $request->filled('remember'))) {
+            Log::info('Admin successfully authenticated.');
+            return $this->sendLoginResponse($request); // Use the standard response handler
+        }
+
+        if ($throttles) {
+            Log::info('Incrementing login attempts counter.');
+            $this->incrementLoginAttempts($request);
+        }
+
+        Log::warning('Failed login attempt, invalid credentials provided.');
+
+        // Send the failed login response
+        return $this->sendFailedLoginResponse($request);
     }
 
+    /**
+     * Handle a logout request to the application.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function logout()
+    {
+        Auth::guard($this->guard)->logout();
+        // Clear all session data
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+
+        Log::info('Admin logged out successfully.');
+
+        // Redirect to login page after logout
+        return redirect($this->redirectAfterLogout)->with('success', 'You have been logged out.');
+    }
+
+
+    /**
+     * Handle the GET request for logging out.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function getLogout()
+    {
+        return $this->logout(); // Call the logout method
+    }
+
+    /**
+     * Override the sendLoginResponse to ensure correct redirection.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        Log::info('Login response sent, redirecting to: ' . $this->redirectTo);
+
+        return redirect()->intended($this->redirectTo);
+    }
 }
+

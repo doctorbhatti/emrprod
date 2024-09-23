@@ -1,124 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>
-        @yield('title',"Healthy Life Clinic | EMR")
-    </title>
-
+    <title>@yield('title', 'Healthy Life Clinic | EMR')</title>
     <link rel="shortcut" href="favicon.ico"/>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{asset('dist/css/AdminLTE.min.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- AdminLTE -->
+    <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
     <!-- Custom styles -->
-    <link rel="stylesheet" href="{{asset('dist/css/style.css')}}">
+    <link rel="stylesheet" href="{{ asset('dist/css/style.css') }}">
 
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-  folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="{{asset('dist/css/skins/_all-skins.min.css')}}">
-
-    {{--Animate.css--}}
-    <link href="{{asset('plugins/wowjs/animate.css')}}" rel="stylesheet">
-
-    <!-- iCheck -->
-    <link rel="stylesheet" href="{{asset('plugins/iCheck/square/blue.css')}}">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <style>
+        body {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            font-family: 'Arial', sans-serif;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .main-header, .main-footer {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+        }
+    </style>
 </head>
-<!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
-<body class="hold-transition skin-blue layout-top-nav">
+<body class="hold-transition layout-top-nav">
 <div class="wrapper">
 
     <header class="main-header">
-        <nav class="navbar navbar-static-top">
+        <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container">
-                <div class="navbar-header">
-                    <div class="row">
-                        <a href="{{url('/')}}" class="navbar-brand">
-                            <b>Healthy Life Clinic | EMR</b>
-                            <small>Prod</small>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Navbar Right Menu -->
-                <div class="navbar-custom-menu">
-                    <ul class="nav navbar-nav">
-                        <li><a href="{{url('login')}}">Login</a></li>
-                        <li><a href="{{route('registerClinic')}}">Register</a></li>
+                <a href="{{ url('/') }}" class="navbar-brand">
+                    <b>Healthy Life Clinic | EMR</b>
+                    <small>Prod</small>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="{{ url('login') }}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('registerClinic') }}">Register</a></li>
                     </ul>
-                </div><!-- /.navbar-custom-menu -->
-            </div><!-- /.container-fluid -->
+                </div>
+            </div>
         </nav>
     </header>
-    <!-- Full Width Column -->
+
     <div class="content-wrapper">
         <div class="container">
-
-            <!-- Main content -->
-            <section class="content">
+            <section class="content glass">
                 @yield('content')
-            </section><!-- /.content -->
-        </div><!-- /.container -->
-    </div><!-- /.content-wrapper -->
+            </section>
+        </div>
+    </div>
 
     <footer class="main-footer">
         <div class="container">
             <div class="pull-right hidden-xs">
                 <b>Version</b> 1.0.0
             </div>
-            <strong>Copyright &copy; <a href="#">Healthy Life Clinic EMR</a>.</strong> All rights
-            reserved.
-        </div><!-- /.container -->
+            <strong>&copy; <a href="#">Healthy Life Clinic EMR</a>.</strong> All rights reserved.
+        </div>
     </footer>
-</div><!-- ./wrapper -->
+</div>
 
-<!-- jQuery 2.1.4 -->
-<script src="{{asset('plugins/jQuery/jQuery-2.1.4.min.js')}}"></script>
-<!-- Bootstrap 3.3.5 -->
-<script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
-<!-- SlimScroll -->
-<script src="{{asset('plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
-<!-- FastClick -->
-<script src="{{asset('plugins/fastclick/fastclick.min.js')}}"></script>
-<!-- AdminLTE App -->
-<script src="{{asset('dist/js/adminlte.min.js')}}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{asset('dist/js/demo.js')}}"></script>
-<script src="{{asset('plugins/wowjs/wow.min.js')}}"></script>
-<script>
-    $(document).ready(function () {
-        new WOW().init();
-    });
-</script>
-
-<!-- iCheck -->
-<script src="{{asset('plugins/iCheck/icheck.min.js')}}"></script>
-<script>
-    $(function () {
-        $('input').iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass: 'iradio_square-blue',
-            increaseArea: '20%' // optional
-        });
-    });
-</script>
-
-{{-- Google Analytics --}}
-@include('analytics.googleAnalytics')
-
+<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 </body>
 </html>

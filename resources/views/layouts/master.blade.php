@@ -74,7 +74,7 @@ $user = \App\Models\User::getCurrentUser();
     <style>
         .select2-selection--single:focus,
         .select2-selection--single:hover {}
-        
+
         select {
             min-width: 100px;
         }
@@ -250,7 +250,10 @@ $user = \App\Models\User::getCurrentUser();
             <div class="pull-right hidden-xs">
                 <b>Version</b> 2.0.0(Laravel 11)
             </div>
-            <strong>Copyright &copy; <script>document.write(new Date().getFullYear())</script><a href="#"> Healthy Life Clinic | EMR Systems</a>.</strong> All rights
+            <strong>Copyright &copy;
+                <script>document.write(new Date().getFullYear())</script><a href="#"> Healthy Life Clinic | EMR
+                    Systems</a>.
+            </strong> All rights
             reserved.
         </footer>
         </nav><!-- ./wrapper -->
@@ -341,22 +344,77 @@ $user = \App\Models\User::getCurrentUser();
     });
 </script>
 <script>
-    $(document).ready(function () {
-        //change selectboxes to selectize mode to be searchable
-        $("select").select2();
+    document.addEventListener('DOMContentLoaded', function () {
+        const datepicker = new tempusDominus.TempusDominus(document.getElementById('dob-picker'), {
+            display: {
+                components: {
+                    calendar: true,
+                    date: true,
+                    month: true,
+                    year: true,
+                    decades: true,
+                    clock: false,
+                    hours: false,
+                    minutes: false,
+                    seconds: false,
+                    useTwentyfourHour: undefined
+                }
+            },
+            restrictions: {
+                maxDate: new Date(), // Restrict date to today or earlier (no future dates)
+            },
+        });
+        datepicker.dates.formatInput = date => moment(date).format('YYYY/MM/DD')
 
     });
+</script>
+<script>
+   $(document).ready(function () {
+    // Initialize all select elements as Select2
+    $("select").select2({
+        selectOnClose: true // Keeps the selection behavior on close
+    });
+
+    // Focus on the search field when Select2 is opened
+    $('select').on('select2:open', function () {
+        // Wait for the dropdown to render before focusing the search field
+        focusSelect2SearchField();
+    });
+
+    // Open the Select2 dropdown on down arrow key press
     $(document).on('keydown', '.select2', function (e) {
-        if (e.originalEvent && e.which == 40) {
+        if (e.originalEvent && e.which == 40) { // Down arrow key
             e.preventDefault();
             $(this).siblings('select').select2('open');
         }
     });
 
-    $('select').select2({
-        selectOnClose: true
+    function focusSelect2SearchField() {
+        // Attempt to focus the search input immediately
+        let searchField = document.querySelector('.select2-container--open .select2-search__field');
 
-    });
+        // If the field is not immediately available, use MutationObserver to detect it
+        if (!searchField) {
+            const observer = new MutationObserver(() => {
+                searchField = document.querySelector('.select2-container--open .select2-search__field');
+                if (searchField) {
+                    searchField.focus();
+                    observer.disconnect(); // Stop observing once the field is focused
+                }
+            });
+
+            // Start observing the body for changes when the dropdown opens
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true,
+            });
+        } else {
+            // If available immediately, just focus
+            searchField.focus();
+        }
+    }
+});
+
 </script>
 
 {{--The script to show time on the top--}}

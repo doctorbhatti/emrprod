@@ -34,8 +34,7 @@
     ================================================== -->
     <link rel="shortcut" href="{{asset('favicon.ico')}}" />
     <link rel="apple-touch-icon" href="{{asset('FrontTheme/images/apple-touch-icon.png')}}">
-
-
+  
 </head>
 
 
@@ -74,7 +73,9 @@
                 </ul>
 
                 <h3 style="margin-bottom: 2rem !important; margin-top: 0.5rem !important">Meet the Developer</h3>
-                <p><strong><a href="https://doctorbhatti.github.io/">Dr. Hassan Ashfaq</a></strong> created Healthy Life Clinic EMR Systems with firsthand medical insight, ensuring the platform is tailored to healthcare professionals' needs.</p>
+                <p><strong><a href="https://doctorbhatti.github.io/">Dr. Hassan Ashfaq</a></strong> created Healthy Life
+                    Clinic EMR Systems with firsthand medical insight, ensuring the platform is tailored to healthcare
+                    professionals' needs.</p>
 
                 <!-- <ul class="header-nav__social">
                     <li>
@@ -108,57 +109,41 @@
     @yield("content")
     <!-- footer
     ================================================== -->
-    <footer>
-
-        <div class="row footer-main">
-
-            <div class="col-six tab-full left footer-desc">
-
-                <div class="footer-logo">
-                </div>
+<footer class="bg-dark text-white pt-5 pb-3">
+    <div class="container text-center">
+        <div class=" footer-main justify-content-center">
+            <div class="col-lg-6 col-md-6 footer-desc mb-4">
+                <div class="footer-logo"></div>
                 <strong>Healthy Life Clinic EMR Systems</strong> is dedicated to revolutionizing healthcare management
-                with its innovative and user-friendly platform. We provide comprehensive solutions designed to
-                streamline clinic operations and enhance patient care. Our commitment to security, efficiency, and ease
-                of use ensures that healthcare professionals can focus on what matters most: delivering exceptional
-                care. For more information or support, please contact us—we’re here to help you every step of the way.
-
+                with its innovative and user-friendly platform. We provide comprehensive solutions designed to streamline clinic operations and enhance patient care. Our commitment to security, efficiency, and ease of use ensures that healthcare professionals can focus on what matters most: delivering exceptional care. For more information or support, please contact us—we’re here to help you every step of the way.
             </div>
 
-            <div class="col-six tab-full right footer-desc">
-
+            <div class="col-lg-6 col-md-6 footer-desc mb-4">
                 <h4>Workflow</h4>
                 <p><strong>Healthy Life Clinic EMR Systems</strong> simplifies clinic management through a seamless interface. The application integrates patient records, drug inventory, and appointment scheduling into a unified system. Healthcare professionals can easily access and update patient information, manage prescriptions, and track inventory in real-time. With intuitive navigation and automated features, the platform enhances efficiency and accuracy, allowing clinics to deliver superior patient care while streamlining administrative tasks.</p>
-
             </div>
-
         </div> <!-- end footer-main -->
 
-        <div class="row footer-bottom">
-
-            <div class="col-twelve">
-                <div class="copyright">
+        <div class="row footer-bottom text-center" style="margin-left: 10%">
+            <div class="col-12">
+                <div class="copyright mb-2">
                     <span>© 2024 Copyright Healthy Life Clinic EMR Systems | All rights reserved.</span>
-                    <span>Empowering healthcare professionals with intuitive, secure, and
-                        efficient solutions.</span>
+                    <span>Empowering healthcare professionals with intuitive, secure, and efficient solutions.</span>
                 </div>
 
                 <div class="go-top">
-                    <a class="smoothscroll" title="Back to Top" href="#top"><i class="icon-arrow-up"
-                            aria-hidden="true"></i></a>
+                    <a class="smoothscroll text-white" title="Back to Top" href="#top"><i class="icon-arrow-up" aria-hidden="true"></i></a>
                 </div>
             </div>
-
         </div> <!-- end footer-bottom -->
 
-    </footer> <!-- end footer -->
+    </div> <!-- end container -->
+</footer> <!-- end footer -->
+
 
     <script src="{{asset('FrontTheme/scripts/jquery-3.2.1.min.js')}}"></script>
     <script src="{{asset('FrontTheme/scripts/plugins.js')}}"></script>
     <script src="{{asset('FrontTheme/scripts/main.js')}}"></script>
-
-
-    {{-- Google Analytics --}}
-    @include('analytics.googleAnalytics')
 
 </body>
 

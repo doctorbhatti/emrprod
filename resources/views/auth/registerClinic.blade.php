@@ -3,7 +3,11 @@
 @section("title", 'Healthy Life Clinic EMR | Register Clinic')
 
 @section("content")
+  <!-- Bootstrap 5 CSS  -->
+  <link rel="stylesheet" href="{{asset('dist/css/bootstrap@5.3.0.min.css')}}">
 
+<!-- Bootstrap 5 JS  -->
+<script src="{{asset('dist/js/bootstrap@5.3.0.min.js')}}"></script>
 <section id="home" class="s-home target-section" data-parallax="scroll"
     data-image-src="{{asset('FrontTheme/images/hero-bg2.jpeg')}}" data-natural-width=3000 data-natural-height=2000
     data-position-y=center>
@@ -25,7 +29,7 @@
         </div>
 
 
-        <div ng-app="HIS" ng-controller="ClinicRegistrationController" class="registration-section">
+        <div ng-app="HIS" ng-controller="ClinicRegistrationController" class="registration-section" style="margin: 25px">
             <input hidden ng-init="baseUrl='{{url("/")}}';token='{{csrf_token()}}';">
             <div class="row">
                 <div ng-cloak>
@@ -169,7 +173,7 @@
                                     <input type="checkbox" name="terms" id="checkbox"> I hereby agree to Healthy Life
                                     Clinic
                                     EMR's
-                                    <a href="#" data-toggle="modal" data-target="#privacyPolicyModal"
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#privacyPolicyModal"
                                         class="text-white">Privacy Policy</a> and
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal"
                                         class="text-white">Terms
@@ -200,4 +204,5 @@
 <script src="{{asset('plugins/angularjs/angular.min.js')}}"></script>
 <script src="{{asset('js/services.js')}}"></script>
 <script src="{{asset('js/ClinicRegistrationController.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 @endsection

@@ -360,6 +360,9 @@ angular.module("HIS").controller("PrescriptionController", [
                     $scope.clearPrescription();
                     $scope.printPrescriptionId = response.prescriptionId;
                     $scope.showSuccess();
+
+                     // Scroll to top of the page
+                    $window.scrollTo(0, 0);
                     $scope.$emit("prescriptionAddedEvent", []);
                 } else {
                     $scope.showError(

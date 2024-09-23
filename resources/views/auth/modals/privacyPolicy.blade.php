@@ -1,10 +1,10 @@
-<div class="modal fade" id="privacyPolicyModal" tabindex="-1" role="dialog" aria-labelledby="privacyPolicyModalLabel" aria-hidden="true">
+<!-- Privacy Policy Modal -->
+<div class="modal fade" id="privacyPolicyModal" tabindex="-1" role="dialog" aria-labelledby="privacyPolicyLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">
-                    Terms &amp; Conditions
-                </h3>
+                <h3 class="modal-title" id="privacyPolicyLabel">Privacy Policy</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p>
@@ -112,12 +112,10 @@
                     reside outside the United States your information will be transferred, processed and stored
                     there under United States privacy standards.
                 </p> -->
-            </div>
+                </div>
             <div class="modal-footer">
-                <button class="btn btn-primary pull-right" data-dismiss="modal">Done</button>
+                <button class="btn btn-primary" data-bs-dismiss="modal">Done</button>
             </div>
-
         </div>
-
     </div>
 </div>

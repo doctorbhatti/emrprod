@@ -3691,9 +3691,6 @@ footer .row {
   .center-links a:hover {
     text-decoration: underline; /* Add underline on hover */
   }
-  .modal {
-    display: none; /* Ensure it's hidden by default */
-  }
 
   
 ::-webkit-scrollbar-track

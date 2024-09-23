@@ -10,20 +10,17 @@ class AdminVerifier
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure $next
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::guard('admin')->guest()) {
-            if ($request->expectsJson()) {
-                return response()->json(['message' => 'Unauthorized.'], 401);
-            }
-
-            return redirect()->route('admin.login');
+        // Check if the admin is authenticated
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('admin.login'); // Redirect to login if not authenticated
         }
 
-        return $next($request);
+        return $next($request); // Proceed with the request if authenticated
     }
 }

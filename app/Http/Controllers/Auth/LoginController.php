@@ -66,8 +66,15 @@ class LoginController extends Controller
                 ]);
             }
 
+            // Check if the clinic is held
+            if ($user->clinic->is_held) {
+                Auth::logout();
+                return redirect()->route('holdPage')->with('error', 'This clinic is currently on hold due to pending payment.');
+            }
+
             return redirect()->intended($this->redirectTo);
         }
+
 
         // If authentication fails, throw a validation exception
         throw ValidationException::withMessages([

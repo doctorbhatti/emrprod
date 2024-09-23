@@ -34,16 +34,22 @@ Route::middleware('web')->group(function () {
     Route::post('registerClinic', [ClinicController::class, 'postRegister'])->name('registerClinic');
 
     Route::get('/', [UtilityController::class, 'getDashboard'])->name('root');
+    // Route to show the hold page when a clinic is held
+    Route::get('clinic-hold', [AdminController::class, 'showHoldPage'])->name('holdPage');
 
     Route::prefix('Admin')->group(function () {
-        Route::get('login', [AdminAuthController::class, 'getLogin']);
+        // Admin login routes
+        Route::get('login', [AdminAuthController::class, 'getLogin'])->name('admin.login');
         Route::post('login', [AdminAuthController::class, 'postLogin']);
 
-        Route::middleware('admin')->group(function () {
-            Route::get('admin', [AdminController::class, 'index']);
+        // Grouped routes for authenticated Admin users
+        Route::middleware('auth:admin')->group(function () {
+            Route::get('admin', [AdminController::class, 'index'])->name('admin.dashboard');
             Route::get('acceptClinic/{id}', [AdminController::class, 'acceptClinic'])->name('acceptClinic');
             Route::get('deleteClinic/{id}', [AdminController::class, 'deleteClinic'])->name('deleteClinic');
-            Route::post('logout', [AdminAuthController::class, 'getLogout'])->name('adminLogout');
+            Route::get('holdClinic/{id}', [AdminController::class, 'holdClinic'])->name('holdClinic'); // New route to hold a clinic
+            Route::get('unholdClinic/{id}', [AdminController::class, 'unholdClinic'])->name('unholdClinic'); // New route to unhold a clinic    
+            Route::get('logout', [AdminAuthController::class, 'logout'])->name('adminLogout');
         });
     });
 
