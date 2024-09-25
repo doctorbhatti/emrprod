@@ -55,45 +55,51 @@ class UtilityController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getDashboard()
-    {
-        if (Auth::guest()) {
-            return view('website.home');
-        }
-
-        $clinic = Clinic::getCurrentClinic();
-        $patientIds = $clinic->patients()->pluck('id')->toArray();
-
-        // Efficiently fetch prescriptions in batches
-        $prescriptions = Prescription::whereIn('patient_id', $patientIds)->get();
-
-        $from = Carbon::now()->startOfDay();
-        $to = Carbon::now()->endOfDay();
-
-        $prescriptionCount = $prescriptions->where('issued', 1)->count();
-        $payments = Payment::whereIn('prescription_id', $prescriptions->where('issued', 1)->pluck('id'))->sum('amount');
-        $stats = $this->calcClinicStats($clinic);
-
-        // Get payments made today
-        $paymentsToday = Payment::query()
-            ->select(DB::raw('SUM(amount) AS total_cost'))
-            ->whereBetween('created_at', [$from, $to])
-            ->groupBy(DB::raw('DAY(created_at)'))
-            ->get();
-
-        // Get current day name
-        $mytime = Carbon::now()->format('l');
-        $dt = Carbon::now();
-
-        return view('dashboard', [
-            'clinic' => $clinic,
-            'prescriptionCount' => $prescriptionCount,
-            'payments' => $payments,
-            'stats' => $stats,
-            'paymentsToday' => $paymentsToday,
-            'mytime' => $mytime,
-            'dt'=> $dt
-        ]);
+{
+    if (Auth::guest()) {
+        return view('website.home');
     }
+
+    $clinic = Clinic::getCurrentClinic();
+    $patientIds = $clinic->patients()->pluck('id')->toArray();
+
+    // Efficiently fetch prescriptions in batches
+    $prescriptions = Prescription::whereIn('patient_id', $patientIds)->get();
+
+    $from = Carbon::now()->startOfDay();
+    $to = Carbon::now()->endOfDay();
+
+    $prescriptionCount = $prescriptions->where('issued', 1)->count();
+    $payments = Payment::whereIn('prescription_id', $prescriptions->where('issued', 1)->pluck('id'))->sum('amount');
+    $stats = $this->calcClinicStats($clinic);
+
+    // Get today's payments for the current clinic via associated patients
+    $paymentsToday = Payment::query()
+        ->select(DB::raw('SUM(amount) AS total_cost'))
+        ->whereIn('prescription_id', function($query) use ($patientIds) {
+            $query->select('id')
+                  ->from('prescriptions')
+                  ->whereIn('patient_id', $patientIds);
+        })
+        ->whereBetween('created_at', [$from, $to])
+        ->groupBy(DB::raw('DAY(created_at)'))
+        ->get();
+
+    // Get current day name
+    $mytime = Carbon::now()->format('l');
+    $dt = Carbon::now();
+
+    return view('dashboard', [
+        'clinic' => $clinic,
+        'prescriptionCount' => $prescriptionCount,
+        'payments' => $payments,
+        'stats' => $stats,
+        'paymentsToday' => $paymentsToday,
+        'mytime' => $mytime,
+        'dt'=> $dt
+    ]);
+}
+
 
     /**
      * Calculates statistics for a given clinic.

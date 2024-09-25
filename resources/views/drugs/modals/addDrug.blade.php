@@ -124,37 +124,40 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="manufacturedDate" class="form-label">Manufactured Date</label>
-                                <input type="text" id="manufacturedDate" name="manufacturedDate" class="form-control datepicker"
-                                       value="{{ old('manufacturedDate') }}">
-                                @if ($errors->has('manufacturedDate'))
-                                    <div class="invalid-feedback">
-                                        {{ $errors->first('manufacturedDate') }}
-                                    </div>
-                                @endif
+                        <label for="manufacturedDate" class="form-label">Manufactured Date</label>
+                        <input type="date" id="manufacturedDate" name="manufacturedDate"
+                               class="form-control @error('manufacturedDate') is-invalid @enderror"
+                               value="{{ old('manufacturedDate') }}">
+                        @error('manufacturedDate')
+                            <div class="invalid-feedback">
+                                {{ $message }}
                             </div>
+                        @enderror
+                    </div>
 
-                            <div class="mb-3">
-                                <label for="receivedDate" class="form-label">Purchased Date</label>
-                                <input type="text" id="receivedDate" name="receivedDate" class="form-control datepicker"
-                                       value="{{ old('receivedDate') }}">
-                                @if ($errors->has('receivedDate'))
-                                    <div class="invalid-feedback">
-                                        {{ $errors->first('receivedDate') }}
-                                    </div>
-                                @endif
+                    <div class="mb-3">
+                        <label for="receivedDate" class="form-label">Purchased Date</label>
+                        <input type="date" id="receivedDate" name="receivedDate"
+                               class="form-control @error('receivedDate') is-invalid @enderror"
+                               value="{{ old('receivedDate') }}">
+                        @error('receivedDate')
+                            <div class="invalid-feedback">
+                                {{ $message }}
                             </div>
+                        @enderror
+                    </div>
 
-                            <div class="mb-3">
-                                <label for="expiryDate" class="form-label">Expiry Date</label>
-                                <input type="text" id="expiryDate" name="expiryDate" class="form-control datepicker"
-                                       value="{{ old('expiryDate') }}">
-                                @if ($errors->has('expiryDate'))
-                                    <div class="invalid-feedback">
-                                        {{ $errors->first('expiryDate') }}
-                                    </div>
-                                @endif
+                    <div class="mb-3">
+                        <label for="expiryDate" class="form-label">Expiry Date</label>
+                        <input type="date" id="expiryDate" name="expiryDate"
+                               class="form-control @error('expiryDate') is-invalid @enderror"
+                               value="{{ old('expiryDate') }}">
+                        @error('expiryDate')
+                            <div class="invalid-feedback">
+                                {{ $message }}
                             </div>
+                        @enderror
+                    </div>
 
                             <div class="mb-3">
                                 <label for="remarks" class="form-label">Remarks</label>

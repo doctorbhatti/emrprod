@@ -64,6 +64,11 @@ Route::middleware('web')->group(function () {
             Route::get('deleteAccount/{id}', [SettingsController::class, 'deleteAccount'])->name('deleteAccount');
             Route::get('changePassword', [SettingsController::class, 'viewSettings']);
             Route::get('createAccount', [SettingsController::class, 'viewSettings']);
+            Route::post('updateLogo', [SettingsController::class, 'updateLogo'])->name('updateLogo');
+            // Avatar update route
+            Route::post('update-avatar', [SettingsController::class, 'updateAvatar'])->name('settings.updateAvatar');
+
+
         });
 
         Route::prefix('queue')->group(function () {

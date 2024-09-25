@@ -103,12 +103,12 @@ $user = \App\Models\User::getCurrentUser();
 
                         <!--begin::User Menu Dropdown-->
                         <li class="nav-item dropdown user-menu"> <a href="#" class="nav-link dropdown-toggle"
-                                data-bs-toggle="dropdown"> <img src="{{asset('dist/img/my_avatar.png')}}"
-                                    class="user-image rounded-circle shadow" alt="User Image"> <span
+                                data-bs-toggle="dropdown"> <img src="{{ $user->avatar ? asset($user->avatar) : asset('dist/img/my_avatar.png') }}"
+                                class="user-image rounded-circle shadow" alt="User Image"><span
                                     class="d-none d-md-inline">{{$user->name}}</span> </a>
                             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end"> <!--begin::User Image-->
-                                <li class="user-header text-bg-primary"> <img src="{{asset('dist/img/my_avatar.png')}}"
-                                        class="rounded-circle shadow" alt="User Image">
+                                <li class="user-header text-bg-primary"><img src="{{ $user->avatar ? asset($user->avatar) : asset('dist/img/my_avatar.png') }}"
+                                class="rounded-circle shadow" alt="User Image">
                                     <p>
                                         {{$user->name}}
                                         <small>{{$user->clinic->name}}</small>
@@ -138,10 +138,14 @@ $user = \App\Models\User::getCurrentUser();
         <!-- =============================================== -->
 
         <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark"> <!--begin::Sidebar Brand-->
-            <div class="sidebar-brand"> <!--begin::Brand Link--> <a href="{{url('/')}}" class="brand-link">
-                    <!--begin::Brand Image--> <img src="{{asset('FrontTheme/images/logo.png')}}" alt="HLC Logo"
-                        class="brand-image opacity-75 shadow"> <!--end::Brand Image--> <!--begin::Brand Text--> <span
-                        class="brand-text fw-light">Healthy Life Clinic</span> <!--end::Brand Text--> </a>
+            <div class="sidebar-brand"> <!--begin::Brand Link-->
+                <a href="{{ url('/') }}" class="brand-link">
+                    <!-- Brand Image -->
+                    <!-- Display clinic logo if available, otherwise fallback -->
+                    <img src="{{ asset($currentLogo) }}" alt="Clinic Logo" class="brand-image opacity-75 shadow">
+                    <!-- Brand Text -->
+                    <span class="brand-text fw-light">{{ $clinicName }}</span>
+                </a>
                 <!--end::Brand Link-->
             </div> <!--end::Sidebar Brand--> <!--begin::Sidebar Wrapper-->
             <div class="sidebar-wrapper">
@@ -320,7 +324,6 @@ $user = \App\Models\User::getCurrentUser();
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const dobPicker = new tempusDominus.TempusDominus(document.getElementById('dob-picker'), {
-            format: 'YYYY/MM/DD', // Ensure this matches the desired format
             display: {
                 components: {
                     calendar: true,
@@ -369,51 +372,51 @@ $user = \App\Models\User::getCurrentUser();
     });
 </script>
 <script>
-   $(document).ready(function () {
-    // Initialize all select elements as Select2
-    $("select").select2({
-        selectOnClose: true // Keeps the selection behavior on close
-    });
+    $(document).ready(function () {
+        // Initialize all select elements as Select2
+        $("select").select2({
+            selectOnClose: true // Keeps the selection behavior on close
+        });
 
-    // Focus on the search field when Select2 is opened
-    $('select').on('select2:open', function () {
-        // Wait for the dropdown to render before focusing the search field
-        focusSelect2SearchField();
-    });
+        // Focus on the search field when Select2 is opened
+        $('select').on('select2:open', function () {
+            // Wait for the dropdown to render before focusing the search field
+            focusSelect2SearchField();
+        });
 
-    // Open the Select2 dropdown on down arrow key press
-    $(document).on('keydown', '.select2', function (e) {
-        if (e.originalEvent && e.which == 40) { // Down arrow key
-            e.preventDefault();
-            $(this).siblings('select').select2('open');
+        // Open the Select2 dropdown on down arrow key press
+        $(document).on('keydown', '.select2', function (e) {
+            if (e.originalEvent && e.which == 40) { // Down arrow key
+                e.preventDefault();
+                $(this).siblings('select').select2('open');
+            }
+        });
+
+        function focusSelect2SearchField() {
+            // Attempt to focus the search input immediately
+            let searchField = document.querySelector('.select2-container--open .select2-search__field');
+
+            // If the field is not immediately available, use MutationObserver to detect it
+            if (!searchField) {
+                const observer = new MutationObserver(() => {
+                    searchField = document.querySelector('.select2-container--open .select2-search__field');
+                    if (searchField) {
+                        searchField.focus();
+                        observer.disconnect(); // Stop observing once the field is focused
+                    }
+                });
+
+                // Start observing the body for changes when the dropdown opens
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true,
+                });
+            } else {
+                // If available immediately, just focus
+                searchField.focus();
+            }
         }
     });
-
-    function focusSelect2SearchField() {
-        // Attempt to focus the search input immediately
-        let searchField = document.querySelector('.select2-container--open .select2-search__field');
-
-        // If the field is not immediately available, use MutationObserver to detect it
-        if (!searchField) {
-            const observer = new MutationObserver(() => {
-                searchField = document.querySelector('.select2-container--open .select2-search__field');
-                if (searchField) {
-                    searchField.focus();
-                    observer.disconnect(); // Stop observing once the field is focused
-                }
-            });
-
-            // Start observing the body for changes when the dropdown opens
-            observer.observe(document.body, {
-                childList: true,
-                subtree: true,
-            });
-        } else {
-            // If available immediately, just focus
-            searchField.focus();
-        }
-    }
-});
 
 </script>
 

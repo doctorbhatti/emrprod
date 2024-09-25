@@ -134,9 +134,10 @@ class AdminController extends Controller
      * 
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
-     */
-    public function deleteClinic($id)
-    {
+     */public function deleteClinic($id)
+{
+    try {
+        // Find the clinic by ID
         $clinic = Clinic::find($id);
 
         // Check if the clinic exists
@@ -144,13 +145,45 @@ class AdminController extends Controller
             return back()->with('error', 'Clinic not found.');
         }
 
-        // Delete associated users before deleting the clinic
+        // Delete all related models (cascade delete)
+        
+        // Delete users
         $clinic->users()->delete();
 
-        // Delete the clinic
+        // Delete patients and their related prescriptions
+        $clinic->patients()->each(function ($patient) {
+            $patient->prescriptions()->delete(); // Delete prescriptions related to the patient
+            $patient->delete(); // Delete the patient itself
+        });
+
+        // Delete drugs
+        $clinic->drugs()->delete();
+
+        // Delete drug types
+        $clinic->quantityTypes()->delete(); // Assuming 'quantityTypes' are drug types
+
+        // Delete queues
+        $clinic->queues()->delete();
+
+        // Delete dosages
+        $clinic->dosages()->delete();
+
+        // Delete dosage frequencies
+        $clinic->dosageFrequencies()->delete();
+
+        // Delete dosage periods
+        $clinic->dosagePeriods()->delete();
+
+        // Finally, delete the clinic itself
         $clinic->delete();
 
-        return back()->with('success', $clinic->name . ' clinic removed');
+        return back()->with('success', $clinic->name . ' clinic and all related data removed successfully.');
+        
+    } catch (\Exception $e) {
+        // Handle any errors that might occur during the deletion process
+        return back()->with('error', 'Failed to remove clinic. ' . $e->getMessage());
     }
+}
+
 
 }

@@ -134,7 +134,11 @@ Drugs
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         $('#drugsTable').DataTable({
-            'pageLength': 10
+            'pageLength': 10,
+            'columnDefs': [{
+                "defaultContent": "-",
+                "targets": "_all"
+            }]
         });
     });
 </script>
