@@ -3337,6 +3337,7 @@ footer {
     line-height: 2;
     text-align: center;
     color: rgba(255, 255, 255, 0.3);
+    display: grid;
 }
 
 footer h4 {
@@ -3384,6 +3385,22 @@ footer .row {
     width: 85px;
     height: 85px;
     background: url("../images/logo-footer.png") no-repeat center;
+    background-size: 85px 85px;
+    font: 0/0 a;
+    text-shadow: none;
+    color: transparent;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.footer-workflow-logo {
+    display: block;
+    padding: 0;
+    outline: 0;
+    border: none;
+    width: 85px;
+    height: 85px;
+    background: url("../images/workflow.png") no-repeat center;
     background-size: 85px 85px;
     font: 0/0 a;
     text-shadow: none;
