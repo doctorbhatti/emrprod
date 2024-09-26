@@ -1,5 +1,6 @@
 <?php
 use App\Models\Admin;
+use App\Models\Clinic;
 use App\Models\User;
 
 return [
@@ -16,7 +17,7 @@ return [
     */
 
     'defaults' => [
-        'guard'     => 'web',
+        'guard' => 'web',
         'passwords' => 'users',
     ],
 
@@ -39,17 +40,17 @@ return [
 
     'guards' => [
         'web' => [
-            'driver'   => 'session',
+            'driver' => 'session',
             'provider' => 'users',
         ],
 
         'api' => [
-            'driver'   => 'token',
+            'driver' => 'token',
             'provider' => 'users',
         ],
 
         'admin' => [
-            'driver'   => 'session',
+            'driver' => 'session',
             'provider' => 'admins'
         ]
     ],
@@ -74,12 +75,18 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model'  => User::class,
+            'model' => User::class,
         ],
 
         'admins' => [
             'driver' => 'eloquent',
-            'model'  => Admin::class,
+            'model' => Admin::class,
+        ],
+
+        // Add a provider for clinics
+        'clinics' => [
+            'driver' => 'eloquent',
+            'model' => Clinic::class,  // Update this to your Clinic model
         ],
     ],
 
@@ -105,9 +112,16 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'email'    => 'auth.emails.password',
-            'table'    => 'password_resets',
-            'expire'   => 60,
+            'email' => 'auth.emails.password',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+
+        'clinics' => [  // This should define the broker for clinics
+            'provider' => 'clinics',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
         ],
     ],
 

@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 
-class User extends Authenticatable
+class User extends Authenticatable implements CanResetPassword
 {
+    use Notifiable;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -92,7 +96,7 @@ class User extends Authenticatable
      */
     public function getEmailForPasswordReset()
     {
-        return $this->email; // Typically the user's email
+        return $this->clinic->email; // Assuming a relationship exists between User and Clinic
     }
 
     /**
@@ -103,5 +107,36 @@ class User extends Authenticatable
     public static function getCurrentUser()
     {
         return Auth::user();
+    }
+
+    /**
+     * Get the remember token for the user.
+     *
+     * @return string|null
+     */
+    public function getRememberToken()
+    {
+        return $this->remember_token;
+    }
+
+    /**
+     * Set the remember token for the user.
+     *
+     * @param  string|null  $value
+     * @return void
+     */
+    public function setRememberToken($value)
+    {
+        $this->remember_token = $value;
+    }
+
+    /**
+     * Get the name of the remember token column.
+     *
+     * @return string
+     */
+    public function getRememberTokenName()
+    {
+        return 'remember_token';
     }
 }

@@ -12,10 +12,14 @@ use App\Models\Prescription;
 use App\Models\Queue;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Clinic extends Model
+class Clinic extends Authenticatable
 {
+
+    use Notifiable;
     protected $table = 'clinics';
 
     /**

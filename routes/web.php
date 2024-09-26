@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebsiteController;
 use App\Http\Controllers\Auth\AdminAuthController;
@@ -21,6 +22,12 @@ use App\Http\Controllers\SupportController;
 
 Route::middleware('web')->group(function () {
     Auth::routes();
+
+    Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+    Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('password/reset/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+    Route::post('password/reset', [ForgotPasswordController::class, 'reset'])->name('password.update');
+
 
     Route::prefix('web')->group(function () {
         Route::get('aboutUs', [WebsiteController::class, 'getAboutUsPage']);

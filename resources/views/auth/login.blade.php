@@ -42,6 +42,13 @@
                             </div><!-- /error -->
 
                         @endif
+
+                        @if (session('status'))
+                            <div class="alert-box alert-box--success hideit">
+                                {{ session('status') }}
+                                <i class="fa fa-times alert-box__close" aria-hidden="true"></i>
+                            </div>
+                        @endif
                         <div class="form-field has-feedback {{ $errors->has('username') ? 'has-error' : '' }}">
                             <input type="text" placeholder="Username" name="username" id="username"
                                 placeholder="Username" value="{{ old('username') }}">

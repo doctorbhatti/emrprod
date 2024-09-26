@@ -490,6 +490,6 @@ $user = \App\Models\User::getCurrentUser();
 </script>
 
 {{-- Google Analytics --}}
-<!-- @include('analytics.googleAnalytics') -->
+@include('analytics.googleAnalytics')
 
 </html>
