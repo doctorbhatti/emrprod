@@ -232,31 +232,52 @@ angular.module("HIS").controller("PrescriptionController", [
             }
         };
 
-        // Utility function to calculate age from date of birth
         function getAge(dob) {
             const birthDate = new Date(dob);
             const today = new Date();
-            let age = today.getFullYear() - birthDate.getFullYear();
-            const m = today.getMonth() - birthDate.getMonth();
-            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
+            const ageInMilliseconds = today - birthDate;
+
+            // Calculate total days
+            const ageInDays = Math.floor(
+                ageInMilliseconds / (1000 * 60 * 60 * 24)
+            );
+
+            // Calculate years, months, and days
+            const years = Math.floor(ageInDays / 365);
+            const remainingDaysAfterYears = ageInDays % 365;
+            const months = Math.floor(remainingDaysAfterYears / 30);
+            const days = remainingDaysAfterYears % 30;
+
+            // Build the age string
+            let ageString = "";
+
+            if (years > 0) {
+                ageString += `${years} year${years > 1 ? "s" : ""} `;
             }
-            return age;
+            if (months > 0) {
+                ageString += `${months} month${months > 1 ? "s" : ""} `;
+            }
+            if (days > 0 || ageString === "") {
+                // Show days if there's no other age part
+                ageString += `${days} day${days !== 1 ? "s" : ""}`;
+            }
+
+            return ageString.trim() || "less than 1 day"; // Handle edge case for newborns
         }
 
-        
         /**
          * This function allows to print a slip with details of patient and investigations that are being entered currently. The print slip can be sent along with samples to the lab when required.
          */
         // Function to trigger print preview of Investigations
         $scope.printInvestigations = function () {
             if ($scope.investigations) {
+                const clinicLogo = clinic.logo
+                ? `${window.location.origin}/${clinic.logo}`
+                : "/images/printlogo.png";
                 // Create clinic information section
                 const clinicInfo = `
                 <h3 style="text-align: center;">
-                    <img src="${
-                        clinic.logo ? clinic.logo : "/images/printlogo.png"
-                    }" style="width:60px; height: 60px;">
+                    <img src="${clinicLogo}" style="width:60px; height: 60px;">
                     <br>
                     ${clinic.name || "Clinic Name"}
                     <br>
@@ -311,6 +332,86 @@ angular.module("HIS").controller("PrescriptionController", [
                 alert("No investigations entered.");
             }
         };
+
+        /**
+         * This function allows to print a bill that patient can demand to be shown in his/* her office for claim.
+         */
+        // Function to trigger print preview of Investigations
+        $scope.printBillForClaim = function () {
+            if ($scope.amount) {
+                // Fetch the clinic logo from the server or ensure it's available in the scope
+                const clinicLogo = clinic.logo
+                    ? `${window.location.origin}/${clinic.logo}`
+                    : "/images/printlogo.png";
+                // Create clinic information section
+                const clinicInfo = `
+                <h3 style="text-align: center;">
+                    <img src="${clinicLogo}" style="width:60px; height: 60px;">
+                    <br>
+                    ${clinic.name || "Clinic Name"}
+                    <br>
+                    <small>
+                        ${clinic.address || "Clinic Address"}<br>
+                        ${clinic.phone || "Clinic Phone"}<br>
+                        ${clinic.email || "Clinic Email"}
+                    </small>
+                </h3>`;
+
+                // Create patient details and amount section
+                const patientDetails = `
+                <h5 style="border-bottom: 2px solid black">
+                    <strong>Patient Name:</strong> ${patient.first_name} ${
+                    patient.last_name || ""
+                }
+                    <br>
+                    Age: <strong> ${getAge(patient.dob)}</strong>
+                    <br>
+                    Date: <strong>${new Date().toLocaleDateString()}</strong>
+                </h5>
+                <div class="remarksDiv">
+                    <h5>Bill For Claim</h5>
+                    <h4>Consultation Charges <strong>Rs. ${
+                        $scope.amount
+                    }/-</strong></h4>
+                </div>`;
+
+                // Open a new window and write the content
+                const printWindow = $window.open(
+                    "",
+                    "_blank",
+                    "width=800,height=600"
+                );
+                printWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Print Bill</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; }
+                            h3, h5, p { text-align: center; }
+                            .remarksDiv { margin-top: 20px; }
+                            .footer { margin-top: 10px; border-top: 3px dotted black; padding-top: 5px; }
+                            .footer small { font-size: 10px; text-align: center; }
+                        </style>
+                    </head>
+                    <body>
+                        ${clinicInfo}
+                        ${patientDetails}
+                        <small>Electronically generated <strong>bill for claim</strong>, needs no signature, can be verified by contacting <strong>${clinic.name || "Clinic Name"}</strong>.</small>
+                        <div class="footer">
+                            <p>
+                                <small>Healthy Life Clinic | ERM Systems <br> Developed by Dr. M. Hassan Ashfaq <br> All rights reserved</small>
+                            </p>
+                        </div>
+                    </body>
+                </html>
+                `);
+                printWindow.document.close();
+                printWindow.print();
+            } else {
+                alert("No amount entered.");
+            }
+        };
+
         /**
          * Saves the prescription in the database.
          * Every prescription requires at least the diagnosis or the complaints to be present.
@@ -361,7 +462,7 @@ angular.module("HIS").controller("PrescriptionController", [
                     $scope.printPrescriptionId = response.prescriptionId;
                     $scope.showSuccess();
 
-                     // Scroll to top of the page
+                    // Scroll to top of the page
                     $window.scrollTo(0, 0);
                     $scope.$emit("prescriptionAddedEvent", []);
                 } else {

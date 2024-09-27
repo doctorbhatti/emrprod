@@ -85,7 +85,7 @@
                         @if($prescription->prescriptionPharmacyDrugs()->count() > 0)
                             <div class="page-break"></div>
                             <h3 class="center-block text-center">
-                                <img src="{{asset('images/printlogo.png')}}" style="width:60px; height: 60px;">
+                                <img src="{{ asset($currentLogo) }}" alt="Clinic Logo" style="width:60px; height: 60px;">
                                 <br>
                                 {{$patient->clinic->name}}<br>
                                 <small>

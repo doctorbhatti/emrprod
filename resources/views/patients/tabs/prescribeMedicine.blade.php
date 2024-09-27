@@ -68,27 +68,41 @@
                     </div>
                 </div>
 
+                <!-- Amount Section -->
+                <div class="mb-3 row">
+                    <label class="col-md-3 col-form-label">Amount(For Claim)</label>
+                    <div class="col-md-9">
+                        <input type="number" id="prescriptionAmount" placeholder="Enter Amount For Claim" ng-model="amount"
+                            class="form-control">
+                    </div>
+                </div>
+
+
                 <div class="mb-3 row">
                     <label class="col-md-3 col-form-label">Other Remarks</label>
                     <div class="col-md-9">
                         <textarea id="prescriptionRemarks" ng-model="remarks" placeholder="Remarks"
                             class="form-control"></textarea>
 
-                        <button style="margin-top: 20px;" class="btn btn-primary btn-lg btn-flat float-end"
-                            ng-click="loadPrescribedDrugsFromLocalStorage()">
-                            <i class="fa fa-repeat"></i>
-                            Repeat Prescription
-                        </button>
+                        <div class="d-flex justify-content-between w-100" style="margin-top: 20px;">
+                            <!-- Repeat Prescription Button -->
+                            <button class="btn btn-primary btn-lg btn-flat"
+                                ng-click="loadPrescribedDrugsFromLocalStorage()">
+                                <i class="fa fa-repeat"></i> Repeat Prescription
+                            </button>
 
-                        <!-- Print Investigations Button -->
-                        <button style="margin-top: 20px;" class="btn btn-primary btn-lg btn-flat float-start" ng-click="printInvestigations()">
-                            <i class="fa fa-print"></i> Print Investigations
-                        </button>
+                            <!-- Print Investigations Button -->
+                            <button class="btn btn-primary btn-lg btn-flat" ng-click="printInvestigations()">
+                                <i class="fa fa-print"></i> Print Investigations
+                            </button>
 
+                            <!-- Print Bill For Claim Button -->
+                            <button class="btn btn-primary btn-lg btn-flat" ng-click="printBillForClaim()">
+                                <i class="fa fa-print"></i> Print Bill
+                            </button>
+                        </div>
                     </div>
-
                 </div>
-
 
                 <!-- Area to add drugs -->
                 <div class="card card-success card-solid">
