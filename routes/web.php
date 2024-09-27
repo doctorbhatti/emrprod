@@ -57,7 +57,37 @@ Route::middleware('web')->group(function () {
             Route::get('holdClinic/{id}', [AdminController::class, 'holdClinic'])->name('holdClinic'); // New route to hold a clinic
             Route::get('unholdClinic/{id}', [AdminController::class, 'unholdClinic'])->name('unholdClinic'); // New route to unhold a clinic    
             Route::get('logout', [AdminAuthController::class, 'logout'])->name('adminLogout');
+
+            // New route for sending notifications
+            Route::post('/send-notification', [AdminController::class, 'sendNotificationToClinics'])->name('admin.sendNotification');
+
+            Route::get('/admin/notification-history', [AdminController::class, 'showNotificationHistory'])->name('admin.notificationHistory');
+
+
+            Route::delete('/admin/delete-notification/{id}', [AdminController::class, 'deleteNotification'])->name('deleteNotification');
+
+            Route::delete('/admin/delete-notifications', [AdminController::class, 'deleteNotificationsByMessage'])->name('deleteNotificationsByMessage');
+
+
+
         });
+    });
+
+    // Routes accessible to clinic users (authenticated)
+    Route::middleware('auth')->group(function () {
+
+        // Fetch Notifications
+        Route::get('notifications', [AdminController::class, 'fetchNotifications'])->name('admin.fetchNotifications');
+
+        // Mark Notification as Read
+        Route::post('mark-notification-read/{id}', [AdminController::class, 'markNotificationAsRead'])->name('admin.markNotificationRead');
+
+        // View All Notifications
+        Route::get('all-notifications', [AdminController::class, 'viewAllNotifications'])->name('admin.allNotifications');
+
+        // Example route for fetching notification details
+        Route::get('/get-notification/{id}', [AdminController::class, 'getNotification'])->name('getNotification');
+
     });
 
     Route::middleware('auth')->group(function () {

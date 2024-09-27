@@ -29,6 +29,7 @@
         </div>
     @endif
 
+    <!-- Existing Clinics Table -->
     <table class="table table-hover table-condensed table-bordered text-center">
         <thead class="table-dark">
             <tr>
@@ -55,12 +56,10 @@
                     <td>{{ $clinic->timezone }}</td>
                     <td>{{ $clinic->created_at->format('Y-m-d H:i') }}</td>
                     <td>
-                        <a href="{{ route('acceptClinic', ['id' => $clinic->id]) }}" class="btn btn-sm btn-success">
-                            Accept
-                        </a>
-                        <a href="{{ route('deleteClinic', ['id' => $clinic->id]) }}" class="btn btn-sm btn-danger">
-                            Delete
-                        </a>
+                        <a href="{{ route('acceptClinic', ['id' => $clinic->id]) }}"
+                            class="btn btn-sm btn-success">Accept</a>
+                        <a href="{{ route('deleteClinic', ['id' => $clinic->id]) }}"
+                            class="btn btn-sm btn-danger">Delete</a>
                     </td>
                 </tr>
             @empty
@@ -87,7 +86,7 @@
                 <th class="col-md-1">Timezone</th>
                 <th class="col-md-1">Registered At (UTC)</th>
                 <th class="col-md-1">Patients Added</th>
-                <th class="col-md-2">Actions</th> <!-- Added new Actions column -->
+                <th class="col-md-2">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -103,20 +102,14 @@
                     <td>{{ $clinic->created_at->format('Y-m-d H:i') }}</td>
                     <td>{{ $clinic->patients()->count() }}</td>
                     <td>
-                        <!-- Hold Button -->
                         @if(!$clinic->is_held)
-                            <a href="{{ route('holdClinic', ['id' => $clinic->id]) }}" class="btn btn-sm btn-warning">
-                                Hold
-                            </a>
+                            <a href="{{ route('holdClinic', ['id' => $clinic->id]) }}" class="btn btn-sm btn-warning">Hold</a>
                         @else
-                            <a href="{{ route('unholdClinic', ['id' => $clinic->id]) }}" class="btn btn-sm btn-secondary">
-                                Unhold
-                            </a>
+                            <a href="{{ route('unholdClinic', ['id' => $clinic->id]) }}"
+                                class="btn btn-sm btn-secondary">Unhold</a>
                         @endif
-                        <!-- Delete Button -->
-                        <a href="{{ route('deleteClinic', ['id' => $clinic->id]) }}" class="btn btn-sm btn-danger">
-                            Delete
-                        </a>
+                        <a href="{{ route('deleteClinic', ['id' => $clinic->id]) }}"
+                            class="btn btn-sm btn-danger">Delete</a>
                     </td>
                 </tr>
             @empty
@@ -127,4 +120,46 @@
         </tbody>
     </table>
 </div>
+<form action="{{ route('admin.sendNotification') }}" method="POST">
+    @csrf
+    <textarea name="message" placeholder="Type your message here..." required></textarea>
+    <button type="submit">Send</button>
+</form>
+
+<div class="container-fluid table-responsive mt-4">
+    <h4>Notification History</h4>
+    <!-- Display notifications table -->
+    <table class="table table-hover table-condensed table-bordered text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>Notification Message</th>
+                <th>Date Sent</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($notifications as $notification)
+                <tr>
+                    <td>{{ $notification->message }}</td>
+                    <td>{{ $notification->created_at ? $notification->created_at->format('Y-m-d H:i') : 'N/A' }}</td>
+                    <td>
+                        <form action="{{ route('deleteNotificationsByMessage') }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <input type="hidden" name="message" value="{{ $notification->message }}">
+                            <button type="submit" class="btn btn-sm btn-danger"
+                                onclick="return confirm('Are you sure you want to delete all notifications with this message?');">Delete
+                                All</button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+
+
+    </table>
+
+    {{ $notifications->links() }} <!-- For pagination -->
+</div>
+
 @endsection

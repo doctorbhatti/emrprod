@@ -101,14 +101,37 @@ $user = \App\Models\User::getCurrentUser();
                                     data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none;"></i>
                             </a> </li> <!--end::Fullscreen Toggle-->
 
+                        <!--begin::Notification Dropdown-->
+                        <li class="nav-item dropdown" id="notificationDropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="notificationToggle" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-bell"></i>
+                                <span class="badge bg-danger" style="display: none;">0</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end"
+                                aria-labelledby="notificationToggle">
+                                <li class="dropdown-header">Notifications</li>
+                                <!-- Notifications will be dynamically loaded here -->
+                                <li><span class="dropdown-item text-muted">Loading...</span></li>
+                                <!-- Button to view all notifications -->
+                                <li>
+                                    <a href="{{ route('admin.allNotifications') }}" class="dropdown-item text-center">
+                                        View All Notifications
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!--end::Notification Dropdown-->
                         <!--begin::User Menu Dropdown-->
                         <li class="nav-item dropdown user-menu"> <a href="#" class="nav-link dropdown-toggle"
-                                data-bs-toggle="dropdown"> <img src="{{ $user->avatar ? asset($user->avatar) : asset('dist/img/my_avatar.png') }}"
-                                class="user-image rounded-circle shadow" alt="User Image"><span
+                                data-bs-toggle="dropdown"> <img
+                                    src="{{ $user->avatar ? asset($user->avatar) : asset('dist/img/my_avatar.png') }}"
+                                    class="user-image rounded-circle shadow" alt="User Image"><span
                                     class="d-none d-md-inline">{{$user->name}}</span> </a>
                             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end"> <!--begin::User Image-->
-                                <li class="user-header text-bg-primary"><img src="{{ $user->avatar ? asset($user->avatar) : asset('dist/img/my_avatar.png') }}"
-                                class="rounded-circle shadow" alt="User Image">
+                                <li class="user-header text-bg-primary"><img
+                                        src="{{ $user->avatar ? asset($user->avatar) : asset('dist/img/my_avatar.png') }}"
+                                        class="rounded-circle shadow" alt="User Image">
                                     <p>
                                         {{$user->name}}
                                         <small>{{$user->clinic->name}}</small>
@@ -260,8 +283,22 @@ $user = \App\Models\User::getCurrentUser();
             </strong> All rights
             reserved.
         </footer>
-        </nav><!-- ./wrapper -->
-
+    </div>
+    <!-- Modal for displaying a single notification -->
+    <div class="modal fade" id="singleNotificationModal" tabindex="-1" aria-labelledby="singleNotificationModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="singleNotificationModalLabel">Notification Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="notificationModalContent">
+                    <!-- Notification content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <script src="{{asset('dist/js/select2.min.js')}}"></script>
 <!--begin::Script--> <!--begin::Third Party Plugin(OverlayScrollbars)-->
@@ -486,6 +523,140 @@ $user = \App\Models\User::getCurrentUser();
             x.style.visibility = "hidden";
         }
     }
+
+</script>
+<script>
+    $(document).ready(function () {
+    // Fetch notifications function
+    function fetchNotifications() {
+        $.ajax({
+            url: '{{ route('admin.fetchNotifications') }}',
+            method: 'GET',
+            success: function (data) {
+                var dropdownMenu = $('#notificationDropdown .dropdown-menu');
+                var badge = $('.badge.bg-danger');
+                dropdownMenu.empty();
+
+                if (data.length > 0) {
+                    var unreadNotifications = data.filter(n => !n.read_status);
+                    var readNotifications = data.filter(n => n.read_status);
+
+                    // Unread notifications section
+                    if (unreadNotifications.length > 0) {
+                        dropdownMenu.append('<li class="dropdown-header">New Notifications</li>');
+                        unreadNotifications.slice(0, 5).forEach(function (notification) {
+                            dropdownMenu.append(`
+                                <li>
+                                    <a class="dropdown-item notification-item" href="#" data-id="${notification.id}">
+                                        ${notification.message}
+                                        <br>
+                                        <small class="text-muted">${new Date(notification.created_at).toLocaleString()}</small>
+                                    </a>
+                                </li>
+                            `);
+                        });
+                    } else {
+                        dropdownMenu.append('<li><span class="dropdown-item text-muted">No new notifications</span></li>');
+                    }
+
+                    // Read notifications section
+                    if (readNotifications.length > 0) {
+                        dropdownMenu.append('<li class="dropdown-header">Opened</li>');
+                        readNotifications.forEach(function (notification) {
+                            dropdownMenu.append(`
+                                <li>
+                                    <a class="dropdown-item" href="#" data-id="${notification.id}">
+                                        ${notification.message}
+                                        <br>
+                                        <small class="text-muted">${new Date(notification.created_at).toLocaleString()}</small>
+                                    </a>
+                                </li>
+                            `);
+                        });
+                    }
+
+                    // Add the View All Notifications button
+                    dropdownMenu.append(`
+                        <li>
+                            <a href="{{ route('admin.allNotifications') }}" class="dropdown-item text-center">
+                                View All Notifications
+                            </a>
+                        </li>
+                    `);
+
+                    // Update badge count
+                    var unreadCount = unreadNotifications.length;
+                    if (unreadCount > 0) {
+                        badge.text(unreadCount).show();
+                    } else {
+                        badge.hide();
+                    }
+
+                } else {
+                    dropdownMenu.append('<li><span class="dropdown-item text-muted">No notifications</span></li>');
+                    badge.hide();
+                }
+            },
+            error: function () {
+                $('#notificationDropdown .dropdown-menu').html('<li><span class="dropdown-item text-muted">Failed to load notifications</span></li>');
+            }
+        });
+    }
+
+    // Initial fetch
+    fetchNotifications();
+
+    // Periodically fetch notifications
+    setInterval(fetchNotifications, 30000);
+
+    // Only show dropdown first, prevent modal opening
+    $('#notificationToggle').on('click', function (e) {
+        e.stopPropagation(); // Prevent modal trigger
+    });
+
+    // Open modal with notification content when clicking a notification
+    $(document).on('click', '.notification-item', function (e) {
+        e.preventDefault();
+        var notificationId = $(this).data('id');
+        var notificationItem = $(this);
+
+        $.ajax({
+            url: `/mark-notification-read/${notificationId}`,
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+            },
+            success: function () {
+                // Mark the clicked notification as read
+                notificationItem.closest('li').remove();
+
+                // Fetch all notifications again to update badge and dropdown
+                fetchNotifications();
+
+                // Load notification content into modal
+                $.ajax({
+                    url: `/get-notification/${notificationId}`, // Ensure this matches the route in web.php
+                    method: 'GET',
+                    success: function (data) {
+                        // Check for a URL in the message and convert it to a clickable link
+                        var messageContent = data.message.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+                        $('#notificationModalContent').html(`
+                            <p>${messageContent}</p>
+                            <p><small>${new Date(data.created_at).toLocaleString()}</small></p>
+                        `);
+                        $('#singleNotificationModal').modal('show'); // Show modal with notification content
+                    },
+                    error: function () {
+                        alert('Failed to load notification details.');
+                    }
+                });
+            },
+            error: function () {
+                alert('Failed to mark notification as read.');
+            }
+        });
+    });
+});
 
 </script>
 

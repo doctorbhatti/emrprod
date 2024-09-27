@@ -99,7 +99,6 @@ Home
         </div> <!--end::Col-->
     </div>
 @endcan
-
 <div class="row container-fluid" style="visibility: hidden" id="clinicStatsnew">
     <div class="box box-primary">
         <div class="box-header">
