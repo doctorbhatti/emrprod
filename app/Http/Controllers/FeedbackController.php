@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class FeedbackController extends Controller
 {
@@ -32,8 +33,10 @@ class FeedbackController extends Controller
     {
         Log::debug(self::LOG_CLASS_NAME . "Sending feedback: " . $request->feedback);
 
+        // Validate feedback and attachment
         $validator = Validator::make($request->all(), [
             'feedback' => 'required|string|min:20|max:200',
+            'attachment' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -42,19 +45,35 @@ class FeedbackController extends Controller
         }
 
         $user = User::getCurrentUser();
-        $emails = config('mail.contact_us_address', 'chr24x7@gmail.com');
+        $emails = config('mail.contact_us_address', 'healthylifeclinicemr@gmail.com');
         $emails = explode(',', $emails);
 
+        // Handle file upload for attachment
+        $attachmentPath = null;
+        if ($request->hasFile('attachment')) {
+            $attachmentPath = $request->file('attachment')->store('feedback_attachments', 'public');
+        }
+
         try {
-            Mail::send('emails.feedback', ['feedback' => $request->feedback, 'user' => $user], function ($message) use ($emails) {
-                $message->to($emails)->subject('CHR247.COM - User Feedback');
+            // Send the email
+            Mail::send('emails.feedback', [
+                'feedback' => $request->feedback,
+                'user' => $user,
+                'attachmentPath' => $attachmentPath // Pass the attachment path
+            ], function ($message) use ($emails, $attachmentPath) {
+                $message->to($emails)->subject('HLC | EMR - User Feedback');
+
+                // Attach the file if uploaded
+                if ($attachmentPath) {
+                    $message->attach(Storage::disk('public')->path($attachmentPath));
+                }
             });
 
-            Log::debug(self::LOG_CLASS_NAME . "Feedback sent by user ID: " . $user->id);
-            return back()->with('success', "Feedback submitted successfully. Thank you for your feedback!");
+            Log::debug(self::LOG_CLASS_NAME . "Complaint sent by user ID: " . $user->id);
+            return back()->with('success', "Ticket submitted successfully. We will get back to you shortly!");
         } catch (\Exception $e) {
-            Log::error(self::LOG_CLASS_NAME . "Failed to send feedback: " . $e->getMessage());
-            return back()->with('error', 'Failed to submit feedback. Please try again later.');
+            Log::error(self::LOG_CLASS_NAME . "Failed to open ticket: " . $e->getMessage());
+            return back()->with('error', 'Failed to open ticket. Please try again later.');
         }
     }
 }

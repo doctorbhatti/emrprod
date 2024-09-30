@@ -5,6 +5,7 @@
                 <h3 class="modal-title">
                     Terms &amp; Conditions
                 </h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <h4>1. ACCEPTANCE OF THE TERMS OF SERVICE</h4>

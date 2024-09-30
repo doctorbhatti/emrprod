@@ -66,6 +66,7 @@
                     <li class="current"><a href="{{url('/')}}" title="home">Home</a></li>
                     <li><a href="{{url('/web/aboutUs')}}" title="aboutUs">About Us</a></li>
                     <li><a href="{{url('/web/features')}}" title="features">Features</a></li>
+                    <li><a href="{{url('/web/pricing')}}" title="pricing">Pricing</a></li>
                     <li><a href="{{url('/web/privacyPolicy')}}" title="privacyPolicy">Privacy
                             Policy</a></li>
                     <li><a href="{{url('web/contactUs')}}" title="contactUs">Contact Us</a></li>

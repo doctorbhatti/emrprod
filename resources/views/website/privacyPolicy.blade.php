@@ -84,7 +84,7 @@
             <h3>Children's Privacy</h3>
             We do not knowingly collect information from children under 13. If a parent or guardian discovers that their
             child has provided us with information without consent, please contact us at <a
-                href="mailto:dochassan12@outlook.com">dochassan12@outlook.com</a>, and we will delete the information
+                href="mailto:healthylifeclinicemr@gmail.com">healthylifeclinicemr@gmail.com</a>, and we will delete the information
             promptly.
 
             <h3>Security</h3>

@@ -142,7 +142,7 @@
                 <div class="cinfo">
                     <h5>Email Us At</h5>
                     <p>
-                        <a href="mailto:dochassan12@outlook.com">dochassan12@outlook.com</a>
+                        <a href="mailto:healthylifeclinicemr@gmail.com">healthylifeclinicemr@gmail.com</a>
                     </p>
                 </div>
 

@@ -88,7 +88,8 @@
         <!-- Contact Section -->
         <div class="contact">
             <p>If you have any questions, feel free to contact us:</p>
-            <p>Email: <a href="mailto:dochassan12@outlook.com">dochassan12@outlook.com</a></p>
+            <p>Email: <a href="mailto:healthylifeclinicemr@gmail.com">healthylifeclinicemr@gmail.com
+                </a></p>
             <p>Phone: <a href="tel:+923276798673">+92 (327) 679-8673</a></p>
         </div>
 

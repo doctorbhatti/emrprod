@@ -33,6 +33,15 @@ class WebsiteController extends Controller
         return view("website.features");
     }
 
+     /**
+     * Display the Features page.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getPricingPage()
+    {
+        return view("website.pricing");
+    }
     /**
      * Display the Privacy Policy page.
      *
@@ -77,12 +86,12 @@ class WebsiteController extends Controller
 
         try {
             // Get the contact email addresses from the environment configuration
-            $contactEmails = explode(',', env('CONTACTUS_MAIL', 'chr24x7@gmail.com'));
+            $contactEmails = explode(',', env('CONTACTUS_MAIL', 'healthylifeclinicemr@gmail.com'));
 
             // Send the contact us email
             Mail::send('emails.contactUs', ['msg' => $data], function ($message) use ($contactEmails) {
                 $message->to($contactEmails)
-                    ->subject('chr247.com - New Contact Us Message');
+                    ->subject('HLC | EMR - New Contact Us Message');
             });
 
             Log::debug(self::LOG_CLASS_NAME . "Contact us email sent successfully", $data);

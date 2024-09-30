@@ -24,50 +24,51 @@
                     <form action="{{url('login')}}" method="post">
                         {!! csrf_field() !!}
 
-                        {{--Success Message--}}
+                        {{-- Success Message --}}
                         @if(session()->has('success'))
-                            <div class="alert-box alert-box--success hideit">
-                                <p> Success!</p> {{session('success')}}
+                            <div class="alert-box alert-box--success overlay-message">
+                                <p>Success!</p> {{ session('success') }}
                                 <i class="fa fa-times alert-box__close" aria-hidden="true"></i>
-
                             </div><!-- /success -->
-
                         @endif
 
                         {{-- General error message --}}
                         @if ($errors->has('general'))
-                            <div class="alert-box alert-box--error hideit">
+                            <div class="alert-box alert-box--error overlay-message">
                                 <p>Oops!</p>{{ $errors->first('general') }}
                                 <i class="fa fa-times alert-box__close" aria-hidden="true"></i>
                             </div><!-- /error -->
-
                         @endif
 
                         @if (session('status'))
-                            <div class="alert-box alert-box--success hideit">
+                            <div class="alert-box alert-box--success overlay-message">
                                 {{ session('status') }}
                                 <i class="fa fa-times alert-box__close" aria-hidden="true"></i>
                             </div>
                         @endif
+
                         <div class="form-field has-feedback {{ $errors->has('username') ? 'has-error' : '' }}">
                             <input type="text" placeholder="Username" name="username" id="username"
-                                placeholder="Username" value="{{ old('username') }}">
+                                value="{{ old('username') }}">
                             @if ($errors->has('username'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('username') }}</strong>
-                                </span>
+                                <div class="alert-box alert-box--error overlay-message">
+                                    <p>Oops!</p>{{ $errors->first('username') }}
+                                    <i class="fa fa-times alert-box__close" aria-hidden="true"></i>
+                                </div><!-- /error -->
                             @endif
                         </div><br>
-                        <div class="form-field has-feedback {{ $errors->has('password') ? 'has-error' : '' }}">
 
+                        <div class="form-field has-feedback {{ $errors->has('password') ? 'has-error' : '' }}">
                             <input type="password" placeholder="Password" name="password" id="password-field"
-                                value="{{old('password')}}">
+                                value="{{ old('password') }}">
                             @if ($errors->has('password'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('password') }}</strong>
-                                </span>
+                                <div class="alert-box alert-box--error overlay-message">
+                                    <p>Oops!</p>{{ $errors->first('password') }}
+                                    <i class="fa fa-times alert-box__close" aria-hidden="true"></i>
+                                </div><!-- /error -->
                             @endif
                         </div>
+
                         <input type="checkbox" onclick="showHidePassword()">
                         <strong style="color: #fff;">Show Password</strong>
                         <br>
@@ -76,14 +77,38 @@
                             <p class="text-end"><a href="{{ url('/password/reset') }}">Forgot Password?</a></p>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
         <div class="home-content__line"></div>
-
-    </div> <!-- end home-content -->
+    </div>
 </section>
+<style>
+    .overlay-message {
+    position: absolute;
+    top: 10px; /* Adjust as necessary */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    width: 80%;
+    padding: 10px;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.alert-box__close {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    cursor: pointer;
+}
+
+.myContainer {
+    position: relative;
+}
+
+</style>
 <script>
     function showHidePassword() {
         var x = document.getElementById("password-field");

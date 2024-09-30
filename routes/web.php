@@ -32,6 +32,7 @@ Route::middleware('web')->group(function () {
     Route::prefix('web')->group(function () {
         Route::get('aboutUs', [WebsiteController::class, 'getAboutUsPage']);
         Route::get('features', [WebsiteController::class, 'getFeaturesPage']);
+        Route::get('pricing', [WebsiteController::class, 'getPricingPage']);
         Route::get('privacyPolicy', [WebsiteController::class, 'getPrivacyPolicyPage']);
         Route::get('contactUs', [WebsiteController::class, 'getContactUs']);
         Route::post('contactUs', [WebsiteController::class, 'postContactUs'])->name('contactUs');
@@ -67,9 +68,6 @@ Route::middleware('web')->group(function () {
             Route::delete('/admin/delete-notification/{id}', [AdminController::class, 'deleteNotification'])->name('deleteNotification');
 
             Route::delete('/admin/delete-notifications', [AdminController::class, 'deleteNotificationsByMessage'])->name('deleteNotificationsByMessage');
-
-
-
         });
     });
 
@@ -191,6 +189,12 @@ Route::middleware('web')->group(function () {
         Route::post('saveDrugWithDosages', [DrugAPIController::class, 'saveDrugWithDosages']);
     });
 
+    Route::prefix('feedback')->group(function () {
+        Route::get('/', [FeedbackController::class, 'getFeedbackForm'])->name('feedback.form');
+        Route::post('/', [FeedbackController::class, 'sendFeedback'])->name('feedback.send');
+    });
+
+    
     /*
      * SUPPORT API
      */

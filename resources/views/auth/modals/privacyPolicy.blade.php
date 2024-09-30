@@ -68,26 +68,24 @@
                     </li>
                 </ul>
                 </p>
-                <!-- <h4> WHAT ARE MY OPT-OUT RIGHTS?</h4>
+                <h4> WHAT ARE MY OPT-OUT RIGHTS?</h4>
                 <p>
                     You can stop all collection of information by the Application easily by making a formal
-                    request at support@chr247.com.
-                </p> -->
-                <!-- <h4>
+                    request at <a href="mailto:healthylifeclinicemr@gmail.com">healthylifeclinicemr@gmail.com</a>.
+                </p> 
+                <h4>
                     DATA RETENTION POLICY, MANAGING YOUR INFORMATION
                 </h4>
                 <p>
                     We will retain User Provided data for as long as you use the Application and for a
                     reasonable time thereafter. We will retain Automatically Collected information for up to 24
                     months and thereafter may store it in aggregate. If you’d like us to delete User Provided
-                    Data that you have provided via the Application, please contact us at support@chr247.com and
-                    we will respond in a reasonable time. Please note that some or all of the User Provided Data
+                    Data that you have provided via the Application, please contact us at <a href="mailto:healthylifeclinicemr@gmail.com">healthylifeclinicemr@gmail.com</a> and we will respond in a reasonable time. Please note that some or all of the User Provided Data
                     may be required in order for the Application to function properly.
                 </p>
                 <p>Children : We do not use the Application to knowingly solicit data from or market to
                     children under the age of 13. If a parent or guardian becomes aware that his or her child
-                    has provided us with information without their consent, he or she should contact us at
-                    support@consectechnologies.com. We will delete such information from our files within a
+                    has provided us with information without their consent, he or she should contact us at <a href="mailto:healthylifeclinicemr@gmail.com">healthylifeclinicemr@gmail.com</a>. We will delete such information from our files within a
                     reasonable time.
                 </p>
                 <p>Security : We are concerned about safeguarding the confidentiality of your information. We
@@ -111,7 +109,7 @@
                     disclosing information, all of which activities will take place in the United States. If you
                     reside outside the United States your information will be transferred, processed and stored
                     there under United States privacy standards.
-                </p> -->
+                </p>
                 </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" data-bs-dismiss="modal">Done</button>
