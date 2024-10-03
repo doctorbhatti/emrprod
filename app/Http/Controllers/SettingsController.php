@@ -54,7 +54,7 @@ class SettingsController extends Controller
         $user = Auth::user();
 
         // Pass the current logo and user data to the settings view
-        return view('settings.settings', compact('currentLogo', 'user'));
+        return view('settings.settings', compact('currentLogo', 'user', 'setting'));
     }
 
 
@@ -200,5 +200,22 @@ class SettingsController extends Controller
         return back()->with('error', 'Please select a valid image file.');
     }
 
+    public function updatePrintPreviewOption(Request $request)
+    {
+        $request->validate([
+            'print_preview_option' => 'required|in:option1,option2,option3', // Customize with your actual options
+        ]);
+
+        // Get the setting row
+        $setting = Setting::first();
+
+        if ($setting) {
+            $setting->print_preview_option = $request->print_preview_option;
+            $setting->save();
+            return back()->with('success', 'Print preview option updated successfully.');
+        }
+
+        return back()->with('error', 'Unable to update the print preview option.');
+    }
 
 }

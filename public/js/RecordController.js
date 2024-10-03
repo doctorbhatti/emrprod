@@ -12,7 +12,18 @@ angular.module("HIS").controller("RecordController", [
         $scope.id = null;
 
         $scope.prescriptions = [];
+        $scope.showScrollToTop = false;
+        $scope.showScrollToBottom = true;
+        $scope.duePrescriptions = []; // New array to store "Due" prescriptions
 
+        // Initialize the collapsed state
+        $scope.isCollapsed = true; // Start as collapsed (true means hidden)
+
+        // Function to toggle collapse/expand
+        $scope.toggleCollapse = function() {
+            $scope.isCollapsed = !$scope.isCollapsed; // Toggle the collapsed state
+        };
+        
         //to listen to the new records that are being added.
         $rootScope.$on("PrescriptionIssuedEvent", function (event, data) {
             $scope.loadMedicalRecords();
@@ -27,6 +38,20 @@ angular.module("HIS").controller("RecordController", [
                     if (data.status == 1) {
                         $scope.prescriptions = data.prescriptions;
                     }
+                    // Filter prescriptions with "Due" in payment remarks
+                    $scope.duePrescriptions = $scope.prescriptions.filter(
+                        function (prescription) {
+                            return (
+                                prescription.payment &&
+                                prescription.payment.remarks &&
+                                prescription.payment.remarks.includes("Due")
+                            );
+                        }
+                    );
+                    console.log('Filtered Due Prescriptions:', $scope.duePrescriptions); // Debugging
+
+                    // Ensure Angular updates the view
+                    $scope.$applyAsync();
                 }
             );
         };
@@ -55,5 +80,30 @@ angular.module("HIS").controller("RecordController", [
             localStorage.setItem("prescribedDrugs", JSON.stringify(drugsData));
             //alert("Drugs copied to localStorage");
         };
+        // Scroll to top function
+        $scope.scrollToTop = function () {
+            $window.scrollTo({ top: 0, behavior: "smooth" });
+        };
+
+        // Scroll to bottom function
+        $scope.scrollToBottom = function () {
+            $window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: "smooth",
+            });
+        };
+
+        // Track scrolling to show/hide scroll buttons
+        angular.element($window).on("scroll", function () {
+            $scope.$apply(function () {
+                var pageOffset = $window.pageYOffset;
+                var windowHeight = $window.innerHeight;
+                var documentHeight = document.body.offsetHeight;
+
+                $scope.showScrollToTop = pageOffset > 100;
+                $scope.showScrollToBottom =
+                    windowHeight + pageOffset < documentHeight - 100;
+            });
+        });
     },
 ]);

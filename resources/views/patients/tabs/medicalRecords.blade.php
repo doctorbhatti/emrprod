@@ -4,6 +4,20 @@
     <input type="hidden"
         ng-init="baseUrl='{{ url('/') }}'; id={{ $patient->id }}; token='{{ csrf_token() }}'; loadMedicalRecords()">
 
+    <!-- Scroll to Top Button -->
+    <button type="button" class="btn btn-primary scroll-to-top" ng-click="scrollToTop()" ng-show="showScrollToTop"
+        style="position: fixed; bottom: 80px; right: 20px; z-index: 9999; border-radius: 50%; width: 50px; height: 50px; padding: 10px;">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <!-- Scroll to Bottom Button -->
+    <button type="button" class="btn btn-primary scroll-to-bottom" ng-click="scrollToBottom()"
+        ng-show="showScrollToBottom"
+        style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; border-radius: 50%; width: 50px; height: 50px; padding: 10px;">
+        <i class="fa fa-arrow-down"></i>
+    </button>
+
+
     <div class="alert alert-success d-none" ng-show="hasSuccess" ng-cloak>
         <h4><i class="icon fa fa-check"></i> Success!</h4>
         [[successMessage]]
@@ -83,7 +97,7 @@
                     </tr>
                 </tbody>
             </table>
-            
+
             {{-- Table to show pharmacy drugs --}}
             <h4 ng-if="prescription.prescription_pharmacy_drugs.length > 0">Pharmacy Drugs</h4>
             <table class="table table-condensed table-bordered table-hover text-center"
@@ -117,7 +131,8 @@
                 <div class="col-md-8">[[prescription.payment.remarks]]</div>
             </div>
             <div style="padding:20px;">
-                <button class="btn btn-primary btn-lg btn-flat float-end" ng-click="copyDrugsToLocalStorage(prescription.prescription_drugs)">
+                <button class="btn btn-primary btn-lg btn-flat float-end"
+                    ng-click="copyDrugsToLocalStorage(prescription.prescription_drugs)">
                     Select Drugs to Repeat
                 </button>
             </div>

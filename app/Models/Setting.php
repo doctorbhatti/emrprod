@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
 {
-    protected $fillable = ['logo'];
+    protected $fillable = ['print_preview_option', 'logo'];
 }

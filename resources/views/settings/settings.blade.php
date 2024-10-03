@@ -25,21 +25,29 @@ Settings
 <!-- Navbar for tabs -->
 <ul class="nav nav-tabs" id="settingsTab" role="tablist">
     <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="change-password-tab" data-bs-toggle="tab" href="#change-password" role="tab">Change Password</a>
+        <a class="nav-link active" id="change-password-tab" data-bs-toggle="tab" href="#change-password"
+            role="tab">Change Password</a>
     </li>
     @can('register', 'App\Models\User')
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" id="create-user-tab" data-bs-toggle="tab" href="#create-user" role="tab">Create New User</a>
-    </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="create-user-tab" data-bs-toggle="tab" href="#create-user" role="tab">Create New User</a>
+        </li>
     @endcan
     <li class="nav-item" role="presentation">
-        <a class="nav-link" id="update-avatar-tab" data-bs-toggle="tab" href="#update-avatar" role="tab">Update Avatar</a>
+        <a class="nav-link" id="update-avatar-tab" data-bs-toggle="tab" href="#update-avatar" role="tab">Update
+            Avatar</a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link" id="update-logo-tab" data-bs-toggle="tab" href="#update-logo" role="tab">Update Clinic Logo</a>
+        <a class="nav-link" id="update-logo-tab" data-bs-toggle="tab" href="#update-logo" role="tab">Update Clinic
+            Logo</a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link" id="clinic-users-tab" data-bs-toggle="tab" href="#clinic-users" role="tab">Clinic's Users</a>
+        <a class="nav-link" id="clinic-users-tab" data-bs-toggle="tab" href="#clinic-users" role="tab">Clinic's
+            Users</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="print-preview-tab" data-bs-toggle="tab" href="#print-preview" role="tab">Print
+            Preview</a>
     </li>
 </ul>
 
@@ -73,7 +81,8 @@ Settings
 
                     <div class="mb-3">
                         <label for="password_confirmation" class="form-label">New Password Confirmation</label>
-                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
+                        <input type="password" class="form-control" id="password_confirmation"
+                            name="password_confirmation">
                         @error('password_confirmation')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -89,69 +98,72 @@ Settings
 
     {{-- Create New User Tab --}}
     @can('register', 'App\Models\User')
-    <div class="tab-pane fade" id="create-user" role="tabpanel" aria-labelledby="create-user-tab">
-        <div class="card mb-4">
-            <div class="card-header">
-                <h4 class="card-title">Create New User</h4>
-            </div>
-            <div class="card-body">
-                <form method="post" action="{{ route('createAccount') }}">
-                    @csrf
+        <div class="tab-pane fade" id="create-user" role="tabpanel" aria-labelledby="create-user-tab">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="card-title">Create New User</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{{ route('createAccount') }}">
+                        @csrf
 
-                    <div class="mb-3">
-                        <label for="user_name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="user_name" name="user_name" value="{{ old('user_name') }}">
-                        @error('user_name')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
+                        <div class="mb-3">
+                            <label for="user_name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="user_name" name="user_name"
+                                value="{{ old('user_name') }}">
+                            @error('user_name')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="user_username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="user_username" name="user_username" value="{{ old('user_username') }}">
-                        @error('user_username')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
+                        <div class="mb-3">
+                            <label for="user_username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="user_username" name="user_username"
+                                value="{{ old('user_username') }}">
+                            @error('user_username')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="user_role" class="form-label">Role</label>
-                        <select id="user_role" name="user_role" class="form-select">
-                            <option value="">N/A</option>
-                            @foreach(\App\Models\Role::where('role', '<>', 'Admin')->get() as $role)
-                                <option value="{{ $role->id }}" {{ old('user_role') == $role->id ? 'selected' : '' }}>
-                                    {{ $role->role }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('user_role')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
+                        <div class="mb-3">
+                            <label for="user_role" class="form-label">Role</label>
+                            <select id="user_role" name="user_role" class="form-select">
+                                <option value="">N/A</option>
+                                @foreach(\App\Models\Role::where('role', '<>', 'Admin')->get() as $role)
+                                    <option value="{{ $role->id }}" {{ old('user_role') == $role->id ? 'selected' : '' }}>
+                                        {{ $role->role }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('user_role')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="user_password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="user_password" name="user_password">
-                        @error('user_password')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
+                        <div class="mb-3">
+                            <label for="user_password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="user_password" name="user_password">
+                            @error('user_password')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="user_password_confirmation" class="form-label">Password Confirmation</label>
-                        <input type="password" class="form-control" id="user_password_confirmation" name="user_password_confirmation">
-                        @error('user_password_confirmation')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
+                        <div class="mb-3">
+                            <label for="user_password_confirmation" class="form-label">Password Confirmation</label>
+                            <input type="password" class="form-control" id="user_password_confirmation"
+                                name="user_password_confirmation">
+                            @error('user_password_confirmation')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-plus"></i> Create User
-                    </button>
-                </form>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-plus"></i> Create User
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
     @endcan
 
     {{-- Update Avatar Tab --}}
@@ -162,17 +174,16 @@ Settings
             </div>
             <div class="card-body">
                 <div class="text-center mb-4">
-                    <img src="{{ $user->avatar ? asset($user->avatar) : asset('dist/img/my_avatar.png') }}" 
-                         class="img-thumbnail rounded-circle" 
-                         style="width: 150px; height: 150px;" 
-                         alt="User Avatar">
+                    <img src="{{ $user->avatar ? asset($user->avatar) : asset('dist/img/my_avatar.png') }}"
+                        class="img-thumbnail rounded-circle" style="width: 150px; height: 150px;" alt="User Avatar">
                 </div>
 
                 <form action="{{ route('settings.updateAvatar') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="avatar" class="form-label">Upload New Avatar</label>
-                        <input type="file" class="form-control @error('avatar') is-invalid @enderror" id="avatar" name="avatar">
+                        <input type="file" class="form-control @error('avatar') is-invalid @enderror" id="avatar"
+                            name="avatar">
                         @error('avatar')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -257,6 +268,32 @@ Settings
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    {{-- Print Preview Tab --}}
+    <div class="tab-pane fade" id="print-preview" role="tabpanel" aria-labelledby="print-preview-tab">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4 class="card-title">Select Print Preview Option</h4>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('settings.updatePrintPreviewOption') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="print_preview_option">Print Preview Option</label>
+                        <select id="print_preview_option" name="print_preview_option" class="form-control">
+                            <option value="option1" {{ $setting->print_preview_option == 'option1' ? 'selected' : '' }}>
+                                Style 1 (Enlarged Fonts)</option>
+                            <option value="option2" {{ $setting->print_preview_option == 'option2' ? 'selected' : '' }}>
+                                Style 2 (Optimized For Thermal Printer)</option>
+                            <option value="option3" {{ $setting->print_preview_option == 'option3' ? 'selected' : '' }}>
+                                Style 3(Less Paper Consumption)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Save</button>
+                </form>
             </div>
         </div>
     </div>

@@ -83,7 +83,7 @@ Route::middleware('web')->group(function () {
         // View All Notifications
         Route::get('all-notifications', [AdminController::class, 'viewAllNotifications'])->name('admin.allNotifications');
 
-        // Example route for fetching notification details
+        // Route for fetching notification details
         Route::get('/get-notification/{id}', [AdminController::class, 'getNotification'])->name('getNotification');
 
     });
@@ -100,10 +100,8 @@ Route::middleware('web')->group(function () {
             Route::get('changePassword', [SettingsController::class, 'viewSettings']);
             Route::get('createAccount', [SettingsController::class, 'viewSettings']);
             Route::post('updateLogo', [SettingsController::class, 'updateLogo'])->name('updateLogo');
-            // Avatar update route
             Route::post('update-avatar', [SettingsController::class, 'updateAvatar'])->name('settings.updateAvatar');
-
-
+            Route::post('update-print-preview-option', [SettingsController::class, 'updatePrintPreviewOption'])->name('settings.updatePrintPreviewOption');
         });
 
         Route::prefix('queue')->group(function () {

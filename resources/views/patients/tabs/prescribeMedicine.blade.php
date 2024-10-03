@@ -72,8 +72,8 @@
                 <div class="mb-3 row">
                     <label class="col-md-3 col-form-label">Amount(For Claim)</label>
                     <div class="col-md-9">
-                        <input type="number" id="prescriptionAmount" placeholder="Enter Amount For Claim" ng-model="amount"
-                            class="form-control">
+                        <input type="number" id="prescriptionAmount" placeholder="Enter Amount For Claim"
+                            ng-model="amount" class="form-control">
                     </div>
                 </div>
 
@@ -104,6 +104,46 @@
                     </div>
                 </div>
 
+                <div ng-controller="RecordController">
+                    {{-- Initialize the angular variables in a hidden field --}}
+                    <input type="hidden"
+                        ng-init="baseUrl='{{ url('/') }}'; id={{ $patient->id }}; token='{{ csrf_token() }}'; loadMedicalRecords()">
+
+                    <div class="alert alert-success d-none" ng-show="hasSuccess" ng-cloak>
+                        <h4><i class="icon fa fa-check"></i> Success!</h4>
+                        [[successMessage]]
+                    </div>
+
+                    <div class="card mb-3" ng-if="duePrescriptions.length > 0 && !isLoading">
+                        <div class="card-header" id="headingDuePrescriptions" ng-cloak>
+                            <h4 class="card-title mb-0" ng-cloak>
+                                <button class="btn btn-link" type="button" ng-click="toggleCollapse()" ng-cloak>
+                                Due Prescriptions 
+                                </button>
+                            </h4>
+                        </div>
+
+                        <div ng-show="!isCollapsed" id="collapseDuePrescriptions" class="collapse show">
+                            <div class="card-body">
+                                <div ng-repeat="prescription in duePrescriptions">
+                                    <div class="row mb-2">
+                                        <label class="col-md-4 col-form-label">Prescription Date</label>
+                                        <div class="col-md-8">
+                                            [[prescription.created_at | date:"EEEE, d/M/yy h:mm a"]]
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <label class="col-md-4 col-form-label">Payment Remarks</label>
+                                        <div class="col-md-8">
+                                            [[prescription.payment.remarks]]
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- Area to add drugs -->
                 <div class="card card-success card-solid">
                     <div class="card-header">

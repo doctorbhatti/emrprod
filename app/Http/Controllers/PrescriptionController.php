@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Clinic;
 use App\Models\Patient;
 use App\Models\Prescription;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Gate;
@@ -39,15 +40,20 @@ class PrescriptionController extends Controller
         } catch (ModelNotFoundException $e) {
             return redirect()->back()->with('error', 'Patient or Prescription not found.');
         }
-
+    
         Gate::authorize('printPrescription', [$prescription, $patient]);
-
+    
+        // Retrieve the print preview option from settings
+        $setting = Setting::first(); // Adjust this to get the specific setting for the user or default one
+        $printPreviewOption = $setting ? $setting->print_preview_option : 'default_option'; // fallback to a default option if not found
+    
         return view('prescriptions.printPreview', [
             'patient' => $patient,
-            'prescription' => $prescription
+            'prescription' => $prescription,
+            'printPreviewOption' => $printPreviewOption // Pass the print preview option to the view
         ]);
     }
-
+    
     /**
      * Display the list of prescriptions for payments.
      *

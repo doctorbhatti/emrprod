@@ -110,7 +110,7 @@
                 <div class="pricing-text">
                     <h3 class="h2">Premium Plan</h3>
                     <p class="pricing-amount">
-                        <span>Rs.11999</span> / 3 Months
+                        <span>Rs.10999</span> / 3 Months
                     </p>
                     <ul class="pricing-features">
                         <li>All Features Included</li>
