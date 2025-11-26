@@ -20,6 +20,20 @@
         gap: 30px;
         /* Adjust spacing between the two items */
     }
+    
+     /* Media query for mobile devices */
+    @media (max-width: 768px) {
+        .pricing-list {
+            flex-direction: column;
+            align-items: center;
+            /* Ensure items are centered when stacked */
+        }
+
+        .pricing-item {
+            width: 100%;
+            /* Ensure each pricing item takes up full width */
+        }
+    }
 </style>
 
 <section id="home" class="s-home target-section" data-parallax="scroll"
@@ -110,7 +124,7 @@
                 <div class="pricing-text">
                     <h3 class="h2">Premium Plan</h3>
                     <p class="pricing-amount">
-                        <span>Rs.10999</span> / 3 Months
+                        <span>Rs.7999</span> / 3 Months
                     </p>
                     <ul class="pricing-features">
                         <li>All Features Included</li>

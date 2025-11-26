@@ -79,9 +79,108 @@ $user = \App\Models\User::getCurrentUser();
             min-width: 100px;
         }
     </style>
+    <style>
+        /* Main select box (closed) */
+        .select2-container--default .select2-selection--single {
+            background-color: #1e1e1e;
+            border: 1px solid #555;
+            color: #ffffff;
+        }
+
+        /* Text inside selected option */
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #ffffff;
+        }
+
+        /* Placeholder text */
+        .select2-container--default .select2-selection--single .select2-selection__placeholder {
+            color: #888888;
+        }
+
+        /* Dropdown arrow */
+        .select2-container--default .select2-selection--single .select2-selection__arrow b {
+            border-color: #ffffff transparent transparent transparent;
+        }
+
+        /* Dropdown menu container */
+        .select2-dropdown {
+            background-color: #1e1e1e;
+            border: 1px solid #555;
+            color: #ffffff;
+        }
+
+        /* Individual option rows */
+        .select2-results__option {
+            background-color: #1e1e1e !important;
+            color: #dddddd !important;
+        }
+
+        /* Selected option in dropdown — THIS FIXES YOUR ISSUE */
+        .select2-results__option[aria-selected="true"] {
+            background-color: #004080 !important;
+            /* Deep blue */
+            color: #ffffff !important;
+            /* Clear white text */
+        }
+
+        /* Hovered option */
+        .select2-results__option--highlighted.select2-results__option--selectable {
+            background-color: #0066cc !important;
+            /* Brighter blue */
+            color: #ffffff !important;
+        }
+
+        /* Search box inside dropdown */
+        .select2-container--default .select2-search--dropdown .select2-search__field {
+            background-color: #2b2b2b;
+            color: #ffffff;
+            border: 1px solid #444;
+        }
+
+        /* Border for search input field */
+        .select2-search--dropdown {
+            padding: 4px;
+        }
+    </style>
+    <style>
+        :root {
+            --light-bg: #ffffff;
+            --light-text: #000000;
+            --dark-bg: #121212;
+            --dark-text: #f1f1f1;
+        }
+
+        body[data-bs-theme="dark"] {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        body:not([data-bs-theme="dark"]) {
+            background-color: var(--light-bg);
+            color: var(--light-text);
+        }
+
+        .theme-reveal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: width 0.6s ease, height 0.6s ease, background-color 0.4s ease;
+            pointer-events: none;
+        }
+
+        .theme-reveal.active {
+            width: 200vw;
+            height: 200vw;
+        }
+    </style>
 </head>
 
-<body class="layout-fixed sidebar-expand-lg bg-body-tertiary"> <!--begin::App Wrapper-->
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary" data-bs-theme="dark"> <!--begin::App Wrapper-->
     <div class="app-wrapper"> <!--begin::Header-->
         <nav class="app-header navbar navbar-expand bg-body"> <!--begin::Container-->
             <div class="container-fluid"> <!--begin::Start Navbar Links-->
@@ -100,7 +199,14 @@ $user = \App\Models\User::getCurrentUser();
                                     data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i> <i
                                     data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none;"></i>
                             </a> </li> <!--end::Fullscreen Toggle-->
-
+                        <!--Dark/Light Switch Start-->
+                        <li class="nav-item d-flex align-items-center">
+                            <button id="themeToggle" class="btn p-0 border-0 bg-transparent" title="Toggle Theme"
+                                style="font-size: 20px;">
+                                🌙
+                            </button>
+                        </li>
+                        <!--Dark/Light Switch End-->
                         <!--begin::Notification Dropdown-->
                         <li class="nav-item dropdown" id="notificationDropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="notificationToggle" role="button"
@@ -157,7 +263,8 @@ $user = \App\Models\User::getCurrentUser();
             </div>
         </nav>
 
-
+        <!-- Expanding Circle -->
+        <div id="themeReveal" class="theme-reveal"></div>
         <!-- =============================================== -->
 
         <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark"> <!--begin::Sidebar Brand-->
@@ -283,7 +390,7 @@ $user = \App\Models\User::getCurrentUser();
         <!--  ============================================== -->
         <footer class="app-footer">
             <div class="pull-right hidden-xs">
-                <b>Version</b> 2.0.0(Laravel 11)
+                <b>Version</b> 2.0.1(Laravel 11)
             </div>
             <strong>Copyright &copy;
                 <script>document.write(new Date().getFullYear())</script><a href="#"> Healthy Life Clinic | EMR
@@ -309,6 +416,8 @@ $user = \App\Models\User::getCurrentUser();
     </div>
 </body>
 <script src="{{asset('dist/js/select2.min.js')}}"></script>
+<!--Theme Toggle-->
+<script src="{{asset('dist/js/themeToggle.js')}}"></script>
 <!--begin::Script--> <!--begin::Third Party Plugin(OverlayScrollbars)-->
 <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.3.0/browser/overlayscrollbars.browser.es6.min.js"
     integrity="sha256-H2VM7BKda+v2Z4+DRy69uknwxjyDRhszjXFhsL4gD3w=" crossorigin="anonymous"></script>

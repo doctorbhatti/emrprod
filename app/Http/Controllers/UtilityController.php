@@ -31,7 +31,8 @@ class UtilityController extends Controller
                 $q->orWhere('first_name', 'LIKE', $query . '%')
                     ->orWhere('last_name', 'LIKE', $query . '%')
                     ->orWhere('nic', 'LIKE', $query . '%')
-                    ->orWhere('id', $query);
+                    ->orWhere('id','LIKE', $query. '%')
+                    ->orWhere('phone', 'LIKE', $query . '%'); // Added search by phone
             })
             ->take(10)
             ->get();

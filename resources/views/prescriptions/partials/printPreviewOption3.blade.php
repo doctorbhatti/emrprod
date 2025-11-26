@@ -160,7 +160,26 @@
             </button>
         </div>
         {{--@endif--}}
+        <div id="printed-indicator" style="display:none; color: green; font-weight: bold; margin-bottom: 10px;">
+            ✅ Printed
+        </div>
+
     </div>
+    <script>
+        // Unique key for this prescription
+        const printedKey = 'prescription_printed_{{ $prescription->id }}';
+
+        // On page load, check if already printed
+        if (localStorage.getItem(printedKey) === 'true') {
+            document.getElementById('printed-indicator').style.display = 'block';
+        }
+
+        // After print dialog closes
+        window.onafterprint = function () {
+            localStorage.setItem(printedKey, 'true');
+            document.getElementById('printed-indicator').style.display = 'block';
+        };
+    </script>
 
 </body>
 
