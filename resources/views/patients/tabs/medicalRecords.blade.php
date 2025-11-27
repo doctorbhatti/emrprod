@@ -132,8 +132,12 @@
             </div>
             <div style="padding:20px;">
                 <button class="btn btn-primary btn-lg btn-flat float-end"
-                    ng-click="copyDrugsToLocalStorage(prescription.prescription_drugs)">
-                    Select Drugs to Repeat
+                    ng-click="copyDrugsToLocalStorage(prescription.prescription_drugs)" style="display: inline-block; margin-right: 10px;">
+                    Select Internal Drugs to Repeat
+                </button>
+                <button class="btn btn-primary btn-lg btn-flat float-end"
+                    ng-click="copyPharmacyDrugsToLocalStorage(prescription.prescription_pharmacy_drugs)" style="display: inline-block;">
+                    Select Pharmacy Drugs to Repeat
                 </button>
             </div>
         </div>

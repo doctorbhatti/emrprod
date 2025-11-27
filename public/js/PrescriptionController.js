@@ -272,8 +272,8 @@ angular.module("HIS").controller("PrescriptionController", [
         $scope.printInvestigations = function () {
             if ($scope.investigations) {
                 const clinicLogo = clinic.logo
-                ? `${window.location.origin}/${clinic.logo}`
-                : "/images/printlogo.png";
+                    ? `${window.location.origin}/${clinic.logo}`
+                    : "/images/printlogo.png";
                 // Create clinic information section
                 const clinicInfo = `
                 <h3 style="text-align: center;">
@@ -396,7 +396,9 @@ angular.module("HIS").controller("PrescriptionController", [
                     <body>
                         ${clinicInfo}
                         ${patientDetails}
-                        <small>Electronically generated <strong>bill for claim</strong>, needs no signature, can be verified by contacting <strong>${clinic.name || "Clinic Name"}</strong>.</small>
+                        <small>Electronically generated <strong>bill for claim</strong>, needs no signature, can be verified by contacting <strong>${
+                            clinic.name || "Clinic Name"
+                        }</strong>.</small>
                         <div class="footer">
                             <p>
                                 <small>Healthy Life Clinic | ERM Systems <br> Developed by Dr. M. Hassan Ashfaq <br> All rights reserved</small>
@@ -545,6 +547,27 @@ angular.module("HIS").controller("PrescriptionController", [
          */
         $scope.removePharmacyDrug = function (index) {
             $scope.pharmacyDrugs.splice(index, 1);
+        };
+
+        /**
+         * Repeating Pharmacy Drugs
+         */
+
+        // Load previous pharmacy drugs from localStorage
+        $scope.repeatPreviousPharmacyDrugs = function () {
+            const storedDrugs =
+                JSON.parse(localStorage.getItem("previousPharmacyDrugs")) || [];
+            storedDrugs.forEach((item) => {
+                const exists = $scope.pharmacyDrugs.find(
+                    (d) => d.name === item.name
+                );
+                if (!exists) {
+                    $scope.pharmacyDrugs.push({
+                        name: item.name,
+                        remarks: item.remarks,
+                    });
+                }
+            });
         };
     },
 ]);

@@ -86,18 +86,23 @@
 
                         <div class="d-flex justify-content-between w-100" style="margin-top: 20px;">
                             <!-- Repeat Prescription Button -->
-                            <button class="btn btn-primary btn-lg btn-flat"
+                            <button class="btn btn-primary btn-flat"
                                 ng-click="loadPrescribedDrugsFromLocalStorage()">
                                 <i class="fa fa-repeat"></i> Repeat Prescription
                             </button>
 
+                            <!-- Repeat Pharmacy Drugs -->
+                            <button class="btn btn-warning btn-flat" ng-click="repeatPreviousPharmacyDrugs()">
+                                <i class="fa-solid fa-arrow-rotate-left"></i>Repeat Pharmacy Drugs
+                            </button>
+
                             <!-- Print Investigations Button -->
-                            <button class="btn btn-primary btn-lg btn-flat" ng-click="printInvestigations()">
+                            <button class="btn btn-danger btn-flat" ng-click="printInvestigations()">
                                 <i class="fa fa-print"></i> Print Investigations
                             </button>
 
                             <!-- Print Bill For Claim Button -->
-                            <button class="btn btn-primary btn-lg btn-flat" ng-click="printBillForClaim()">
+                            <button class="btn btn-success btn-flat" ng-click="printBillForClaim()">
                                 <i class="fa fa-print"></i> Print Bill
                             </button>
                         </div>
@@ -118,7 +123,7 @@
                         <div class="card-header" id="headingDuePrescriptions" ng-cloak>
                             <h4 class="card-title mb-0" ng-cloak>
                                 <button class="btn btn-link" type="button" ng-click="toggleCollapse()" ng-cloak>
-                                Due Prescriptions 
+                                    Due Prescriptions
                                 </button>
                             </h4>
                         </div>

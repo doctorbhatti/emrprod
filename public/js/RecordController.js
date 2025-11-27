@@ -10,6 +10,7 @@ angular.module("HIS").controller("RecordController", [
         $scope.baseUrl = "";
         $scope.token = "";
         $scope.id = null;
+        //$scope.pharmacyDrugs = [];
 
         $scope.prescriptions = [];
         $scope.showScrollToTop = false;
@@ -20,10 +21,10 @@ angular.module("HIS").controller("RecordController", [
         $scope.isCollapsed = true; // Start as collapsed (true means hidden)
 
         // Function to toggle collapse/expand
-        $scope.toggleCollapse = function() {
+        $scope.toggleCollapse = function () {
             $scope.isCollapsed = !$scope.isCollapsed; // Toggle the collapsed state
         };
-        
+
         //to listen to the new records that are being added.
         $rootScope.$on("PrescriptionIssuedEvent", function (event, data) {
             $scope.loadMedicalRecords();
@@ -48,7 +49,10 @@ angular.module("HIS").controller("RecordController", [
                             );
                         }
                     );
-                    console.log('Filtered Due Prescriptions:', $scope.duePrescriptions); // Debugging
+                    console.log(
+                        "Filtered Due Prescriptions:",
+                        $scope.duePrescriptions
+                    ); // Debugging
 
                     // Ensure Angular updates the view
                     $scope.$applyAsync();
@@ -80,6 +84,21 @@ angular.module("HIS").controller("RecordController", [
             localStorage.setItem("prescribedDrugs", JSON.stringify(drugsData));
             //alert("Drugs copied to localStorage");
         };
+
+        // Function to copy pharmacy drugs to localStorage
+        $scope.copyPharmacyDrugsToLocalStorage = function (pharmacyDrugs) {
+            if (!pharmacyDrugs || pharmacyDrugs.length === 0) return;
+            const drugsToStore = pharmacyDrugs.map((d) => ({
+                name: d.drug,
+                remarks: d.remarks,
+            }));
+            localStorage.setItem(
+                "previousPharmacyDrugs",
+                JSON.stringify(drugsToStore)
+            );
+            //alert("Pharmacy drugs copied for repeating.");
+        };
+
         // Scroll to top function
         $scope.scrollToTop = function () {
             $window.scrollTo({ top: 0, behavior: "smooth" });
