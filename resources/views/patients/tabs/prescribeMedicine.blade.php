@@ -86,8 +86,7 @@
 
                         <div class="d-flex justify-content-between w-100" style="margin-top: 20px;">
                             <!-- Repeat Prescription Button -->
-                            <button class="btn btn-primary btn-flat"
-                                ng-click="loadPrescribedDrugsFromLocalStorage()">
+                            <button class="btn btn-primary btn-flat" ng-click="loadPrescribedDrugsFromLocalStorage()">
                                 <i class="fa fa-repeat"></i> Repeat Prescription
                             </button>
 
@@ -119,7 +118,8 @@
                         [[successMessage]]
                     </div>
 
-                    <div class="card mb-3" ng-if="duePrescriptions.length > 0 && !isLoading">
+                    <div class="card mb-3 due-prescription-card slide-in"
+                        ng-if="duePrescriptions.length > 0 && !isLoading">
                         <div class="card-header" id="headingDuePrescriptions" ng-cloak>
                             <h4 class="card-title mb-0" ng-cloak>
                                 <button class="btn btn-link" type="button" ng-click="toggleCollapse()" ng-cloak>
@@ -148,6 +148,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <!-- Area to add drugs -->
                 <div class="card card-success card-solid">

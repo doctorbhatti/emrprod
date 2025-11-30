@@ -130,12 +130,12 @@
                 <label class="col-md-4 col-form-label">Remarks on Payment</label>
                 <div class="col-md-8">[[prescription.payment.remarks]]</div>
             </div>
-            <div style="padding:20px;">
-                <button class="btn btn-primary btn-lg btn-flat float-end"
+            <div style="display:flex; justify-content:right; gap:5px;">
+                <button class="btn btn-primary float-end"
                     ng-click="copyDrugsToLocalStorage(prescription.prescription_drugs)" style="display: inline-block; margin-right: 10px;">
                     Select Internal Drugs to Repeat
                 </button>
-                <button class="btn btn-primary btn-lg btn-flat float-end"
+                <button class="btn btn-warning float-end"
                     ng-click="copyPharmacyDrugsToLocalStorage(prescription.prescription_pharmacy_drugs)" style="display: inline-block;">
                     Select Pharmacy Drugs to Repeat
                 </button>

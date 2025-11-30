@@ -118,9 +118,9 @@ class PatientController extends Controller
         $this->authorize('add', Patient::class);
 
         $validator = Validator::make($request->all(), [
-            'firstName'  => 'required|string',
-            'gender'     => 'required|in:Male,Female',
-            'nic'        => 'nullable|regex:/[0-9]{9}[vV]/',
+            'firstName' => 'required|string',
+            'gender' => 'required|in:Male,Female',
+            'nic' => 'nullable|regex:/[0-9]{9}[vV]/',
             'bloodGroup' => 'required|in:A +,A -,B +,B -,AB +,AB -,O +,O -,N/A',
             'dob' => 'nullable|date|date_format:Y/m/d|before:today|after:' . now()->subYears(150)->format('Y/m/d'),
         ]);
@@ -165,7 +165,10 @@ class PatientController extends Controller
             return back()->with('type', 'patient')->withErrors($validator)->withInput();
         }
 
-        return back()->with('success', $request->firstName . ' added successfully');
+        return back()->with([
+            'success' => $request->firstName . ' added successfully',
+            'patient_id' => $patient->id
+        ]);
     }
 
     /**
@@ -182,11 +185,11 @@ class PatientController extends Controller
         $this->authorize('edit', $patient);
 
         $validator = Validator::make($request->all(), [
-            'firstName'  => 'required|string',
-            'gender'     => 'required|in:Male,Female',
-            'nic'        => 'nullable|regex:/[0-9]{9}[vV]/',
+            'firstName' => 'required|string',
+            'gender' => 'required|in:Male,Female',
+            'nic' => 'nullable|regex:/[0-9]{9}[vV]/',
             'bloodGroup' => 'required|in:A +,A -,B +,B -,AB +,AB -,O +,O -,N/A',
-            'dob'        => 'nullable|date|date_format:Y/m/d|before:today|after:' . now()->subYears(150)->format('Y/m/d'),
+            'dob' => 'nullable|date|date_format:Y/m/d|before:today|after:' . now()->subYears(150)->format('Y/m/d'),
         ]);
 
         if ($validator->fails()) {

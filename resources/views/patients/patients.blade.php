@@ -27,10 +27,12 @@
             <div class="card-body">
                 {{-- Success Message --}}
                 @if(session()->has('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong><i class="fas fa-check"></i> Success!</strong> {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <a href="{{ url('patients/patient', session('patient_id')) }}">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="cursor:pointer;">
+                            <strong><i class="fas fa-check"></i> Success!</strong> {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </a>
                 @endif
 
                 {{-- Error Message --}}

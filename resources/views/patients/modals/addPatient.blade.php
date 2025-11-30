@@ -22,7 +22,7 @@
 
                     <div class="mb-3{{ $errors->has('firstName') ? ' has-error' : '' }}">
                         <label class="form-label">First Name</label>
-                        <input type="text" class="form-control" name="firstName" value="{{ old('firstName') }}" required>
+                        <input type="text" class="form-control" name="firstName" id= "firstName" value="{{ old('firstName') }}" required>
                         @if ($errors->has('firstName'))
                             <div class="invalid-feedback d-block">
                                 <strong>{{ $errors->first('firstName') }}</strong>
@@ -32,7 +32,7 @@
 
                     <div class="mb-3{{ $errors->has('lastName') ? ' has-error' : '' }}">
                         <label class="form-label">Last Name</label>
-                        <input type="text" class="form-control" name="lastName" value="{{ old('lastName') }}">
+                        <input type="text" class="form-control" name="lastName" id= "lastName" value="{{ old('lastName') }}">
                         @if ($errors->has('lastName'))
                             <div class="invalid-feedback d-block">
                                 <strong>{{ $errors->first('lastName') }}</strong>

@@ -97,6 +97,20 @@ angular.module("HIS").controller("PrescriptionController", [
             });
         };
 
+        // Watch pharmacyDrug and capitalize first letter of each word
+        $scope.$watch("pharmacyDrug", function (newVal, oldVal) {
+            if (newVal) {
+                // Capitalize first letter of each word
+                var capitalized = newVal.replace(/\b\w/g, function (char) {
+                    return char.toUpperCase();
+                });
+
+                if (capitalized !== newVal) {
+                    $scope.pharmacyDrug = capitalized;
+                }
+            }
+        });
+
         /**
          * Adds a drug to the prescribed drugs list. At least a drug and an dosage has to be selected.
          */
@@ -422,6 +436,12 @@ angular.module("HIS").controller("PrescriptionController", [
         // Save Prescription Function
         $scope.savePrescription = function () {
             $scope.hasSuccess = false;
+
+            if (!$scope.remarks || $scope.remarks.trim() === "") {
+                $scope.showError("Please enter bill amount!");
+                alert("Please enter bill amount in Other Remarks!");
+                return;
+            }
 
             if (!$scope.diagnosis && !$scope.complaints) {
                 $scope.showError(

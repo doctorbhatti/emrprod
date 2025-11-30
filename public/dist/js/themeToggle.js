@@ -33,3 +33,36 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 });
+
+//Capitalization of First Words
+//First Name in adding patients
+document.getElementById("firstName").addEventListener("input", function(e) {
+    let value = e.target.value;
+
+    // Capitalize first letter of each word
+    value = value.replace(/\b\w/g, function(char) {
+        return char.toUpperCase();
+    });
+
+    // Update input value without moving cursor to end
+    let start = e.target.selectionStart;
+    let end = e.target.selectionEnd;
+    e.target.value = value;
+    e.target.setSelectionRange(start, end);
+});
+
+//Last Name in adding patients
+document.getElementById("lastName").addEventListener("input", function(e) {
+    let value = e.target.value;
+
+    // Capitalize first letter of each word
+    value = value.replace(/\b\w/g, function(char) {
+        return char.toUpperCase();
+    });
+
+    // Update input value without moving cursor to end
+    let start = e.target.selectionStart;
+    let end = e.target.selectionEnd;
+    e.target.value = value;
+    e.target.setSelectionRange(start, end);
+});
